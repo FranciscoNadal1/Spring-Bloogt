@@ -27,8 +27,8 @@ public class IUserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public User findOne(Long id) {
-		return userDao.findById(id).orElse(null);
+	public List<UserData>  findOne(int id) {
+		return (List<UserData>)userDao.findById(id);
 	}
 
 	@Override
@@ -40,7 +40,6 @@ public class IUserServiceImpl implements IUserService {
 //////////////////////////////////////////////	
 // CUSTOM
 	
-
 
 	@Override
 	public List<UserData> findByEmail(String email) {

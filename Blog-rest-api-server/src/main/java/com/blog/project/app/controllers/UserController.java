@@ -45,8 +45,9 @@ public class UserController {
 	}
 
 	@GetMapping("/getUserById/{id}")
-	public List<User> getUserById(@PathVariable(value = "id") Long id) {
-		return (List<User>) userService.findOne(id);
+	public List<UserData> getUserById(@PathVariable(value = "id") int id) {
+		//Integer i = id != null ? id.intValue() : null;
+		return (List<UserData>) userService.findOne(id);
 
 	}
 
