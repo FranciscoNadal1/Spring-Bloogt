@@ -40,7 +40,7 @@ public class User implements Serializable {
 	private String password;
 
 	@NotEmpty
-	private String created_at;
+	private String createdAt;
 
 	@NotEmpty
 	private String role;
@@ -91,12 +91,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getCreated_at() {
-		return created_at;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
+	public void getCreatedAt(String created_at) {
+		this.createdAt = created_at;
 	}
 
 	public String getRole() {
@@ -131,6 +131,8 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////
@@ -142,6 +144,7 @@ public class User implements Serializable {
 		String getSurname();
 		String getEmail();
 		String getRole();
+		String getCreatedAt();
 	}
 	
 }

@@ -34,8 +34,8 @@ public class UserController {
 //////////////////////////////////////////////////////////////////////
 
 	@GetMapping("/getAllUsers")
-	public List<User> getAllUsers() {
-		return userService.findAll();
+	public List<UserData> getAllUsers() {
+		return userService.findAllProjectedBy();
 	}
 
 	@GetMapping("/getUserByMail/{mail}")

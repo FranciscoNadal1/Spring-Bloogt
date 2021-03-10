@@ -16,4 +16,5 @@ public interface IUserService {
 	public List<UserData> findOne(int id);
 	public List<UserData> findByEmail(String email);
 	public List<UserData> findByUsername(String username);
+	public List<UserData> findAllProjectedBy();
 }

@@ -12,6 +12,7 @@ public interface IUser extends BaseRepository <User, Long> {
 	List<UserData> findByEmail(String email);
 	List<UserData> findByUsername(String username);
 	List<UserData> findById(int id);
-
+	Iterable<User> findAll();
+	List<UserData> findAllProjectedBy();
 	
 }

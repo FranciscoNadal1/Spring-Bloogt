@@ -51,4 +51,9 @@ public class IUserServiceImpl implements IUserService {
 		return (List<UserData>) userDao.findByUsername(username);
 	}
 
+	@Override
+	public List<UserData> findAllProjectedBy() {
+		return (List<UserData>) userDao.findAllProjectedBy();
+	}
+
 }
