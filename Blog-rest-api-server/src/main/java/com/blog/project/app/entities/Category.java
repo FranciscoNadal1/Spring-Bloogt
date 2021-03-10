@@ -30,4 +30,35 @@ public class Category  implements Serializable {
 			  joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), 
 			  inverseJoinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"))
 	private List<HashTag> hashtags;
+
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<HashTag> getHashtags() {
+		return hashtags;
+	}
+
+	public void setHashtags(List<HashTag> hashtags) {
+		this.hashtags = hashtags;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }
