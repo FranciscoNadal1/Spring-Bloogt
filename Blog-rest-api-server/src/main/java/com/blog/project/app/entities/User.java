@@ -95,7 +95,7 @@ public class User implements Serializable {
 		return createdAt;
 	}
 
-	public void getCreatedAt(String created_at) {
+	public void setCreatedAt(String created_at) {
 		this.createdAt = created_at;
 	}
 
@@ -146,5 +146,8 @@ public class User implements Serializable {
 		String getEmail();
 		String getRole();
 		String getCreatedAt();
-	}	
+	}
+
+
+
 }
