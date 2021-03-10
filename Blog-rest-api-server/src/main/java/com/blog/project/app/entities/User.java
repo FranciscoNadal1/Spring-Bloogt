@@ -141,10 +141,10 @@ public class User implements Serializable {
 	public interface UserData {
 		String getUsername();
 	    String getName();
+		String getAvatar();
 		String getSurname();
 		String getEmail();
 		String getRole();
 		String getCreatedAt();
-	}
-	
+	}	
 }
