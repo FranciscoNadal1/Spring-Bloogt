@@ -10,8 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import com.blog.project.app.entities.Hashtag.HashtagShow;
+import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.User.OnlyUsername;
 
 @Entity
@@ -30,6 +35,11 @@ public class Category implements Serializable {
 	@JoinTable(name = "category_hashtag", joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"))
 	private List<Hashtag> hashtags;
 
+	@OneToMany
+	@JoinColumn(name = "category_id", referencedColumnName = "id")
+	private List<Post> posts;
+	
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int getId() {
@@ -60,15 +70,42 @@ public class Category implements Serializable {
 		return serialVersionUID;
 	}
 	
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////
 ///////////		Used to avoid showing all fields
 
+
+
 	public interface CategoryName {
-		String getId();
-		
+		String getId();		
 		String getName();
+	}
+	public interface CategoryList {
+		String getId();		
+		String getName();
+
+		@Value("#{target.getPosts().size()}")
+	    int getPostCount();
+		//List<showPosts> getPosts();
+		//List<HashtagShow> getHashtags();
+	}
+	public interface CategoryDetails {
+		String getId();		
+		String getName();
+
+		@Value("#{target.getPosts().size()}")
+	    int getPostCount();
+		List<showPosts> getPosts();
+		List<HashtagShow> getHashtags();
 	}
 }

@@ -3,6 +3,7 @@ package com.blog.project.app.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
-import com.blog.project.app.entities.Category.CategoryName;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.blog.project.app.entities.Post.PostByHashtag;
 
 @Entity
 public class Hashtag implements Serializable {
@@ -24,6 +27,7 @@ public class Hashtag implements Serializable {
 	private int id;
 
 	@NotEmpty
+	@Column(unique = true)
 	private String name;
 
 	@ManyToMany
@@ -64,5 +68,12 @@ public class Hashtag implements Serializable {
 		String getId();
 		String getName();
 	}
+	public interface PostsOfHashtag {
 
+		String getId();
+		String getName();
+		@Value("#{target.getPosts().size()}")
+	    int getPostsCount();
+		List<PostByHashtag> getPosts();
+	}
 }

@@ -170,4 +170,15 @@ public class Post implements Serializable {
 		List<ShowComments> getComments();
 		CategoryName getCategory();
 	}
+	public interface PostByHashtag {
+
+		String getId();
+		
+		String getTitle();
+		String getContent();
+		String getCreatedAt();
+		@Value("#{target.getComments().size()}")
+	    int getCommentaryCount();
+		CategoryName getCategory();
+	}
 }

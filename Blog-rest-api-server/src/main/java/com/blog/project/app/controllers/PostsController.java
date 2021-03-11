@@ -32,7 +32,7 @@ public class PostsController {
 	private String contentType = "application/json";
 	
 	@GetMapping("/getAllPosts")
-	public List<showPosts> getAllUsers(HttpServletResponse response, HttpServletRequest request) {
+	public List<showPosts> getAllPosts(HttpServletResponse response, HttpServletRequest request) {
 		response.setContentType(contentType);
 
 		List<showPosts> returningJSON = postService.findAllProjectedBy();
@@ -45,7 +45,7 @@ public class PostsController {
 	
 	
 	@GetMapping("/getPostById/{id}")
-	public List<PostDetails> getUserById(HttpServletResponse response, HttpServletRequest request,
+	public List<PostDetails> getPostById(HttpServletResponse response, HttpServletRequest request,
 			@PathVariable(value = "id") int id) {
 		response.setContentType(contentType);
 

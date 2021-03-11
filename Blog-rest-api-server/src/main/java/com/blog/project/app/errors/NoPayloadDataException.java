@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class NoPayloadDataException extends RuntimeException {
 	
 	public NoPayloadDataException() {
-		super("El payload está vacío");
+		super("Payload is empty, no data was returned");
 		
 	}	
 	

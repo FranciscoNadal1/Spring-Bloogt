@@ -15,9 +15,8 @@ public interface IPostService {
 	public List<Post> findAll();
 	public void save(Post post);
 	public void delete(Long id);
-	public List<PostDetails> findOne(int id);
 
 /// Custom
-
+	public List<PostDetails> findOne(int id);
 	public List<showPosts> findAllProjectedBy();
 }
