@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/management")
-public class Management {
+public class ManagementController {
 
 	@GetMapping("/checkStatus")
 	public Map<String, String> check() {

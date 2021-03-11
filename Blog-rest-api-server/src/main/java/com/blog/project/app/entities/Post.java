@@ -14,6 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import com.blog.project.app.entities.Category.CategoryName;
+import com.blog.project.app.entities.Comments.ShowComments;
+import com.blog.project.app.entities.Hashtag.HashtagShow;
+import com.blog.project.app.entities.User.OnlyUsername;
+
 @Entity
 public class Post implements Serializable {
 
@@ -27,14 +34,14 @@ public class Post implements Serializable {
 	private String title;
 
 	@NotEmpty
-	private String created_at;
+	private String createdAt;
 
 	@NotEmpty
 	private String content;
 
 	@ManyToMany
 	@JoinTable(name = "Hashtag_post", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"))
-	private List<HashTag> hashtags;
+	private List<Hashtag> hashtags;
 
 	@OneToMany
 	@JoinColumn(name = "post_id", referencedColumnName = "id")
@@ -66,12 +73,12 @@ public class Post implements Serializable {
 		this.title = title;
 	}
 
-	public String getCreated_at() {
-		return created_at;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(String created_at) {
+		this.createdAt = created_at;
 	}
 
 	public String getContent() {
@@ -82,11 +89,11 @@ public class Post implements Serializable {
 		this.content = content;
 	}
 
-	public List<HashTag> getHashtags() {
+	public List<Hashtag> getHashtags() {
 		return hashtags;
 	}
 
-	public void setHashtags(List<HashTag> hashtags) {
+	public void setHashtags(List<Hashtag> hashtags) {
 		this.hashtags = hashtags;
 	}
 
@@ -113,5 +120,54 @@ public class Post implements Serializable {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		Projections
+///////////
+///////////		Used to avoid showing all fields
+	
+	public interface showPosts {
 
+		String getId();
+		
+		String getTitle();
+		String getContent();
+		String getCreatedAt();
+		List<HashtagShow> getHashtags();
+		OnlyUsername getCreatedBy();
+		
+		@Value("#{target.getComments().size()}")
+	    int getCommentaryCount();
+		CategoryName getCategory();
+	}
+	public interface PostDetails {
+
+		String getId();
+		
+		String getTitle();
+		String getContent();
+		String getCreatedAt();
+		List<HashtagShow> getHashtags();
+		OnlyUsername getCreatedBy();
+		
+		
+		@Value("#{target.getComments().size()}")
+	    int getCommentaryCount();
+
+		
+		List<ShowComments> getComments();
+		CategoryName getCategory();
+	}	
+	
+	public interface PostByUser {
+
+		String getId();
+		
+		String getTitle();
+		String getContent();
+		String getCreatedAt();
+		List<Hashtag> getHashtags();
+		List<ShowComments> getComments();
+		CategoryName getCategory();
+	}
 }

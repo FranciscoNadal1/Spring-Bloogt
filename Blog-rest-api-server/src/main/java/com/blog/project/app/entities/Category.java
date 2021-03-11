@@ -12,26 +12,24 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
+import com.blog.project.app.entities.User.OnlyUsername;
+
 @Entity
-public class Category  implements Serializable {
+public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@NotEmpty
 	private String name;
-	
-	@ManyToMany
-	@JoinTable(
-			  name = "category_hashtag", 
-			  joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), 
-			  inverseJoinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"))
-	private List<HashTag> hashtags;
 
-	
+	@ManyToMany
+	@JoinTable(name = "category_hashtag", joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"))
+	private List<Hashtag> hashtags;
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int getId() {
@@ -50,15 +48,27 @@ public class Category  implements Serializable {
 		this.name = name;
 	}
 
-	public List<HashTag> getHashtags() {
+	public List<Hashtag> getHashtags() {
 		return hashtags;
 	}
 
-	public void setHashtags(List<HashTag> hashtags) {
+	public void setHashtags(List<Hashtag> hashtags) {
 		this.hashtags = hashtags;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		Projections
+///////////
+///////////		Used to avoid showing all fields
+
+	public interface CategoryName {
+		String getId();
+		
+		String getName();
 	}
 }

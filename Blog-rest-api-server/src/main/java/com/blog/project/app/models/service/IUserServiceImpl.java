@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blog.project.app.entities.User;
+import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
+import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IUser;
 
 @Service
@@ -56,4 +58,13 @@ public class IUserServiceImpl implements IUserService {
 		return (List<UserData>) userDao.findAllProjectedBy();
 	}
 
+	@Override
+	public List<UserComments> findAllCommentsOfUserProjectedById(int id) {
+		return (List<UserComments>)userDao.findAllCommentsOfUserProjectedById(id);
+	}
+
+	@Override
+	public List<UserPosts> findAllPostsOfUserProjectedById(int id) {
+		return (List<UserPosts>)userDao.findAllPostsOfUserProjectedById(id);
+	}
 }

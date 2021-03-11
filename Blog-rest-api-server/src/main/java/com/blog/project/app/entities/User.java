@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
+import com.blog.project.app.entities.Comments.ShowComments;
+import com.blog.project.app.entities.Post.PostByUser;
+
 @Entity
 public class User implements Serializable {
 
@@ -48,6 +51,10 @@ public class User implements Serializable {
 	@OneToMany
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private List<Comments> comments;
+
+	@OneToMany
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private List<Post> posts;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -139,6 +146,8 @@ public class User implements Serializable {
 ///////////		Used to avoid showing all fields
 	
 	public interface UserData {
+		String getId();
+		
 		String getUsername();
 	    String getName();
 		String getAvatar();
@@ -148,6 +157,19 @@ public class User implements Serializable {
 		String getCreatedAt();
 	}
 
+	public interface UserComments {
+		String getId();
+		String getUsername();
+		List<ShowComments> getComments();
+	}
 
-
+	public interface UserPosts {
+		String getId();
+		String getUsername();
+		List<PostByUser> getPosts();
+	}
+	public interface OnlyUsername {
+		String getId();
+		String getUsername();
+	}
 }

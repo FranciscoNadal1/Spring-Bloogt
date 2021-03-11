@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import com.blog.project.app.entities.User;
+import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
+import com.blog.project.app.entities.User.UserPosts;
 
 public interface IUser extends BaseRepository <User, Long> {
 
@@ -14,5 +16,7 @@ public interface IUser extends BaseRepository <User, Long> {
 	List<UserData> findById(int id);
 	Iterable<User> findAll();
 	List<UserData> findAllProjectedBy();
-	
+
+	List<UserComments> findAllCommentsOfUserProjectedById(int id);
+	List<UserPosts> findAllPostsOfUserProjectedById(int id);
 }

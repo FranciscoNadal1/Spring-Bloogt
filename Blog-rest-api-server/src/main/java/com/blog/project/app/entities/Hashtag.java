@@ -12,29 +12,24 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
+import com.blog.project.app.entities.Category.CategoryName;
+
 @Entity
-public class HashTag  implements Serializable {
+public class Hashtag implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
 
 	@NotEmpty
 	private String name;
-	
+
 	@ManyToMany
-	@JoinTable(
-			  name = "Hashtag_post", 
-			  joinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"), 
-			  inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
+	@JoinTable(name = "Hashtag_post", joinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
 	private List<Post> posts;
 
-
-	
-	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public int getId() {
 		return id;
@@ -59,4 +54,15 @@ public class HashTag  implements Serializable {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		Projections
+///////////
+///////////		Used to avoid showing all fields
+
+	public interface HashtagShow {
+
+		String getId();
+		String getName();
+	}
+
 }
