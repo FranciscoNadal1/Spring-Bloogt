@@ -19,4 +19,5 @@ public interface IPostService {
 /// Custom
 	public List<PostDetails> findOne(int id);
 	public List<showPosts> findAllProjectedBy();
+	public Post findReturnPostById(int id);
 }

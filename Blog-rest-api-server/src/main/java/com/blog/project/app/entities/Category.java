@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.blog.project.app.entities.Hashtag.HashtagShow;
 import com.blog.project.app.entities.Post.showPosts;
-import com.blog.project.app.entities.User.OnlyUsername;
 
 @Entity
 public class Category implements Serializable {
@@ -96,8 +95,7 @@ public class Category implements Serializable {
 
 		@Value("#{target.getPosts().size()}")
 	    int getPostCount();
-		//List<showPosts> getPosts();
-		//List<HashtagShow> getHashtags();
+
 	}
 	public interface CategoryDetails {
 		String getId();		
@@ -107,5 +105,10 @@ public class Category implements Serializable {
 	    int getPostCount();
 		List<showPosts> getPosts();
 		List<HashtagShow> getHashtags();
+	}
+
+	public interface CategoryNumberOfPosts {
+		@Value("#{target.getPosts().size()}")
+	    int getPostCount();
 	}
 }

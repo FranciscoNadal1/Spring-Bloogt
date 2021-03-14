@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+
+	<div class="container-fluid">
+		<div id="content-section" class="float-left col-7">
+			<h1 th:text="${titulo}"></h1>
+			<table class="table table-striped">
+				<thead></thead>
+				<tbody>
+					<tr>
+
+						<th>Avatar</th>
+						<th>Username</th>
+						<th>Role</th>
+
+						<th>Name</th>
+						<th>Surname</th>
+						<th>Email</th>
+						<th>Creation Date</th>
+
+					</tr>
+					<!-- 								 -->
+					<tr th:each="user: ${users}">
+
+						<td><img src="${user.avatar}" /></td>
+						<td><a th:text="${user.username}"
+							th:href="@{/profile/} + ${user.username}"></a></td>
+						<td th:text="${user.role}"></td>
+						<td th:text="${user.name}"></td>
+						<td th:text="${user.surname}"></td>
+						<td th:text="${user.email}"></td>
+						<td th:text="${user.createdAt}"></td>
+
+					</tr>
+					<!--								 -->
+				</tbody>
+
+
+			</table>
+		</div>
+		<div th:replace="fragments/sidebar.html"></div>
+	</div>
+	<footer th:replace="fragments/footer.html"></footer>
+</body>
+</html>

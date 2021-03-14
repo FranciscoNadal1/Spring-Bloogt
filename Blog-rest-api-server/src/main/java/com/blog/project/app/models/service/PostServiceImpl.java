@@ -16,14 +16,13 @@ import com.blog.project.app.models.dao.IPost;
 import com.blog.project.app.models.dao.IUser;
 
 @Service
-public class IPostServiceImpl implements IPostService {
+public class PostServiceImpl implements IPostService {
 
 	@Autowired
 	private IPost postDao;
 	
 	@Override
 	public List<Post> findAll() {
-		// TODO Auto-generated method stub
 		return (List<Post>) postDao.findAll();
 	}
 
@@ -43,14 +42,17 @@ public class IPostServiceImpl implements IPostService {
 
 	}
 
-	@Override
-	public List<showPosts> findAllProjectedBy() {
-		return (List<showPosts>) postDao.findAllProjectedBy();
-	}
 
 	
 //////////////////////////////////////////////	
 // CUSTOM
-	
+	@Override
+	public Post  findReturnPostById(int id) {
+		return (Post)postDao.findReturnPostById(id);
+	}
 
+	@Override
+	public List<showPosts> findAllProjectedBy() {
+		return (List<showPosts>) postDao.findAllProjectedBy();
+	}
 }

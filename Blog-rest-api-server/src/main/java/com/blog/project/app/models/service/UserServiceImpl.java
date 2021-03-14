@@ -12,14 +12,13 @@ import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IUser;
 
 @Service
-public class IUserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private IUser userDao;
 	
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
 		return (List<User>) userDao.findAll();
 	}
 
@@ -49,8 +48,8 @@ public class IUserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<UserData> findByUsername(String username) {
-		return (List<UserData>) userDao.findByUsername(username);
+	public UserData findByUsername(String username) {
+		return (UserData) userDao.findByUsername(username);
 	}
 
 	@Override
@@ -66,5 +65,10 @@ public class IUserServiceImpl implements IUserService {
 	@Override
 	public List<UserPosts> findAllPostsOfUserProjectedById(int id) {
 		return (List<UserPosts>)userDao.findAllPostsOfUserProjectedById(id);
+	}
+
+	@Override
+	public User findReturnUserById(int id) {
+		return (User) userDao.findReturnUserById(id);
 	}
 }

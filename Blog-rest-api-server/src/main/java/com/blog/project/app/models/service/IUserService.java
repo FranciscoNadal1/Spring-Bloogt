@@ -18,10 +18,14 @@ public interface IUserService {
 	//User basic data
 	public List<UserData> findOne(int id);
 	public List<UserData> findByEmail(String email);
-	public List<UserData> findByUsername(String username);
+	public UserData findByUsername(String username);
 	public List<UserData> findAllProjectedBy();
 	
 
+
+	public User findReturnUserById(int id);
+	
+	
 	//User Comments
 	public List<UserComments> findAllCommentsOfUserProjectedById(int id);
 

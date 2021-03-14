@@ -11,14 +11,13 @@ import com.blog.project.app.entities.Hashtag.PostsOfHashtag;
 import com.blog.project.app.models.dao.IHashtag;
 
 @Service
-public class IHashtagServiceImpl implements IHashtagService {
+public class HashtagServiceImpl implements IHashtagService {
 
 	@Autowired
 	private IHashtag hashtagDao;
 
 	@Override
 	public List<Hashtag> findAll() {
-		// TODO Auto-generated method stub
 		return (List<Hashtag>) hashtagDao.findAll();
 	}
 

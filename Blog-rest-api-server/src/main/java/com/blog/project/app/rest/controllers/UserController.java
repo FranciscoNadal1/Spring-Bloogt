@@ -1,5 +1,10 @@
-package com.blog.project.app.controllers;
+package com.blog.project.app.rest.controllers;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -88,12 +93,12 @@ public class UserController {
 	}
 
 	@GetMapping("/getUserByUsername/{username}")
-	public List<UserData> getUserByUsername(HttpServletRequest request, HttpServletResponse response,
+	public UserData getUserByUsername(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable(value = "username") String username) {
 		response.setContentType(contentType);
-		List<UserData> returningJSON = userService.findByUsername(username);
+		UserData returningJSON = userService.findByUsername(username);
 
-		if (returningJSON.isEmpty())
+		if (returningJSON.equals(null))
 			LocalUtils.ThrowPayloadEmptyException(request);
 
 		return returningJSON;
@@ -137,15 +142,16 @@ public class UserController {
 		System.out.println(payload.get("message"));
 		User newUser = new User();
 
+
+		
 		newUser.setName((String) payload.get("name"));
 		newUser.setUsername((String) payload.get("username"));
 		newUser.setRole((String) payload.get("role"));
 		newUser.setAvatar((String) payload.get("avatar"));
 		newUser.setSurname((String) payload.get("surname"));
 		newUser.setPassword((String) payload.get("password"));
-		newUser.setCreatedAt((String) payload.get("createdAt"));
+		newUser.setCreatedAt((Date) LocalUtils.getActualDate());		
 		newUser.setEmail((String) payload.get("email"));
-
 		userService.save(newUser);
 
 		JSONObject responseJson = new JSONObject();

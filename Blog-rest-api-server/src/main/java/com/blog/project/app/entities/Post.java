@@ -1,20 +1,25 @@
 package com.blog.project.app.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.Category.CategoryName;
 import com.blog.project.app.entities.Comments.ShowComments;
@@ -33,9 +38,13 @@ public class Post implements Serializable {
 	@NotEmpty
 	private String title;
 
-	@NotEmpty
-	private String createdAt;
-
+	@NotNull
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Column(name = "created_at")
+	private Date createdAt;
+	
+	@Lob 
+	@Column(length=1024)
 	@NotEmpty
 	private String content;
 
@@ -73,11 +82,11 @@ public class Post implements Serializable {
 		this.title = title;
 	}
 
-	public String getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(String created_at) {
+	public void setCreatedAt(Date created_at) {
 		this.createdAt = created_at;
 	}
 
@@ -165,9 +174,12 @@ public class Post implements Serializable {
 		
 		String getTitle();
 		String getContent();
-		String getCreatedAt();
-		List<Hashtag> getHashtags();
-		List<ShowComments> getComments();
+		Date getCreatedAt();
+		List<HashtagShow> getHashtags();
+
+		@Value("#{target.getComments().size()}")
+	    int getCommentaryCount();
+		//List<ShowComments> getComments();
 		CategoryName getCategory();
 	}
 	public interface PostByHashtag {
@@ -176,7 +188,7 @@ public class Post implements Serializable {
 		
 		String getTitle();
 		String getContent();
-		String getCreatedAt();
+		Date getCreatedAt();
 		@Value("#{target.getComments().size()}")
 	    int getCommentaryCount();
 		CategoryName getCategory();

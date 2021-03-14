@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div class="container-fluid">
+		<div id="content-section" class="float-left col-7">
+			<div class="card bg-light">
+				<div class="card-header" th:text="${titulo}"></div>
+				<div class="card-body">
+
+					<img th:if="${#strings.length(user.avatar) > 0}"
+						th:src="@{'/uploads/' + ${user.avatar}}" th:alt="${user.avatar}"
+						class="img-thumbnail rounded float-left" style="max-width: 25%;" />
+
+					<ul class="list-group">
+
+						<li class="list-group-item" th:text="${user.username}"></li>
+						<li class="list-group-item" th:text="${user.role}"></li>
+						<li class="list-group-item" th:text="${user.name}"></li>
+						<li class="list-group-item" th:text="${user.surname}"></li>
+						<li class="list-group-item" th:text="${user.email}"></li>
+						<li class="list-group-item" th:text="${user.createdAt}"></li>
+
+					</ul>
+
+				</div>
+			</div>
+
+
+			<div class="card mt-3 mb-3 rounded">
+				<div class="card-header ">Created posts</div>
+				<div class="card-body  border border-light">
+					<div th:each="postList: ${posts}" class=" ">
+						<div th:each="post: ${postList.posts}"
+							class="border border-secondary rounded mb-4">
+							<div class=" list-group-item card-title">
+								<a th:href="@{/post/list/} + ${post.id}" th:text="${post.title}" />
+							</div>
+							<div class=" list-group-item card-text comment-title-card">
+								<span th:text="${#strings.abbreviate(post.content,100)}" />
+							</div>
+							<div class="card-footer text-muted">
+								<span th:each="hashtag: ${post.hashtags}"> <a
+									th:href="@{/hashtag/} + ${hashtag.name}"
+									th:text="'#' + ${hashtag.name}"></a>
+								</span>
+							</div>
+							<div class="card-footer text-muted"
+								th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy HH:mm')}" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card mt-3 mb-3 rounded">
+					<div class="card-header ">Written comments</div>
+					<div class="card-body  border border-light">
+						<div th:each="commentList: ${comments}" class=" ">
+							<div th:each="comment: ${commentList.comments}"
+								class="border border-secondary rounded mb-4">
+								<div class=" list-group-item card-text">
+									<a th:text="${comment.message}"></a>
+								</div>
+								<div class="card-footer text-muted"
+									th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+				<div th:replace="fragments/sidebar.html"></div>
+			</div>
+			<footer th:replace="fragments/footer.html"></footer>
+</body>
+</html>

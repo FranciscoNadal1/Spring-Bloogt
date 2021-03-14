@@ -1,8 +1,10 @@
 package com.blog.project.app.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.Comments.ShowComments;
 import com.blog.project.app.entities.Post.PostByUser;
@@ -42,8 +47,11 @@ public class User implements Serializable {
 	@NotEmpty
 	private String password;
 
-	@NotEmpty
-	private String createdAt;
+
+	@NotNull
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Column(name = "created_at")
+	private Date createdAt;
 
 	@NotEmpty
 	private String role;
@@ -98,11 +106,11 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(String created_at) {
+	public void setCreatedAt(Date created_at) {
 		this.createdAt = created_at;
 	}
 
@@ -154,7 +162,7 @@ public class User implements Serializable {
 		String getSurname();
 		String getEmail();
 		String getRole();
-		String getCreatedAt();
+		Date getCreatedAt();
 	}
 
 	public interface UserComments {
