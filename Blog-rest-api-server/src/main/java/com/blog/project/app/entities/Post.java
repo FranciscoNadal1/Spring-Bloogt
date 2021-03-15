@@ -38,6 +38,8 @@ public class Post implements Serializable {
 	@NotEmpty
 	private String title;
 
+	private String imagePost;
+	
 	@NotNull
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "created_at")
@@ -97,6 +99,14 @@ public class Post implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public String getImagePost() {
+		return imagePost;
+	}
+
+	public void setImagePost(String imagePost) {
+		this.imagePost = imagePost;
+	}
 
 	public List<Hashtag> getHashtags() {
 		return hashtags;
@@ -144,6 +154,7 @@ public class Post implements Serializable {
 		String getCreatedAt();
 		List<HashtagShow> getHashtags();
 		OnlyUsername getCreatedBy();
+		String getImagePost();
 		
 		@Value("#{target.getComments().size()}")
 	    int getCommentaryCount();
@@ -158,7 +169,8 @@ public class Post implements Serializable {
 		String getCreatedAt();
 		List<HashtagShow> getHashtags();
 		OnlyUsername getCreatedBy();
-		
+
+		String getImagePost();
 		
 		@Value("#{target.getComments().size()}")
 	    int getCommentaryCount();
@@ -188,6 +200,7 @@ public class Post implements Serializable {
 		
 		String getTitle();
 		String getContent();
+		String getImagePost();
 		Date getCreatedAt();
 		@Value("#{target.getComments().size()}")
 	    int getCommentaryCount();

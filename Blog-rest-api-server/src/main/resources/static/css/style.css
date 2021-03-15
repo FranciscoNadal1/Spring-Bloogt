@@ -87,6 +87,7 @@ html, body {
 .container-fluid {
 	overflow: auto;
 	padding-bottom: 150px; /* this needs to be bigger than footer height*/
+	min-height:1000px;
 }
 .image-post{
 	
