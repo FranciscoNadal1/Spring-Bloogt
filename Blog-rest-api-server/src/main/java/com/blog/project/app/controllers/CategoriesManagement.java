@@ -7,28 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.blog.project.app.entities.Category.CategoryList;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.service.ICategoryService;
-import com.blog.project.app.models.service.ICommentsService;
-import com.blog.project.app.models.service.IPostService;
-import com.blog.project.app.models.service.IUserService;
 
 //@RequestMapping("/website")
 @Controller 
-public class UserManagement {
-
-	@Autowired
-	private IUserService userService;
-
+public class CategoriesManagement {
 
 	@Autowired
 	private ICategoryService categoryService;
-	
+
+	@Autowired
+	private static ICategoryService staticCategoryService;
+
+	/*
 
 	@GetMapping("/userlist")
 	public String listUsers(Map<String, Object> model) {
@@ -36,9 +32,6 @@ public class UserManagement {
 		
 
 		List<UserData> returningJSON = userService.findAllProjectedBy();
-		
-		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		model.put("categoriesForMenu", categoriesForMenu);
 
 		model.put("users", returningJSON );
 		
@@ -58,12 +51,23 @@ public class UserManagement {
 		model.put("user", returningJSON );
 		model.put("comments", allCommentsOfUser );
 		model.put("posts", allPostsOfUser );
-
-		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		model.put("categoriesForMenu", categoriesForMenu);
 		
 		System.out.println(returningJSON.getEmail());
 		
 		return "profile";
+	}
+	*/
+	
+	public static List<CategoryList> staticCategoryList(){
+		
+		List<CategoryList> returningJSON = staticCategoryService.findAllProjectedBy();
+		System.out.println();
+		return returningJSON;		
+	}
+	
+	
+	public static String doWhatever(){
+		
+		return "ey";		
 	}
 }

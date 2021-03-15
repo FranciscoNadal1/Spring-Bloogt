@@ -8,27 +8,39 @@
 
 
 	<div class="container-fluid">
-
-		<div id="content-section" class="float-left col-7">
+		<div id="content-section" class="float-left col-8">
 			<div class="card m-3" th:each="post: ${posts}">
-				<div class="card-header">
-					<a th:text="${post.title}" th:href="@{/post/list/} + ${post.id}"></a>
+				<div class="categoryPost card-footer text-muted">
+					<a th:text="${post.category.name}"
+						th:href="@{'/post/fromCategory/' + ${post.category.id}}"></a>
+				</div>
+				<div class="titlePost card-header">
+
+						<a th:href="@{/post/list/} + ${post.id}"><h4
+							th:text="${post.title}"></h4></a>
 				</div>
 				<div class="card-body">
 					<p class="card-text" th:text="${post.content}"></p>
+
+							<div class="commentsAuthorDate">
+								<span> <img height="20%"
+									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-134-chat-conversation@2x.png" />
+								</span> <span class="commentsPost"
+									th:text="'Comments ' + ${post.commentaryCount}" /> <span>
+									<img height="20%"
+									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-1-user@2x.png" />
+								</span> <span class="createdByPost"> <a
+									th:href="@{/profile/} + ${post.createdBy.username}"
+									th:text="${post.createdBy.username} " />
+								</span> <span><img height="20%"
+									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
+									class="createdAtPost" th:text="${post.createdAt}" />
+							</div>
+
 				</div>
 
-				<div class="card-footer text-muted"
-					th:text="'Category ' + ${post.category.name}"></div>
-				<div class="card-footer text-muted"
-					th:text="'Comments ' + ${post.commentaryCount}"></div>
-				<div class="card-footer text-muted">
-					<span>Author : </span><a
-						th:href="@{/profile/} + ${post.createdBy.username}"
-						th:text="${post.createdBy.username}"></a>
-				</div>
 
-				<div class="card-footer text-muted" th:text="${post.createdAt}"></div>
+
 				<!-- 	
 		<div class="card-footer text-muted" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy HH:mm')}">2 days ago</div>
 		
@@ -37,9 +49,9 @@
 				<div class="form-group  border-top pt-3 pl-3 pr-3">
 					<form th:action="@{/post/sendComment}" method="post">
 						<label for="comment">Add comment:</label>
-						<textarea class="form-control" rows="5" id="comment"
+						<textarea class="form-control mb-1" rows="5" id="comment"
 							name="content"></textarea>
-						<input class="btn btn-primary btn-lg btn-block" type="submit"
+						<input class="btn btn-secondary btn-lg btn-block" type="submit"
 							name="content" value="Send comment" />
 					</form>
 				</div>
@@ -70,7 +82,7 @@
 			</div>
 
 		</div>
-		
+
 		<div th:replace="fragments/sidebar.html"></div>
 	</div>
 	<footer th:replace="fragments/footer.html"></footer>

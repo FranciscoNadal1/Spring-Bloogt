@@ -5,39 +5,57 @@
 </head>
 <body>
 	<header th:replace="fragments/menu :: menu"></header>
-	
+
 
 	<div class="container-fluid">
-		<div id="content-section" class="float-left col-7">
+		<div id="content-section" class="float-left col-8">
 			<div class="card m-3" th:each="post: ${posts}">
-				<div class="card-header">
-					<a th:text="${post.title}" th:href="@{/post/list/} + ${post.id}"></a>
+
+				<div class="categoryPost card-footer text-muted"
+					><a th:text="${post.category.name}" th:href="@{'/post/fromCategory/' + ${post.category.id}}"></a></div>
+				<div class="titlePost card-header">
+
+					<a th:href="@{/post/list/} + ${post.id}"><h4
+							th:text="${post.title}"></h4></a>
 				</div>
 				<div class="card-body">
-					<p class="card-text" th:text="${post.content}"></p>
+					<p class="card-text"
+						th:text="${#strings.abbreviate(post.content,1000)}"></p>
+					<div id="ReadMore" class="m-2">
+						<div>
+							<a class="btn btn-secondary btn-sm "
+								th:href="@{/post/list/} + ${post.id}">Read More...</a>
+
+							<div class="commentsAuthorDate">
+								<span> <img height="20%"
+									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-134-chat-conversation@2x.png" />
+								</span> <span class="commentsPost"
+									th:text="'Comments ' + ${post.commentaryCount}" /> <span>
+									<img height="20%"
+									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-1-user@2x.png" />
+								</span> <span class="createdByPost"> <a
+									th:href="@{/profile/} + ${post.createdBy.username}"
+									th:text="${post.createdBy.username} " />
+								</span> <span><img height="20%"
+									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
+									class="createdAtPost" th:text="${post.createdAt}" />
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<div class="card-footer text-muted"
-					th:text="'Comments ' + ${post.commentaryCount}"></div>
-				<div class="card-footer text-muted"
-					th:text="'Category ' + ${post.category.name}"></div>
-				<div class="card-footer text-muted">
-					<span>Author : </span><a
-						th:href="@{/profile/} + ${post.createdBy.username}"
-						th:text="${post.createdBy.username}"></a>
-				</div>
 
-				<div class="card-footer text-muted" th:text="${post.createdAt}"></div>
 				<!-- 	
 		<div class="card-footer text-muted" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy HH:mm')}">2 days ago</div>
 		
 		 -->
-		
-			</div>
-		
-		</div>
-	<div th:replace="fragments/sidebar.html"></div>
 
+			</div>
+
+		</div>
+		<div th:replace="fragments/sidebar.html"></div>
+
+	</div>
 
 	</div>
 

@@ -1,0 +1,114 @@
+.sidebar-section {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.sidebar-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: grey;
+
+	/* Position the items */
+	//
+	&:
+	nth-child
+	(2)
+	{
+	top
+	:
+	25%;
+}
+
+//
+&
+:nth-child(3) {
+	top: 50%;
+}
+
+//
+&
+:nth-child(4) {
+	top: 75%;
+}
+
+}
+.make-me-sticky {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	padding: 0 15px;
+}
+
+.commentsAuthorDate {
+	margin: 4px;
+	margin-bottom: 10px;
+	float: right;
+}
+
+.categoryPost {
+	font-size: 14px;
+	padding: 0px !important;
+	padding-left: 20px !important;
+	padding-top: 5px !important;
+	padding-bottom: 2px !important;
+}
+
+.titlePost {
+	padding: 0px !important;
+	padding-left: 20px !important;
+}
+
+.commentsAuthorDate span {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+footer {
+	position: relative;
+	margin-top: -150px; /* negative value of footer height */
+	height: 150px;
+	clear: both;
+	padding-top: 20px;
+}
+
+.container-fluid {
+	overflow: auto;
+	padding-bottom: 150px; /* this needs to be bigger than footer height*/
+}
+
+html, body {
+	height: 100%;
+}
+
+.container-fluid {
+	overflow: auto;
+	padding-bottom: 150px; /* this needs to be bigger than footer height*/
+}
+
+a { text-decoration: none !important; }
+.sidebar-sticky {
+	position: -webkit-sticky !important;
+	position: sticky;
+	top: 0;
+	padding-top: .5rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+	border: 1px solid silver;
+	min-height: 100px;
+	padding-bottom: 50px;
+	margin-top: 20px; padding-right : none !important;
+	background-color: white;
+	padding-right: none !important;
+}
+
+body {
+	background-image:
+		url("https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+	background-attachment: fixed;
+	background-size: cover;
+	background-repeat: no-repeat, repeat-y;
+}
