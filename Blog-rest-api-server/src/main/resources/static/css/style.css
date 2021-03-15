@@ -88,8 +88,18 @@ html, body {
 	overflow: auto;
 	padding-bottom: 150px; /* this needs to be bigger than footer height*/
 }
-
+.image-post{
+	
+}
+.post-list{
+	background-color:white !important; 
+	border-radius: 0rem !important;
+}
+.postListPost{
+	min-height:230px;
+}
 a { text-decoration: none !important; }
+
 .sidebar-sticky {
 	position: -webkit-sticky !important;
 	position: sticky;
@@ -100,7 +110,7 @@ a { text-decoration: none !important; }
 	border: 1px solid silver;
 	min-height: 100px;
 	padding-bottom: 50px;
-	margin-top: 20px; padding-right : none !important;
+	padding-right : none !important;
 	background-color: white;
 	padding-right: none !important;
 }
