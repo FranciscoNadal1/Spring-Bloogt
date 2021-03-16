@@ -30,7 +30,7 @@ import com.blog.project.app.entities.Hashtag.HashtagShow;
 import com.blog.project.app.entities.User.OnlyUsername;
 
 @Entity
-public class Post implements Serializable {
+public class Post implements Serializable, Comparable<Post> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,14 +42,14 @@ public class Post implements Serializable {
 	private String title;
 
 	private String imagePost;
-	
+
 	@NotNull
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "created_at")
 	private Date createdAt;
-	
-	@Lob 
-	@Column(length=1024)
+
+	@Lob
+	@Column(length = 1024)
 	@NotEmpty
 	private String content;
 
@@ -102,7 +102,7 @@ public class Post implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 	public String getImagePost() {
 		return imagePost;
 	}
@@ -122,7 +122,7 @@ public class Post implements Serializable {
 	public void sortCommentsByDate() {
 		Collections.sort(comments);
 	}
-	
+
 	public List<Comments> getComments() {
 		Collections.sort(comments);
 		return comments;
@@ -147,16 +147,17 @@ public class Post implements Serializable {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Custom methods
 ///////////
 ///////////		Custom methods for the post class	
-	
+
 	public List<Comments> getCommentsSortDateAsc() {
 		Collections.sort(comments);
 		return comments;
 	}
+
 	public List<Comments> getCommentsSortDateDesc() {
 		Collections.reverse(comments);
 		return comments;
@@ -165,90 +166,117 @@ public class Post implements Serializable {
 ///////////		Projections
 ///////////
 ///////////		Used to avoid showing all fields
-	
+
 	public interface showPosts {
 
 		String getId();
-		
+
 		String getTitle();
+
 		String getContent();
+
 		String getCreatedAt();
+
 		List<HashtagShow> getHashtags();
+
 		OnlyUsername getCreatedBy();
+
 		String getImagePost();
-		
+
 		@Value("#{target.getComments().size()}")
-	    int getCommentaryCount();
+		int getCommentaryCount();
+
 		CategoryName getCategory();
 	}
+
 	public interface PostDetails {
 
 		String getId();
-		
+
 		String getTitle();
+
 		String getContent();
+
 		String getCreatedAt();
+
 		List<HashtagShow> getHashtags();
+
 		OnlyUsername getCreatedBy();
 
 		String getImagePost();
-		
+
 		@Value("#{target.getComments().size()}")
-	    int getCommentaryCount();
+		int getCommentaryCount();
 
 		CategoryName getCategory();
 
+	}
 
-	}	
-	
-	//	It will load PostDetails and then add the sorted comments
-	public interface PostDetailsCommentsSortByDateAsc extends PostDetails{
+	// It will load PostDetails and then add the sorted comments
+	public interface PostDetailsCommentsSortByDateAsc extends PostDetails {
 		@Value("#{target.getCommentsSortDateAsc()}")
 		List<ShowComments> getComments();
 	}
 
-	//	It will load PostDetails and then add the sorted comments
-	public interface PostDetailsCommentsSortByDateDesc extends PostDetails{
+	// It will load PostDetails and then add the sorted comments
+	public interface PostDetailsCommentsSortByDateDesc extends PostDetails {
 		@Value("#{target.getCommentsSortDateDesc()}")
 		List<ShowComments> getComments();
-	}	
-	
-	public interface PostDetailsCommentsSortByThumbsUp extends PostDetails{
-		// TODO Thumbs up are not implemented ! 
 	}
-	
+
+	public interface PostDetailsCommentsSortByThumbsUp extends PostDetails {
+		// TODO Thumbs up are not implemented !
+	}
+
 	public interface PostByUser {
 
 		String getId();
-		
+
 		String getTitle();
+
 		String getContent();
+
 		Date getCreatedAt();
+
 		List<HashtagShow> getHashtags();
 
 		@Value("#{target.getComments().size()}")
-	    int getCommentaryCount();
-		//List<ShowComments> getComments();
+		int getCommentaryCount();
+
+		// List<ShowComments> getComments();
 		CategoryName getCategory();
 	}
+
 	public interface PostByHashtag {
 
 		String getId();
-		
+
 		String getTitle();
+
 		String getContent();
+
 		String getImagePost();
+
 		Date getCreatedAt();
+
 		@Value("#{target.getComments().size()}")
-	    int getCommentaryCount();
+		int getCommentaryCount();
+
 		CategoryName getCategory();
 	}
-	
-	
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////		Comparators
 ///////////////
 ///////////////		Compare objects
 
+	@Override
+	public int compareTo(Post u) {
+
+		if (getCreatedAt() == null || u.getCreatedAt() == null) {
+			return 0;
+		}
+		return getCreatedAt().compareTo(u.getCreatedAt());
+	}
 
 }

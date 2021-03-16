@@ -1,6 +1,7 @@
 package com.blog.project.app.entities;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,16 @@ public class User implements Serializable {
 		return id;
 	}
 
+	public List<Post> getPosts() {
+
+		Collections.sort(posts);
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -123,6 +134,7 @@ public class User implements Serializable {
 	}
 
 	public List<Comments> getComments() {
+		Collections.sort(comments);
 		return comments;
 	}
 

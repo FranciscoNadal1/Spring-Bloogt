@@ -112,13 +112,8 @@ public class Comments  implements Comparable<Comments> {
 		Date getCreatedAt();
 		
 		void setPost(Post post);
-		
-	    @Override public default int compareTo(ShowComments u) { 
-	        if (getCreatedAt() == null || u.getCreatedAt() == null) { 
-	          return 0; 
-	        } 
-	        return getCreatedAt().compareTo(u.getCreatedAt());
-	      } 
+
+
 	}
 
 	public interface ShowAllComments {
@@ -142,9 +137,5 @@ public class Comments  implements Comparable<Comments> {
         } 
         return getCreatedAt().compareTo(u.getCreatedAt());
       } 
-    /*
-    public int compareTo(Comments c) {
-        return getCreatedAt().compareTo(c.getCreatedAt());    	
-    }*/
 
 }
