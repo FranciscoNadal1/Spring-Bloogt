@@ -79,6 +79,11 @@ html, body {
 	background-color:rgba(0, 50, 0, 0.5);
 }
 
+#content-section{
+	padding-left:0px;
+	padding-right:0px; 
+	border: 10px solid rgba(60,60,60,.1);
+}
 #content-section #EachPost{
 	
 
@@ -101,6 +106,9 @@ html, body {
 	border-radius: 0rem !important;
 }
 
+.headerPostList .noText{
+	height:50px;
+}
 .headerPostList {
 	/*
 	background-color: silver;
@@ -126,9 +134,11 @@ background: -webkit-linear-gradient(top,  rgba(245,246,246,1) 0%,rgba(219,220,22
 background: linear-gradient(to bottom,  rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', endColorstr='#f5f6f6',GradientType=0 ); /* IE6-9 */
 		
-		height:40px;
+		//height:50px;
 
 		padding-left:30px;
+		padding-top:10px;
+		padding-bottom:10px;
 		font-size:25px !important;
 		font-family:Georgia,serif;
 		text-shadow: 1px 1px 2px black;
@@ -141,7 +151,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', end
 a {
 	text-decoration: none !important;
 }
-
+#Sidebar{
+	padding-left:60px;
+}
 .sidebar-sticky {
 	position: -webkit-sticky !important;
 	position: sticky;
