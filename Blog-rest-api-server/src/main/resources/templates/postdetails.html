@@ -8,85 +8,98 @@
 
 
 	<div id="Wrapper">
-	<div class="container-fluid">
-		<div id="content-section" class="float-left col-8">
-			<div class="card m-3" th:each="post: ${posts}">
-				<div class="categoryPost card-footer text-muted">
-					<a th:text="${post.category.name}"
-						th:href="@{'/post/fromCategory/' + ${post.category.id}}"></a>
-				</div>
-				<div class="titlePost card-header">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
 
-						<a th:href="@{/post/list/} + ${post.id}"><h4
-							th:text="${post.title}"></h4></a>
-				</div>
-				<div class="card-body">
-					<p class="card-text" th:text="${post.content}"></p>
+				<div class="card">
+					<div class="categoryPost card-footer text-muted">
 
-							<div class="commentsAuthorDate">
-								<span> <img height="20%"
-									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-134-chat-conversation@2x.png" />
-								</span> <span class="commentsPost"
-									th:text="'Comments ' + ${post.commentaryCount}" /> <span>
-									<img height="20%"
-									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-1-user@2x.png" />
-								</span> <span class="createdByPost"> <a
-									th:href="@{/profile/} + ${post.createdBy.username}"
-									th:text="${post.createdBy.username} " />
-								</span> <span><img height="20%"
-									src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
-									class="createdAtPost" th:text="${post.createdAt}" />
-							</div>
-
-				</div>
+						<a th:text="${post.category.name}"
+							th:href="@{'/post/fromCategory/' + ${post.category.id}}"></a>
+					</div>
+					<div class=" headerPostList"
+						th:text="${#strings.toUpperCase(titulo)}"></div>
 
 
+					<div class="card-body">
+						<p class="card-text" th:text="${post.content}"></p>
 
-				<!-- 	
+						<div class="commentsAuthorDate">
+							<span> <img height="20%"
+								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-134-chat-conversation@2x.png" />
+							</span> <span class="commentsPost"
+								th:text="'Comments ' + ${post.commentaryCount}" /> <span>
+								<img height="20%"
+								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-1-user@2x.png" />
+							</span> <span class="createdByPost"> <a
+								th:href="@{/profile/} + ${post.createdBy.username}"
+								th:text="${post.createdBy.username} " />
+							</span> <span><img height="20%"
+								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
+								class="createdAtPost" th:text="${post.createdAt}" />
+						</div>
+
+					</div>
+
+
+
+					<!-- 	
 		<div class="card-footer text-muted" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy HH:mm')}">2 days ago</div>
 		
 		 -->
 
-				<div class="form-group  border-top pt-3 pl-3 pr-3">
-					<form th:action="@{/post/sendComment}" method="post">
-						<label for="comment">Add comment:</label>
-						<textarea class="form-control mb-1" rows="5" id="comment"
-							name="content"></textarea>
-						<input class="btn btn-secondary btn-lg btn-block" type="submit"
-							name="content" value="Send comment" />
-					</form>
-				</div>
+					<div class="form-group  border-top pt-3 pl-3 pr-3">
+						<form th:action="@{/post/sendComment}" method="post">
+							<label for="comment">Add comment:</label>
+							<textarea class="form-control mb-1" rows="5" id="comment"
+								name="content"></textarea>
+							<input class="btn btn-secondary btn-lg btn-block" type="submit"
+								name="content" value="Send comment" />
+						</form>
+					</div>
 
 
 
 
-				<div class="card mt-3 mb-3 rounded">
-					<div class="card-header ">Written comments</div>
-					<div class="card-body  border border-light">
-						<div th:each="comment: ${post.comments}"
-							class="border border-secondary rounded mb-4">
-							<div class=" list-group-item card-text">
-								<a th:text="${comment.message}"></a>
+					<div class="card mt-3 mb-3 rounded">
+						<div class="card-header ">
+							Written comments <span><a
+								th:href="@{'/post/list/' + ${post.id} + '/sortComments/asc'}">Sort
+									by newer</a></span> <span><a
+								th:href="@{'/post/list/' + ${post.id} + '/sortComments/desc'}">Sort
+									by older</a></span> <span><a
+								th:href="@{'/post/list/' + ${post.id} + '/sortComments/best'}">Sort
+									by best</a></span> <span><a
+								th:href="@{'/post/list/' + ${post.id} + '/sortComments/worst'}">Sort
+									by worst</a></span>
+
+
+						</div>
+						<div class="card-body  border border-light">
+							<div th:each="comment: ${post.comments}"
+								class="border border-secondary rounded mb-4">
+								<div class=" list-group-item card-text">
+									<a th:text="${comment.message}"></a>
+								</div>
+								<div class="card-footer text-muted">
+									<span th:text="'Author : '"></span><a
+										th:href="@{/profile/} + ${post.createdBy.username}"
+										th:text="${post.createdBy.username}"></a>
+								</div>
+								<div class="card-footer text-muted"
+									th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
 							</div>
-							<div class="card-footer text-muted">
-								<span th:text="'Author : '"></span><a
-									th:href="@{/profile/} + ${post.createdBy.username}"
-									th:text="${post.createdBy.username}"></a>
-							</div>
-							<div class="card-footer text-muted"
-								th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
 						</div>
 					</div>
-				</div>
 
+
+				</div>
 
 			</div>
 
+			<div th:replace="fragments/sidebar.html"></div>
 		</div>
-
-		<div th:replace="fragments/sidebar.html"></div>
-	</div>
-	<footer th:replace="fragments/footer.html"></footer>
+		<footer th:replace="fragments/footer.html"></footer>
 	</div>
 </body>
 </html>

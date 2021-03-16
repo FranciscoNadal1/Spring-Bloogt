@@ -14,6 +14,7 @@ import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IPost;
 import com.blog.project.app.models.dao.IUser;
+import com.blog.project.app.repository.GeneralRepository;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -22,22 +23,22 @@ public class PostServiceImpl implements IPostService {
 	private IPost postDao;
 	
 	@Override
-	public List<Post> findAll() {
+	public List<Post> findAllPosts() {
 		return (List<Post>) postDao.findAll();
 	}
 
 	@Override
-	public void save(Post post) {
+	public void savePost(Post post) {
 		postDao.save(post);
 	}
 
 	@Override
-	public List<PostDetails>  findOne(int id) {
-		return (List<PostDetails>)postDao.findById(id);
+	public PostDetails  findPostById(int id) {
+		return (PostDetails)postDao.findById(id);
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void deletePost(Long id) {
 		postDao.deleteById(id);
 
 	}
@@ -45,6 +46,16 @@ public class PostServiceImpl implements IPostService {
 
 	
 //////////////////////////////////////////////	
+	
+	@Override
+	public PostDetails  findPostByIdAndSortByCreatedDateAsc(int id) {
+		return (PostDetails)postDao.findByIdOrderByCreatedAtAsc(id);
+	}
+	@Override
+	public PostDetails  findPostByIdAndSortByCreatedDateDesc(int id) {
+		return (PostDetails)postDao.findByIdOrderByCreatedAtDesc(id);
+	}
+	
 // CUSTOM
 	@Override
 	public Post  findReturnPostById(int id) {
@@ -52,7 +63,7 @@ public class PostServiceImpl implements IPostService {
 	}
 
 	@Override
-	public List<showPosts> findAllProjectedBy() {
-		return (List<showPosts>) postDao.findAllProjectedBy();
+	public List<showPosts> findAllPostsProjection() {
+		return (List<showPosts>) postDao.findAllProjectedByOrderByCreatedAtDesc();
 	}
 }

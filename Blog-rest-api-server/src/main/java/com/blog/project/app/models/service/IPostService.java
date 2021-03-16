@@ -12,12 +12,16 @@ import com.blog.project.app.entities.User.UserPosts;
 
 public interface IPostService {
 /// Default
-	public List<Post> findAll();
-	public void save(Post post);
-	public void delete(Long id);
+	public List<Post> findAllPosts();
+	public void savePost(Post post);
+	public void deletePost(Long id);
 
 /// Custom
-	public List<PostDetails> findOne(int id);
-	public List<showPosts> findAllProjectedBy();
+
+	public PostDetails findPostById(int id);
+	public List<showPosts> findAllPostsProjection();
 	public Post findReturnPostById(int id);
+
+	PostDetails findPostByIdAndSortByCreatedDateDesc(int id);
+	PostDetails findPostByIdAndSortByCreatedDateAsc(int id);
 }

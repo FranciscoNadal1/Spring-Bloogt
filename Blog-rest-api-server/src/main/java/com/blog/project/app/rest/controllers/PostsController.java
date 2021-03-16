@@ -33,7 +33,7 @@ public class PostsController {
 	public List<showPosts> getAllPosts(HttpServletResponse response, HttpServletRequest request) {
 		response.setContentType(contentType);
 
-		List<showPosts> returningJSON = postService.findAllProjectedBy();
+		List<showPosts> returningJSON = postService.findAllPostsProjection();
 
 		if (returningJSON.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);
@@ -43,13 +43,13 @@ public class PostsController {
 	
 	
 	@GetMapping("/getPostById/{id}")
-	public List<PostDetails> getPostById(HttpServletResponse response, HttpServletRequest request,
+	public PostDetails getPostById(HttpServletResponse response, HttpServletRequest request,
 			@PathVariable(value = "id") int id) {
 		response.setContentType(contentType);
 
-		List<PostDetails> returningJSON = postService.findOne(id);
+		PostDetails returningJSON = postService.findPostById(id);
 
-		if (returningJSON.isEmpty())
+		if (returningJSON.equals(null))
 			LocalUtils.ThrowPayloadEmptyException(request);
 
 		return returningJSON;

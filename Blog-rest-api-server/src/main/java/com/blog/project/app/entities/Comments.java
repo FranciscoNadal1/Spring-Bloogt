@@ -18,7 +18,7 @@ import com.blog.project.app.entities.User.OnlyUsername;
 import com.blog.project.app.utils.LocalUtils;
 
 @Entity
-public class Comments {
+public class Comments  implements Comparable<Comments> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -104,12 +104,21 @@ public class Comments {
 ///////////		Used to avoid showing all fields
 	
 	
-	public interface ShowComments {
+	public interface ShowComments extends Comparable<ShowComments> {
 
 		String getId();
 		String getMessage();
 		OnlyUsername getCreatedBy();
 		Date getCreatedAt();
+		
+		void setPost(Post post);
+		
+	    @Override public default int compareTo(ShowComments u) { 
+	        if (getCreatedAt() == null || u.getCreatedAt() == null) { 
+	          return 0; 
+	        } 
+	        return getCreatedAt().compareTo(u.getCreatedAt());
+	      } 
 	}
 
 	public interface ShowAllComments {
@@ -121,4 +130,21 @@ public class Comments {
 		//OnlyUsername getCreatedBy();
 		Date getCreatedAt();
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////		Comparators
+///////////////
+///////////////		Compare objects
+
+    @Override public int compareTo(Comments u) { 
+
+        if (getCreatedAt() == null || u.getCreatedAt() == null) { 
+          return 0; 
+        } 
+        return getCreatedAt().compareTo(u.getCreatedAt());
+      } 
+    /*
+    public int compareTo(Comments c) {
+        return getCreatedAt().compareTo(c.getCreatedAt());    	
+    }*/
+
 }

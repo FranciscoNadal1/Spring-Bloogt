@@ -1,6 +1,7 @@
 package com.blog.project.app.entities;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +16,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.Category.CategoryName;
@@ -116,7 +119,12 @@ public class Post implements Serializable {
 		this.hashtags = hashtags;
 	}
 
+	public void sortCommentsByDate() {
+		Collections.sort(comments);
+	}
+	
 	public List<Comments> getComments() {
+		Collections.sort(comments);
 		return comments;
 	}
 
@@ -140,6 +148,19 @@ public class Post implements Serializable {
 		this.category = category;
 	}
 	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		Custom methods
+///////////
+///////////		Custom methods for the post class	
+	
+	public List<Comments> getCommentsSortDateAsc() {
+		Collections.sort(comments);
+		return comments;
+	}
+	public List<Comments> getCommentsSortDateDesc() {
+		Collections.reverse(comments);
+		return comments;
+	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////
@@ -175,10 +196,26 @@ public class Post implements Serializable {
 		@Value("#{target.getComments().size()}")
 	    int getCommentaryCount();
 
-		
-		List<ShowComments> getComments();
 		CategoryName getCategory();
+
+
 	}	
+	
+	//	It will load PostDetails and then add the sorted comments
+	public interface PostDetailsCommentsSortByDateAsc extends PostDetails{
+		@Value("#{target.getCommentsSortDateAsc()}")
+		List<ShowComments> getComments();
+	}
+
+	//	It will load PostDetails and then add the sorted comments
+	public interface PostDetailsCommentsSortByDateDesc extends PostDetails{
+		@Value("#{target.getCommentsSortDateDesc()}")
+		List<ShowComments> getComments();
+	}	
+	
+	public interface PostDetailsCommentsSortByThumbsUp extends PostDetails{
+		// TODO Thumbs up are not implemented ! 
+	}
 	
 	public interface PostByUser {
 
@@ -206,4 +243,12 @@ public class Post implements Serializable {
 	    int getCommentaryCount();
 		CategoryName getCategory();
 	}
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////		Comparators
+///////////////
+///////////////		Compare objects
+
+
 }
