@@ -46,7 +46,7 @@ public class PostsManagement {
 
 	@GetMapping("/list")
 	public String listPost(Map<String, Object> model) {
-		model.put("titulo", "Blog");
+		model.put("titulo", "Latest posts");
 
 		List<showPosts> returningJSON = postService.findAllProjectedBy();
 		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();

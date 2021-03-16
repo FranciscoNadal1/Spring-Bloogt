@@ -11,30 +11,15 @@
 	width: 100%;
 	height: 100%;
 	background: grey;
-
-	/* Position the items */
-	//
-	&:
-	nth-child
-	(2)
-	{
-	top
-	:
-	25%;
+}
+#Suscribe{
+	margin-top:50px;
+	margin-bottom:125px;
+	color:white;
 }
 
-//
-&
-:nth-child(3) {
-	top: 50%;
-}
-
-//
-&
-:nth-child(4) {
-	top: 75%;
-}
-
+#Suscribe h4{
+	margin-bottom:20px;
 }
 .make-me-sticky {
 	position: -webkit-sticky;
@@ -84,22 +69,78 @@ html, body {
 	height: 100%;
 }
 
+#Wrapper, .brandLogo, #navbarSupportedContent{
+	position: relative;
+    width: 1280px;
+    margin: 0 auto;
+}
+
+#MainNavbar{
+	background-color:rgba(0, 50, 0, 0.5);
+}
+
+#content-section #EachPost{
+	
+
+}
 .container-fluid {
 	overflow: auto;
 	padding-bottom: 150px; /* this needs to be bigger than footer height*/
-	min-height:1000px;
+	min-height: 1000px;
+	/*
+	margin-top:25px;
+*/
 }
-.image-post{
+
+.image-post {
 	
 }
-.post-list{
-	background-color:white !important; 
+
+.post-list {
+	background-color: white !important;
 	border-radius: 0rem !important;
 }
-.postListPost{
-	min-height:230px;
+
+.headerPostList {
+	/*
+	background-color: silver;
+	height: 20px;
+	border-radius: 16px 16px 0px 0px;
+	background: #4c4c4c; 
+	background: -moz-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747
+		39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%,
+		#131313 100%); 
+	background: -webkit-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%,
+		#474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%,
+		#1c1c1c 91%, #131313 100%); 
+	background: linear-gradient(to bottom, #4c4c4c 0%, #595959 12%, #666666 25%, #474747
+		39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%,
+		#131313 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c',
+		endColorstr='#131313', GradientType=0); 
+		*/
+		/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f5f6f6+0,dbdce2+21,b8bac6+49,dddfe3+80,f5f6f6+100;Grey+Pipe */
+background: rgb(245,246,246); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(245,246,246,1) 0%, rgba(219,220,226,1) 21%, rgba(184,186,198,1) 49%, rgba(221,223,227,1) 80%, rgba(245,246,246,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', endColorstr='#f5f6f6',GradientType=0 ); /* IE6-9 */
+		
+		height:40px;
+
+		padding-left:30px;
+		font-size:25px !important;
+		font-family:Georgia,serif;
+		text-shadow: 1px 1px 2px black;
 }
-a { text-decoration: none !important; }
+
+.postListPost {
+	min-height: 230px;
+}
+
+a {
+	text-decoration: none !important;
+}
 
 .sidebar-sticky {
 	position: -webkit-sticky !important;
@@ -108,18 +149,23 @@ a { text-decoration: none !important; }
 	padding-top: .5rem;
 	overflow-x: hidden;
 	overflow-y: auto;
-	border: 1px solid silver;
 	min-height: 100px;
 	padding-bottom: 50px;
-	padding-right : none !important;
+	padding-right: none !important;
+	/*
+	border: 1px solid silver;
 	background-color: white;
+	*/
 	padding-right: none !important;
 }
 
 body {
+	background: #fbfbfb url("../images/testBackground.png") no-repeat 50% 0;
+	/*
 	background-image:
 		url("https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
 	background-attachment: fixed;
 	background-size: cover;
 	background-repeat: no-repeat, repeat-y;
+	*/
 }

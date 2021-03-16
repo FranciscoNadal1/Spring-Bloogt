@@ -7,6 +7,7 @@
 	<header th:replace="fragments/menu :: menu"></header>
 
 
+	<div id="Wrapper">
 	<div class="container-fluid">
 		<div id="content-section" class="float-left col-8">
 			<div class="card m-3" th:each="post: ${posts}">
@@ -86,5 +87,6 @@
 		<div th:replace="fragments/sidebar.html"></div>
 	</div>
 	<footer th:replace="fragments/footer.html"></footer>
+	</div>
 </body>
 </html>
