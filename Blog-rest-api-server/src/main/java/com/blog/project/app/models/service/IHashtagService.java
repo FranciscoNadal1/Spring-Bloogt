@@ -24,7 +24,7 @@ public interface IHashtagService {
 
 
 	public List<PostsOfHashtag> findAllPostsOfHashtagById(int id);
-	public List<PostsOfHashtag> findAllPostsOfHashtagByName(String name);
+	public PostsOfHashtag findPostOfHashtagByName(String name);
 	
 
 	public Hashtag findHashtagById(int id);

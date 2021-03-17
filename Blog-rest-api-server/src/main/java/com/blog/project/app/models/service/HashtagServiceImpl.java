@@ -51,8 +51,8 @@ public class HashtagServiceImpl implements IHashtagService {
 	}
 
 	@Override
-	public List<PostsOfHashtag> findAllPostsOfHashtagByName(String name) {
-		return (List<PostsOfHashtag>) hashtagDao.findAllPostsOfHashtagByName(name);
+	public PostsOfHashtag findPostOfHashtagByName(String name) {
+		return (PostsOfHashtag) hashtagDao.findPostOfHashtagByName(name);
 	}
 
 	@Override

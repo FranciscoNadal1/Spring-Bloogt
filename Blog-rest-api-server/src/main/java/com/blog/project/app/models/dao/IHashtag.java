@@ -14,7 +14,7 @@ public interface IHashtag extends BaseRepository <Hashtag, Long> {
 	List<HashtagShow> findAllProjectedBy();
 
 	List<PostsOfHashtag> findAllPostsOfHashtagById(int id);
-	List<PostsOfHashtag> findAllPostsOfHashtagByName(String name);
+	PostsOfHashtag findPostOfHashtagByName(String name);
 	
 	Hashtag findHashtagById(int id);
 

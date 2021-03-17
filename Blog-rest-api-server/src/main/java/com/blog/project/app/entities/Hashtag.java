@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Value;
 
-import com.blog.project.app.entities.Post.PostByHashtag;
+import com.blog.project.app.entities.Post.PostDetails;
 
 @Entity
 public class Hashtag implements Serializable {
@@ -98,6 +98,6 @@ public class Hashtag implements Serializable {
 		String getName();
 		@Value("#{target.getPosts().size()}")
 	    int getPostsCount();
-		List<PostByHashtag> getPosts();
+		List<PostDetails> getPosts();
 	}
 }

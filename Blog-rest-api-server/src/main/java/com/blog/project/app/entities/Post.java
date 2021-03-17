@@ -188,8 +188,9 @@ public class Post implements Serializable, Comparable<Post> {
 		CategoryName getCategory();
 	}
 
-	public interface PostDetails {
-
+	public interface PostDetails extends showPosts{
+		
+/*
 		String getId();
 
 		String getTitle();
@@ -208,7 +209,7 @@ public class Post implements Serializable, Comparable<Post> {
 		int getCommentaryCount();
 
 		CategoryName getCategory();
-
+*/
 	}
 
 	// It will load PostDetails and then add the sorted comments

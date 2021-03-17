@@ -38,7 +38,16 @@
 								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
 								class="createdAtPost" th:text="${post.createdAt}" />
 						</div>
-
+						
+						
+						
+						<div class="hashtagListPostDetails"
+							th:each="hashtag :  ${post.hashtags}">
+							<div id="hashtaPostDetails">
+								<a th:href="@{'/post/fromHashtag/' + ${hashtag.name}}"
+									th:text="'#' +${hashtag.name}"></a>
+							</div>
+						</div>
 					</div>
 
 
