@@ -60,8 +60,7 @@ public class PostsManagement {
 		model.put("titulo", "Latest posts");
 
 		List<showPosts> returningJSON = postService.findAllPostsProjection();
-		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		model.put("categoriesForMenu", categoriesForMenu);
+		addDataToMenu(model);
 
 		model.put("posts", returningJSON);
 
@@ -92,8 +91,7 @@ public class PostsManagement {
 
 		model.put("titulo", returningJSON.getTitle());
 
-		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		model.put("categoriesForMenu", categoriesForMenu);
+		addDataToMenu(model);
 
 		model.put("post", returningJSON);
 
@@ -116,8 +114,7 @@ public class PostsManagement {
 
 		model.put("titulo", returningJSON.get(0).getName());
 
-		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		model.put("categoriesForMenu", categoriesForMenu);
+		addDataToMenu(model);
 
 		model.put("posts", returningPostJSON);
 
@@ -133,9 +130,8 @@ public class PostsManagement {
 
 		model.put("titulo", "#" + hashtag);
 
-		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		model.put("categoriesForMenu", categoriesForMenu);
-
+		addDataToMenu(model);
+		
 		model.put("posts", returningPostJSON);
 
 		return "allposts";
@@ -164,5 +160,16 @@ public class PostsManagement {
 		commentService.save(newComment);
 
 		return "redirect:" + request.getHeader("Referer");
+	}
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////
+	public Map<String, Object> addDataToMenu(Map<String, Object> model){
+
+		model.put("categoriesForMenu", categoryService.findAllProjectedBy());
+		model.put("hashtagsForMenu", hashtagService.findAllProjectedBy());
+		
+		return model;
+		
 	}
 }

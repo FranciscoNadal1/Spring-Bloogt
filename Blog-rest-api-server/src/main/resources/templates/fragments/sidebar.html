@@ -37,7 +37,26 @@
 				</a>
 			</div>
 		</ul>
+		<div id="SidebarCategories" class="">
+			<div class="page-header">
+				<h5>Hashtags</h5>
+			</div>
 
+		</div>
+		<ul th:each="eachHashtag : ${hashtagsForMenu} "
+			class="list-group list-group-flush">
+			<div class="panel-body">
+				<a th:href="@{'/post/fromHashtag/' + ${eachHashtag.name}}">
+					<li
+					class="list-group-item d-flex justify-content-between align-items-center">
+
+						<span th:text="'#'+${eachHashtag.name}"> </span> <span
+						class="badge badge-primary badge-pill"
+						th:text="${eachHashtag.postCount}"></span>
+				</li>
+				</a>
+			</div>
+		</ul>
 	</div>
 
 </div>

@@ -90,14 +90,14 @@ public class Hashtag implements Serializable {
 		String getId();
 		String getName();
 		@Value("#{target.getPosts().size()}")
-	    int getPostsCount();
+	    int getPostCount();
 	}
 	public interface PostsOfHashtag {
 
 		String getId();
 		String getName();
 		@Value("#{target.getPosts().size()}")
-	    int getPostsCount();
+	    int getPostCount();
 		List<PostDetails> getPosts();
 	}
 }
