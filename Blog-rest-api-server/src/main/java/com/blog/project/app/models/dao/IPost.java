@@ -19,6 +19,7 @@ public interface IPost extends BaseRepository<Post, Long> {
 
 	List<Post> findAll();
 
+	void deleteById(int id);
 	List<showPosts> findAllProjectedBy();
 
 

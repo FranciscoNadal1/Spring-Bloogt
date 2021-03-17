@@ -7,10 +7,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Post;
+import com.blog.project.app.entities.Category.CategoryNumberOfPosts;
 import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.errors.NoPayloadDataException;
@@ -97,7 +100,7 @@ public class PostsController {
 
 		String postTitle = (String) payload.get("title");
 
-//		Can upload the category of the post by ID or by the category name, depending if they are a number or a string
+//	Can upload the category of the post by ID or by the category name, depending if they are a number or a string
 		String categoryNameOrId = (String) payload.get("category");
 
 		newPost.setTitle(postTitle);
@@ -115,12 +118,13 @@ public class PostsController {
 
 		postService.savePost(newPost);
 
-//		We have to add the hashtag after we have already saved the post, we can add the hashtag by Id or By Name, 
-//		and the hashtag will be created  if it's a name and doesn't exist
+//	We have to add the hashtag after we have already saved the post, we can add the hashtag by Id or By Name, 
+//	and the hashtag will be created  if it's a name and doesn't exist
 		List<Hashtag> hashtagList = new LinkedList<Hashtag>();
 		int idPost = newPost.getId();
 		for (String hashtag : (List<String>) payload.get("hashtags")) {
 			Hashtag hash = null;
+
 			try {
 				if (LocalUtils.isNumeric(hashtag))
 					hash = hashtagService.findHashtagById(Integer.parseInt(hashtag));
@@ -148,5 +152,31 @@ public class PostsController {
 		responseJson.appendField("message", "Post created : " + postTitle);
 
 		return responseJson;
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		DELETE Methods
+///////////
+///////////		Methods to update information
+
+	@DeleteMapping("/deletePost/{id}")
+	@Transactional
+	public JSONObject deletePostById(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "id") int id) {
+		// TODO must securize!!!
+
+		response.setContentType(contentType);
+		Post postToDelete = postService.findReturnPostById(id);
+		JSONObject responseJson = new JSONObject();
+		postService.deletePostById(id);
+
+		try {
+			responseJson.appendField("status", "OK");
+			responseJson.appendField("message", "eliminated post : '" + postToDelete.getTitle() + "' and all related comments"); 
+
+			return responseJson;
+		} catch (NullPointerException e) {
+			throw new RuntimeException("There is no post with that Id");
+		}
 	}
 }

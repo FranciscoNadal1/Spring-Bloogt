@@ -21,7 +21,7 @@ public class PostServiceImpl implements IPostService {
 
 	@Autowired
 	private IPost postDao;
-	
+
 	@Override
 	public List<Post> findAllPosts() {
 		return (List<Post>) postDao.findAll();
@@ -33,8 +33,8 @@ public class PostServiceImpl implements IPostService {
 	}
 
 	@Override
-	public PostDetails  findPostById(int id) {
-		return (PostDetails)postDao.findById(id);
+	public PostDetails findPostById(int id) {
+		return (PostDetails) postDao.findById(id);
 	}
 
 	@Override
@@ -43,27 +43,31 @@ public class PostServiceImpl implements IPostService {
 
 	}
 
-
-	
 //////////////////////////////////////////////	
-	
+
 	@Override
-	public PostDetails  findPostByIdAndSortByCreatedDateAsc(int id) {
-		return (PostDetails)postDao.findByIdOrderByCreatedAtAsc(id);
+	public PostDetails findPostByIdAndSortByCreatedDateAsc(int id) {
+		return (PostDetails) postDao.findByIdOrderByCreatedAtAsc(id);
 	}
+
 	@Override
-	public PostDetails  findPostByIdAndSortByCreatedDateDesc(int id) {
-		return (PostDetails)postDao.findByIdOrderByCreatedAtDesc(id);
+	public PostDetails findPostByIdAndSortByCreatedDateDesc(int id) {
+		return (PostDetails) postDao.findByIdOrderByCreatedAtDesc(id);
 	}
-	
+
 // CUSTOM
 	@Override
-	public Post  findReturnPostById(int id) {
-		return (Post)postDao.findReturnPostById(id);
+	public Post findReturnPostById(int id) {
+		return (Post) postDao.findReturnPostById(id);
 	}
 
 	@Override
 	public List<showPosts> findAllPostsProjection() {
 		return (List<showPosts>) postDao.findAllProjectedByOrderByCreatedAtDesc();
+	}
+
+	@Override
+	public void deletePostById(int id) {
+			postDao.deleteById(id);
 	}
 }

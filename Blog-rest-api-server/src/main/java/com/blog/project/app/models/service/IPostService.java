@@ -21,6 +21,7 @@ public interface IPostService {
 	public PostDetails findPostById(int id);
 	public List<showPosts> findAllPostsProjection();
 	public Post findReturnPostById(int id);
+	void deletePostById(int id);
 
 	PostDetails findPostByIdAndSortByCreatedDateDesc(int id);
 	PostDetails findPostByIdAndSortByCreatedDateAsc(int id);
