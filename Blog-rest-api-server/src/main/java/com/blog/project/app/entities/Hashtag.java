@@ -1,6 +1,7 @@
 package com.blog.project.app.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -35,9 +36,30 @@ public class Hashtag implements Serializable {
 	private List<Post> posts;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public Hashtag() {
+
+	}
+	public Hashtag(Hashtag hashtag) {
+		this.name = hashtag.getName();
+
+	}	
+	public Hashtag(@NotEmpty String name, List<Post> posts) {
+		this.name = name;
+		this.posts = posts;
+	}
+	public Hashtag(@NotEmpty String name, Post post) {
+		List <Post> posts = new ArrayList<Post>();
+		posts.add(post);
+		this.name = name;
+		
+		this.posts = posts;
+	}	
+	
+	
 	public int getId() {
 		return id;
 	}
+
 
 	public void setId(int id) {
 		this.id = id;
@@ -67,6 +89,8 @@ public class Hashtag implements Serializable {
 
 		String getId();
 		String getName();
+		@Value("#{target.getPosts().size()}")
+	    int getPostsCount();
 	}
 	public interface PostsOfHashtag {
 

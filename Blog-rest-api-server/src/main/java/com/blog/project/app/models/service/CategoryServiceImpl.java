@@ -67,6 +67,11 @@ public class CategoryServiceImpl implements ICategoryService {
 		// TODO Auto-generated method stub
 		return (CategoryNumberOfPosts) categoryDao.findAllnumberOfPostsById(id);
 	}
+
+	@Override
+	public Category findCategoryByName(String str) {
+		return (Category) categoryDao.findCategoryByName(str);
+	}
 	
 	
 }

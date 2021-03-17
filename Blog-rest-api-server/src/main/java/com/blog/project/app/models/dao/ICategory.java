@@ -13,6 +13,7 @@ public interface ICategory extends BaseRepository <Category, Long> {
 
 	Category findCategoryById(int id);
 	List<Category> findAll();
+	Category findCategoryByName(String str);
 
 	void deleteById(int id);
 

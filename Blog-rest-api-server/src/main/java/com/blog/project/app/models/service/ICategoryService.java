@@ -21,6 +21,7 @@ public interface ICategoryService {
 	public Category findCategoryById(int id);
 	public List<CategoryDetails> findOne(int id);
 	public List<CategoryList> findAllProjectedBy();
+	public Category findCategoryByName(String str);
 
 
 	public List<CategoryDetails> findAllCategoriesAndPostBy();
