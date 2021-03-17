@@ -91,13 +91,13 @@ public class HashtagController {
 	}	
 
 	@GetMapping("/getPostsOfHashtagByName/{name}")
-	public List<PostsOfHashtag> getPostsOfHashtagByName(HttpServletResponse response, HttpServletRequest request,
+	public PostsOfHashtag getPostsOfHashtagByName(HttpServletResponse response, HttpServletRequest request,
 			@PathVariable(value = "name") String name) {
 		response.setContentType(contentType);
 
-		List<PostsOfHashtag> returningJSON = hashtagService.findAllPostsOfHashtagByName(name);
+		PostsOfHashtag returningJSON = hashtagService.findPostOfHashtagByName(name);
 
-		if (returningJSON.isEmpty())
+		if (returningJSON.equals(null))
 			LocalUtils.ThrowPayloadEmptyException(request);
 
 		return returningJSON;

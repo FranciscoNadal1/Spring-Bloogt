@@ -12,6 +12,10 @@
 	height: 100%;
 	background: grey;
 }
+.viewCount{
+	font-size:14px;
+	color:silver;
+}
 #Suscribe{
 	margin-top:50px;
 	margin-bottom:125px;

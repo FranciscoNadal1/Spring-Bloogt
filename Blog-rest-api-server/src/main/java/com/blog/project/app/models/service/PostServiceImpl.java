@@ -70,4 +70,14 @@ public class PostServiceImpl implements IPostService {
 	public void deletePostById(int id) {
 			postDao.deleteById(id);
 	}
+
+	@Override
+	public void addVisit(int id) {
+		Post post = postDao.findReturnPostById(id);
+		
+		post.addVisit();
+		postDao.save(post);
+		
+		
+	}
 }

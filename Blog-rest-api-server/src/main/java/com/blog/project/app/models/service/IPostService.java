@@ -25,4 +25,6 @@ public interface IPostService {
 
 	PostDetails findPostByIdAndSortByCreatedDateDesc(int id);
 	PostDetails findPostByIdAndSortByCreatedDateAsc(int id);
+	
+	public void addVisit(int id);
 }

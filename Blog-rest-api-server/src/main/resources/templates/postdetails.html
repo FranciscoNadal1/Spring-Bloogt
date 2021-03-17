@@ -38,6 +38,7 @@
 								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
 								class="createdAtPost" th:text="${post.createdAt}" />
 						</div>
+						<div class="viewCount"><span th:text="'Viewed times : ' + ${post.timesViewed}"></span></div>
 						
 						
 						
@@ -97,6 +98,7 @@
 								</div>
 								<div class="card-footer text-muted"
 									th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
+									
 							</div>
 						</div>
 					</div>

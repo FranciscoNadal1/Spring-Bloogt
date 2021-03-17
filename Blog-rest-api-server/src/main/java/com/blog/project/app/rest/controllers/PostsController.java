@@ -105,6 +105,7 @@ public class PostsController {
 
 		newPost.setTitle(postTitle);
 		newPost.setContent((String) payload.get("content"));
+		newPost.setTimesViewed(0);
 		newPost.setCreatedAt((Date) LocalUtils.getActualDate());
 		// TODO Should be sent by the one that is logged!!!
 		newPost.setCreatedBy(userService.findReturnUserById(1));

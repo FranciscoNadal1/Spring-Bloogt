@@ -77,6 +77,10 @@ public class PostsManagement {
 		else
 			orderType = "default";
 
+		postService.addVisit(id);
+		
+		
+		
 		PostDetails returningJSON;
 		switch (orderType) {
 		case "asc":
@@ -92,7 +96,6 @@ public class PostsManagement {
 		model.put("titulo", returningJSON.getTitle());
 
 		addDataToMenu(model);
-
 		model.put("post", returningJSON);
 
 		return "postdetails";

@@ -68,8 +68,12 @@ public class Post implements Serializable, Comparable<Post> {
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
 	private Category category;
 
+	// TODO This should be on a different table, to register the date of the view to get statistics, but user support comes first.
+	@Column(name = "times_viewed")
+	private int timesViewed;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	
 	public int getId() {
 		return id;
 	}
@@ -146,11 +150,22 @@ public class Post implements Serializable, Comparable<Post> {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	public int getTimesViewed() {
+		return timesViewed;
+	}
 
+	public void setTimesViewed(int timesViewed) {
+		this.timesViewed = timesViewed;
+	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Custom methods
 ///////////
 ///////////		Custom methods for the post class	
+	
+	public void addVisit() {
+		this.timesViewed = this.timesViewed+1;
+	}
 
 	public List<Comments> getCommentsSortDateAsc() {
 		Collections.sort(comments);
@@ -186,6 +201,8 @@ public class Post implements Serializable, Comparable<Post> {
 		int getCommentaryCount();
 
 		CategoryName getCategory();
+		
+		int getTimesViewed();
 	}
 
 	public interface PostDetails extends showPosts{
@@ -227,8 +244,7 @@ public class Post implements Serializable, Comparable<Post> {
 	public interface PostDetailsCommentsSortByThumbsUp extends PostDetails {
 		// TODO Thumbs up are not implemented !
 	}
-
-	public interface PostByUser {
+	public interface PostBy{
 
 		String getId();
 
@@ -237,32 +253,24 @@ public class Post implements Serializable, Comparable<Post> {
 		String getContent();
 
 		Date getCreatedAt();
-
-		List<HashtagShow> getHashtags();
 
 		@Value("#{target.getComments().size()}")
 		int getCommentaryCount();
 
 		// List<ShowComments> getComments();
 		CategoryName getCategory();
-	}
-
-	public interface PostByHashtag {
-
-		String getId();
-
-		String getTitle();
-
-		String getContent();
-
 		String getImagePost();
 
-		Date getCreatedAt();
+		int getTimesViewed();
+	}
+	public interface PostByUser extends PostBy {
+		List<HashtagShow> getHashtags();
+	}
 
-		@Value("#{target.getComments().size()}")
-		int getCommentaryCount();
+	
+	public interface PostByHashtag  extends PostBy{
 
-		CategoryName getCategory();
+
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
