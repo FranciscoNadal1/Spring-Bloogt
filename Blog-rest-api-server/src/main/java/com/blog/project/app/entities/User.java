@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -49,12 +49,12 @@ public class User implements Serializable {
 	private String password;
 
 
-	@NotNull
+	@Basic(optional=true)
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "created_at")
 	private Date createdAt;
 
-	@NotEmpty
+	@Basic(optional=true)
 	private String role;
 
 	@OneToMany
@@ -177,6 +177,9 @@ public class User implements Serializable {
 		Date getCreatedAt();
 	}
 
+
+
+	
 	public interface UserComments {
 		String getId();
 		String getUsername();

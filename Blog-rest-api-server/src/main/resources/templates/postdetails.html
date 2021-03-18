@@ -22,7 +22,7 @@
 
 
 					<div class="card-body">
-						<p class="card-text" th:text="${post.content}"></p>
+						<p class="card-text" th:utext="${#strings.replace(#strings.escapeXml(post.content),'&#10;','&lt;br&gt;')}"></p>
 
 						<div class="commentsAuthorDate">
 							<span> <img height="20%"

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div id="Wrapper">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
+				<div class=" headerPostList"
+					th:text="${#strings.toUpperCase(titulo)}"></div>
+
+				<div class="post-list card bg-white">
+					<div class="card-body">
+						<form th:action="@{/post/newPost}" th:object="${post}"
+							method="post">
+							<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+								<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+							</ul>
+							<div class="row">
+								<label class="col-form-label col-sm-12">Title : </label>
+								<div class="col-sm-12">
+									<input class="form-control" type="text" th:field="*{title}"
+										th:errorclass="'form-control alert-danger'" /> <small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+									</small>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<label class="col-form-label col-sm-12">Hashtags(SeparatedByCommas)
+									: </label>
+								<div class="col-sm-12">
+									<input class="form-control" type="text" th:field="*{hashtags}"
+										th:errorclass="'form-control alert-danger'" /> 
+										<!-- 
+										<small
+										class="form-text text-danger"
+										th:if="${#fields.hasErrors('hashtags')}"
+										th:errors="*{hashtags}"> </small>
+										 -->
+								</div>
+							</div>
+
+
+							<div class="form-group row">
+								<label for="category" class="col-form-label col-sm-2">Category</label>
+								<div class="col-sm-4">
+									<select id="pais" th:field="*{category}" class="form-control">
+										<option value="">-- select Category --</option>
+										<option th:each="category : ${categories}"
+											th:text="${category.name}" th:value="${category.id}" />
+									</select>
+								</div>
+										<!-- 
+								<div th:if="${#fields.hasErrors('category')}"
+									th:errors="*{category}" class="alert alert-danger"></div>
+									-->
+							</div>
+
+
+
+							<div class="row">
+								<label class="col-form-label col-sm-12">Content: </label>
+								<div class="col-sm-12">
+									<textarea rows="10" class="form-control" type="text"
+										th:field="*{content}"
+										th:errorclass="'form-control alert-danger'" />
+									<small class="form-text text-danger"
+										th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+									</small>
+								</div>
+							</div>
+
+
+
+							<div class="">
+								<div class="m-3">
+									<input type="submit" value="Send post"
+										class="btn btn-secondary btn-lg btn-block">
+								</div>
+
+							</div>
+
+						</form>
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div th:replace="fragments/sidebar.html"></div>
+		</div>
+
+
+		<footer clear-top th:replace="fragments/footer.html"></footer>
+</body>
+</html>

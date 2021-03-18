@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div id="Wrapper">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
+				<div class=" headerPostList"
+					th:text="${#strings.toUpperCase(titulo)}"></div>
+
+				<div class="post-list card bg-white">
+					<div class="card-body">
+						<form th:action="@{/newUser}" th:object="${user}" method="post">
+
+
+							<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+								<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+							</ul>
+
+
+							<fieldset class="form-group  col-6  float-left">
+								<legend>Main data:</legend>
+								<div class=" row">
+									<label class="col-form-label col-sm-3">Username</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="text" th:field="*{username}"
+											th:errorclass="'form-control alert-danger'" /> <small
+											class="form-text text-danger"
+											th:if="${#fields.hasErrors('username')}"
+											th:errors="*{username}"></small>
+									</div>
+								</div>
+
+
+								<div class=" row">
+									<label class="col-form-label col-sm-3">Password</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="password"
+											th:field="*{password}"
+											th:errorclass="'form-control alert-danger'" /> <small
+											class="form-text text-danger"
+											th:if="${#fields.hasErrors('password')}"
+											th:errors="*{password}"></small>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="col-form-label col-sm-3">Email</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="email" th:field="*{email}"
+											th:errorclass="'form-control alert-danger'" /> <small
+											class="form-text text-danger"
+											th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset class="form-group col-6 float-left">
+								<legend>Avatar:</legend>
+								<div class=" row">
+									<label class="col-form-label col-sm-3">Avatar</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="text" th:field="*{avatar}"
+											th:errorclass="'form-control alert-danger'" /> <small
+											class="form-text text-danger"
+											th:if="${#fields.hasErrors('avatar')}" th:errors="*{avatar}"></small>
+									</div>
+								</div>
+
+							</fieldset>
+							<fieldset class="form-group col-6 float-left">
+								<legend>Personal data:</legend>
+								<div class=" row">
+									<label class="col-form-label col-sm-3">Name</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="text" th:field="*{name}"
+											th:errorclass="'form-control alert-danger'" /> <small
+											class="form-text text-danger"
+											th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+									</div>
+								</div>
+
+
+								<div class=" row">
+									<label class="col-form-label col-sm-3">Surname</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="text" th:field="*{surname}"
+											th:errorclass="'form-control alert-danger'" /> <small
+											class="form-text text-danger"
+											th:if="${#fields.hasErrors('surname')}"
+											th:errors="*{surname}"></small>
+									</div>
+							</fieldset>
+					</div>
+
+
+
+
+					<div class="">
+						<div class="m-3">
+							<input type="submit" value="Create user" class="btn btn-secondary btn-lg btn-block">
+						</div>
+					</div>
+					</form>
+
+
+				</div>
+
+			</div>
+
+		<div th:replace="fragments/sidebar.html"></div>
+		</div>
+
+	</div>
+
+
+	<footer clear-top th:replace="fragments/footer.html"></footer>
+</body>
+</html>

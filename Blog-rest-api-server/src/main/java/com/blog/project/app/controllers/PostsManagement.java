@@ -1,22 +1,26 @@
 package com.blog.project.app.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Category.CategoryDetails;
-import com.blog.project.app.entities.Category.CategoryList;
 import com.blog.project.app.entities.Comments;
+import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Hashtag.PostsOfHashtag;
+import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateAsc;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateDesc;
@@ -26,6 +30,7 @@ import com.blog.project.app.models.service.ICommentsService;
 import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.models.service.IPostService;
 import com.blog.project.app.models.service.IUserService;
+import com.blog.project.app.utils.LocalUtils;
 
 //@RequestMapping("/website")
 @RequestMapping("/post")
@@ -51,29 +56,30 @@ public class PostsManagement {
 	 * @Autowired private GeneralRepository generalRepo;
 	 */
 	@GetMapping("/")
-	public String index(Map<String, Object> model) {
+	public String index(Model model) {
 		return listPost(model);
 	}
 
 	@GetMapping("/list")
-	public String listPost(Map<String, Object> model) {
-		model.put("titulo", "Latest posts");
+	public String listPost(Model model) {
+		model.addAttribute("titulo", "Latest posts");
 
 		List<showPosts> returningJSON = postService.findAllPostsProjection();
 		addDataToMenu(model);
 
-		model.put("posts", returningJSON);
+		model.addAttribute("posts", returningJSON);
 
 		return "allposts";
 	}
 
 	@GetMapping("/list/{id}")
-	public String listPostsById(Map<String, Object> model, @PathVariable(value = "id") int id) {
+	public String listPostsById(Model model, @PathVariable(value = "id") int id) {
 
 		// TODO Must have an input to choose the prefered order
 		String orderType;
-		if (model.get("sort") != null)
-			orderType = (String) model.get("sort");
+
+		if (model.getAttribute("sort") != null)
+			orderType = (String) model.getAttribute("sort");
 		else
 			orderType = "default";
 
@@ -93,57 +99,120 @@ public class PostsManagement {
 			returningJSON = (PostDetailsCommentsSortByDateAsc) postService.findPostByIdAndSortByCreatedDateAsc(id);
 		}
 
-		model.put("titulo", returningJSON.getTitle());
+		model.addAttribute("titulo", returningJSON.getTitle());
 
 		addDataToMenu(model);
-		model.put("post", returningJSON);
+		model.addAttribute("post", returningJSON);
 
 		return "postdetails";
 	}
 
 	@GetMapping("/list/{id}/sortComments/{sort}")
-	public String returnSortedPostList(Map<String, Object> model, @PathVariable(value = "id") int id,
+	public String returnSortedPostList(Model model, @PathVariable(value = "id") int id,
 			@PathVariable(value = "sort") String sort) {
-		model.put("sort", sort);
+		model.addAttribute("sort", sort);
 		return listPostsById(model, id);
 	}
 
 	@GetMapping("/fromCategory/{id}")
-	public String listPostsFromCategory(Map<String, Object> model, @PathVariable(value = "id") int id) {
+	public String listPostsFromCategory(Model model, @PathVariable(value = "id") int id) {
 
 		List<CategoryDetails> returningJSON = categoryService.findPostsOfCategoryById(id);
 
 		List<showPosts> returningPostJSON = returningJSON.get(0).getPosts();
 
-		model.put("titulo", returningJSON.get(0).getName());
+		model.addAttribute("titulo", returningJSON.get(0).getName());
 
 		addDataToMenu(model);
 
-		model.put("posts", returningPostJSON);
+		model.addAttribute("posts", returningPostJSON);
 
 		return "allposts";
 	}
 
 	@GetMapping("/fromHashtag/{hashtag}")
-	public String listPostsFromHashtag(Map<String, Object> model, @PathVariable(value = "hashtag") String hashtag) {
+	public String listPostsFromHashtag(Model model, @PathVariable(value = "hashtag") String hashtag) {
 
 		PostsOfHashtag hash = hashtagService.findPostOfHashtagByName(hashtag);
 
 		List<PostDetails> returningPostJSON = hash.getPosts();
 
-		model.put("titulo", "#" + hashtag);
+		model.addAttribute("titulo", "#" + hashtag);
 
 		addDataToMenu(model);
 		
-		model.put("posts", returningPostJSON);
+		model.addAttribute("posts", returningPostJSON);
 
 		return "allposts";
 	}
+	@GetMapping("/newPost")
+	public String createNewPost(Model model) {
 
+		
+	    model.addAttribute("titulo", "Create post : ");	    
+	    model.addAttribute("categories", categoryService.findAll());
+
+
+	    model.addAttribute("post", new Post());
+		addDataToMenu(model);
+		return "forms/newPost";
+	}
+
+	@PostMapping("/newPost")
+	public String createNewPostPost(Post post, BindingResult result, Model model) {
+		
+		System.out.println("En verdad si estoy pasando");
+		
+		int categoryId = Integer.parseInt((String)result.getFieldValue("category"));
+		String hashtagString = (String)result.getFieldValue("hashtags");
+		
+	    List<String> tokens = new ArrayList<>();
+
+		Category categoryToInsert = categoryService.findCategoryById(categoryId);
+		System.out.println(categoryToInsert.getName());
+		System.out.println(categoryToInsert.getName());
+		
+		post.setCategory(categoryToInsert);
+		post.setCreatedAt(LocalUtils.getActualDate());
+		// TODO Should be created by the user that is LoggedIN!!!!
+		post.setCreatedBy(userService.findReturnUserById(1));
+
+	    postService.savePost(post);
+		
+	    StringTokenizer tokenizer = new StringTokenizer(hashtagString, ",");
+	    
+	    List<Hashtag> hashtagList = null;
+	    
+	    while (tokenizer.hasMoreElements()) {
+	        
+	    	Hashtag hash = null;
+	    	String hashtagStr = tokenizer.nextToken().trim();
+	    	
+	        try {
+		    	
+	        	hash = hashtagService.findHashtagByName(hashtagStr);
+	        	//hashtagList.add(hash);
+	        	
+
+				hash.getPosts().add(post);
+				hashtagService.save(hash);
+	        	
+	        }catch(NullPointerException e) { 
+	        	
+	        	hash = new Hashtag(hashtagStr, post);
+				hashtagService.save(hash);
+				
+	        }
+	    }
+				
+
+		addDataToMenu(model);
+		return "redirect:/post/list/" + post.getId();
+	}
 //////////////////////////////////////////////////////////////////////////////////
 
 	@PostMapping("/sendComment")
-	public String newComment(HttpServletRequest request, Map<String, Object> model) {
+	public String newComment(HttpServletRequest request, Model model) {
 		System.out.println();
 
 		String getPostId = null;
@@ -167,10 +236,10 @@ public class PostsManagement {
 	
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	public Map<String, Object> addDataToMenu(Map<String, Object> model){
+	public Model addDataToMenu(Model model){
 
-		model.put("categoriesForMenu", categoryService.findAllProjectedBy());
-		model.put("hashtagsForMenu", hashtagService.findAllProjectedBy());
+		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
+		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
 		
 		return model;
 		
