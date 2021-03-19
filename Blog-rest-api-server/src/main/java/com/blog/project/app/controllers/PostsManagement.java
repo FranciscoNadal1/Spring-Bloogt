@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,7 +86,7 @@ public class PostsManagement {
 
 		postService.addVisit(id);
 		
-		
+
 		
 		PostDetails returningJSON;
 		switch (orderType) {
@@ -103,6 +104,7 @@ public class PostsManagement {
 
 		addDataToMenu(model);
 		model.addAttribute("post", returningJSON);
+		model.addAttribute("froalaIsNeed", true);
 
 		return "postdetails";
 	}
@@ -111,6 +113,7 @@ public class PostsManagement {
 	public String returnSortedPostList(Model model, @PathVariable(value = "id") int id,
 			@PathVariable(value = "sort") String sort) {
 		model.addAttribute("sort", sort);
+		model.addAttribute("froalaIsNeed", true);
 		return listPostsById(model, id);
 	}
 
@@ -155,13 +158,14 @@ public class PostsManagement {
 
 	    model.addAttribute("post", new Post());
 		addDataToMenu(model);
+		model.addAttribute("froalaIsNeed", true);
 		return "forms/newPost";
 	}
 
 	@PostMapping("/newPost")
 	public String createNewPostPost(Post post, BindingResult result, Model model) {
-		
-		System.out.println("En verdad si estoy pasando");
+
+
 		
 		int categoryId = Integer.parseInt((String)result.getFieldValue("category"));
 		String hashtagString = (String)result.getFieldValue("hashtags");
@@ -207,6 +211,7 @@ public class PostsManagement {
 				
 
 		addDataToMenu(model);
+		model.addAttribute("froalaIsNeed", true);
 		return "redirect:/post/list/" + post.getId();
 	}
 //////////////////////////////////////////////////////////////////////////////////

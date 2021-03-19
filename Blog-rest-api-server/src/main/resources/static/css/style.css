@@ -4,6 +4,10 @@
 	width: 100%;
 }
 
+.postMainImage{
+	max-width:800px;
+}
+
 .sidebar-item {
 	position: absolute;
 	top: 0;
@@ -12,6 +16,16 @@
 	height: 100%;
 	background: grey;
 }
+
+.postFormatBar{
+
+	background-color:silver;
+	width:100%;
+	margin-left:15px;
+	margin-right:15px;
+	border:1px solid black;
+}
+
 .viewCount{
 	font-size:14px;
 	color:silver;

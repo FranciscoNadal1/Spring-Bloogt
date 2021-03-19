@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/layout :: head">
 </header>
+
 </head>
+
 <body>
 	<header th:replace="fragments/menu :: menu"></header>
 
@@ -36,8 +38,8 @@
 									: </label>
 								<div class="col-sm-12">
 									<input class="form-control" type="text" th:field="*{hashtags}"
-										th:errorclass="'form-control alert-danger'" /> 
-										<!-- 
+										th:errorclass="'form-control alert-danger'" />
+									<!-- 
 										<small
 										class="form-text text-danger"
 										th:if="${#fields.hasErrors('hashtags')}"
@@ -56,7 +58,7 @@
 											th:text="${category.name}" th:value="${category.id}" />
 									</select>
 								</div>
-										<!-- 
+								<!-- 
 								<div th:if="${#fields.hasErrors('category')}"
 									th:errors="*{category}" class="alert alert-danger"></div>
 									-->
@@ -66,14 +68,22 @@
 
 							<div class="row">
 								<label class="col-form-label col-sm-12">Content: </label>
-								<div class="col-sm-12">
-									<textarea rows="10" class="form-control" type="text"
-										th:field="*{content}"
-										th:errorclass="'form-control alert-danger'" />
-									<small class="form-text text-danger"
-										th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
-									</small>
-								</div>
+								
+
+									
+									<div class="col-sm-12">
+										<textarea rows="10" class="form-control" id="PostText" type="text"
+											th:field="*{content}"
+											th:errorclass="'form-control alert-danger'" />
+										<small class="form-text text-danger"
+											th:if="${#fields.hasErrors('content')}"
+											th:errors="*{content}"> </small>
+									</div>
+									<script>
+									  new FroalaEditor('textarea', {
+										    height: 250
+									  })
+									</script>
 							</div>
 
 

@@ -206,27 +206,7 @@ public class Post implements Serializable, Comparable<Post> {
 	}
 
 	public interface PostDetails extends showPosts{
-		
-/*
-		String getId();
 
-		String getTitle();
-
-		String getContent();
-
-		String getCreatedAt();
-
-		List<HashtagShow> getHashtags();
-
-		OnlyUsername getCreatedBy();
-
-		String getImagePost();
-
-		@Value("#{target.getComments().size()}")
-		int getCommentaryCount();
-
-		CategoryName getCategory();
-*/
 	}
 
 	// It will load PostDetails and then add the sorted comments
