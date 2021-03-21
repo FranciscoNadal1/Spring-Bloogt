@@ -53,6 +53,9 @@ public class PostsManagement {
 	@Autowired
 	private IHashtagService hashtagService;
 
+	@Autowired
+	private LocalUtils utils;
+
 	/*
 	 * @Autowired private GeneralRepository generalRepo;
 	 */
@@ -66,8 +69,8 @@ public class PostsManagement {
 		model.addAttribute("titulo", "Latest posts");
 
 		List<showPosts> returningJSON = postService.findAllPostsProjection();
-		addDataToMenu(model);
 
+		utils.addDataToMenu(model, categoryService, hashtagService);
 		model.addAttribute("posts", returningJSON);
 
 		return "allposts";
@@ -102,10 +105,10 @@ public class PostsManagement {
 
 		model.addAttribute("titulo", returningJSON.getTitle());
 
-		addDataToMenu(model);
 		model.addAttribute("post", returningJSON);
 		model.addAttribute("froalaIsNeed", true);
 
+		utils.addDataToMenu(model, categoryService, hashtagService);
 		return "postdetails";
 	}
 
@@ -126,7 +129,8 @@ public class PostsManagement {
 
 		model.addAttribute("titulo", returningJSON.get(0).getName());
 
-		addDataToMenu(model);
+
+		utils.addDataToMenu(model, categoryService, hashtagService);
 
 		model.addAttribute("posts", returningPostJSON);
 
@@ -142,7 +146,7 @@ public class PostsManagement {
 
 		model.addAttribute("titulo", "#" + hashtag);
 
-		addDataToMenu(model);
+		utils.addDataToMenu(model, categoryService, hashtagService);
 		
 		model.addAttribute("posts", returningPostJSON);
 
@@ -157,7 +161,7 @@ public class PostsManagement {
 
 
 	    model.addAttribute("post", new Post());
-		addDataToMenu(model);
+		utils.addDataToMenu(model, categoryService, hashtagService);
 		model.addAttribute("froalaIsNeed", true);
 		return "forms/newPost";
 	}
@@ -210,7 +214,7 @@ public class PostsManagement {
 	    }
 				
 
-		addDataToMenu(model);
+		utils.addDataToMenu(model, categoryService, hashtagService);
 		model.addAttribute("froalaIsNeed", true);
 		return "redirect:/post/list/" + post.getId();
 	}
@@ -241,12 +245,5 @@ public class PostsManagement {
 	
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	public Model addDataToMenu(Model model){
 
-		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
-		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
-		
-		return model;
-		
-	}
 }

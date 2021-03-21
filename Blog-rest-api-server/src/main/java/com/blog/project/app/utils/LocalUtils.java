@@ -4,15 +4,18 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.blog.project.app.errors.NoPayloadDataException;
+import com.blog.project.app.models.service.ICategoryService;
+import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.rest.controllers.UserController;
 
+@Service
 public class LocalUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -53,5 +56,14 @@ public class LocalUtils {
 		}
 	}
 
+
+	
+	public void addDataToMenu(Model model, /*IPostService postService,  IUserService userService, ICommentsService commentService,*/ ICategoryService categoryService, IHashtagService hashtagService){
+
+		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
+		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
+		
+		
+	}
 
 }

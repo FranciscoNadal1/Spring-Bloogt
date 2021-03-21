@@ -1,6 +1,8 @@
 /* Populate tables */
 INSERT INTO user (id, avatar, created_at, password, role, surname,username,email) VALUES(1, 'noAvatar.jpg', "2020-06-09 17:12:00", 'mustSecure', 'ROLE_USER', 'nadal','francisco','francisconadal1@gmail.com');
 INSERT INTO user (id, avatar, created_at, password, role, surname,username,email) VALUES(2, 'noAvatar.jpg', "2019-12-13 11:32:45", 'mustSecure', 'ROLE_USER', 'nadal2','francisco2','francisconadal2@gmail.com');
+INSERT INTO user (username,password, id, avatar, created_at, role, surname,email) VALUES('francisconadal1', '123456', 3, 'noAvatar.jpg', "2019-12-13 11:32:45", 'ROLE_USER', 'nadal2','francisconadal2@gmail.com');
+
 
 INSERT INTO category(id, name) VALUES(1, "Health");
 INSERT INTO category(id, name) VALUES(2, "Science");

@@ -36,6 +36,9 @@ public class UserManagement {
 	@Autowired
 	private IHashtagService hashtagService;
 
+	@Autowired
+	private LocalUtils utils;
+	
 	@GetMapping("/userlist")
 	public String listUsers(Model model) {
 		model.addAttribute("titulo", "List of users");
@@ -43,7 +46,7 @@ public class UserManagement {
 		List<UserData> returningJSON = userService.findAllProjectedBy();
 
 		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		addDataToMenu(model);
+		utils.addDataToMenu(model, categoryService, hashtagService);
 
 		model.addAttribute("users", returningJSON);
 
@@ -65,7 +68,7 @@ public class UserManagement {
 		model.addAttribute("posts", allPostsOfUser);
 
 		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
-		addDataToMenu(model);
+		utils.addDataToMenu(model, categoryService, hashtagService);
 
 		System.out.println(returningJSON.getEmail());
 
@@ -77,7 +80,7 @@ public class UserManagement {
 
 	    model.addAttribute("user", new User());
 		model.addAttribute("titulo", "New User : ");
-		addDataToMenu(model);
+		utils.addDataToMenu(model, categoryService, hashtagService);
 
 		return "forms/createUser";
 	}
@@ -103,20 +106,12 @@ public class UserManagement {
 	    model.addAttribute("user", user);
 		
 	    model.addAttribute("titulo", "New User : ");
-		addDataToMenu(model);
+		utils.addDataToMenu(model, categoryService, hashtagService);
 
 		userService.save(user);
 
 		return "redirect:userlist";
 	}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-	public Model addDataToMenu(Model model) {
 
-		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
-		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
-
-		return model;
-
-	}
 
 }
