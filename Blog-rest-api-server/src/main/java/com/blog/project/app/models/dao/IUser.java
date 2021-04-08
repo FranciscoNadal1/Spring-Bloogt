@@ -11,6 +11,9 @@ import com.blog.project.app.entities.User.UserPosts;
 
 public interface IUser extends BaseRepository <User, Long> {
 
+	
+	User findUserForLoginByUsername(String username);
+	
 	List<UserData> findByEmail(String email);
 	UserData findByUsername(String username);
 	List<UserData> findById(int id);

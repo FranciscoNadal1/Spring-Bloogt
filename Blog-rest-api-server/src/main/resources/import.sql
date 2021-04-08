@@ -1,9 +1,15 @@
 /* Populate tables */
-INSERT INTO user (id, avatar, created_at, password, role, surname,username,email) VALUES(1, 'noAvatar.jpg', "2020-06-09 17:12:00", 'mustSecure', 'ROLE_USER', 'nadal','francisco','francisconadal1@gmail.com');
-INSERT INTO user (id, avatar, created_at, password, role, surname,username,email) VALUES(2, 'noAvatar.jpg', "2019-12-13 11:32:45", 'mustSecure', 'ROLE_USER', 'nadal2','francisco2','francisconadal2@gmail.com');
-INSERT INTO user (username,password, id, avatar, created_at, role, surname,email) VALUES('francisconadal1', '123456', 3, 'noAvatar.jpg', "2019-12-13 11:32:45", 'ROLE_USER', 'nadal2','francisconadal2@gmail.com');
 
 
+# Both passwords are 123456
+INSERT INTO user (id, username, password, avatar, created_at,  surname,email) VALUES(1, 'admin', '$2y$12$SYLrbQlVDMzd85Y12NHXIuPK32cDG5U1/57h0DvrijjcO//IV.rvy', 'noAvatar.jpg', "2019-12-13 11:32:45",  '','admin@SpringBloogt.com');
+INSERT INTO user (id, username, password, avatar, created_at,  surname,email) VALUES(2, 'pleb', '$2y$12$7heln3AQZ6sT2PuJuf7l2u2hespbMx8Kb4zirLRiEpPmyPFnkgbya', 'noAvatar.jpg', "2019-12-13 11:32:45",  '','pleb@SpringBloogt.com');
+
+INSERT INTO `authorities` (user_id, authority) VALUES (1,'ROLE_USER');
+INSERT INTO `authorities` (user_id, authority) VALUES (2,'ROLE_USER');
+INSERT INTO `authorities` (user_id, authority) VALUES (1,'ROLE_MODERATOR');
+INSERT INTO `authorities` (user_id, authority) VALUES (1,'ROLE_ADMIN');
+/*
 INSERT INTO category(id, name) VALUES(1, "Health");
 INSERT INTO category(id, name) VALUES(2, "Science");
 
@@ -41,3 +47,4 @@ INSERT INTO hashtag_post(post_id, hashtag_id) VALUES(6, 1);
 INSERT INTO hashtag_post(post_id, hashtag_id) VALUES(7, 6);
 INSERT INTO hashtag_post(post_id, hashtag_id) VALUES(7, 7);
 INSERT INTO hashtag_post(post_id, hashtag_id) VALUES(7, 8);
+*/

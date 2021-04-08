@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div id="Wrapper">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
+				<div class=" headerPostList"
+					th:text="${#strings.toUpperCase(titulo)}"></div>
+
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Login form</h5>
+						<div class="card-text">
+
+							<form th:action="@{/login}" method="post">
+
+								<label for="username">Username</label> <input
+									class="form-control" type="text" name="username"
+									placeholder="Enter your user name" autofocus required /> <label
+									for="password">Password</label> <input class="form-control"
+									type="password" name="password" placeholder="password"
+									required /> <input type="submit" class="btn btn-primary"
+									name="login" value="Log In" />
+
+
+							</form>
+
+<div id="NotLoggedLoginForm">
+<p>You are not a user yet?</p>
+<p><a th:href="@{/newUser}">Register now!</a></p>
+</div>
+
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+			</div>
+			<div th:replace="fragments/sidebar.html"></div>
+
+		</div>
+	</div>
+	<footer clear-top th:replace="fragments/footer.html"></footer>
+	</div>
+</body>
+</html>

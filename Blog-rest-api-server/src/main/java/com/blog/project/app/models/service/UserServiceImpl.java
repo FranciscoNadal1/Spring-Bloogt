@@ -1,10 +1,20 @@
 package com.blog.project.app.models.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.blog.project.app.entities.Role;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
@@ -12,11 +22,17 @@ import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IUser;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService, UserDetailsService {
 
+	private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	
 	@Autowired
 	private IUser userDao;
 	
+	@Override
+	public User getUserByUsername(String username) {
+		return userDao.findUserForLoginByUsername(username);
+	}
 	@Override
 	public List<User> findAll() {
 		return (List<User>) userDao.findAll();
@@ -37,6 +53,35 @@ public class UserServiceImpl implements IUserService {
 		userDao.deleteById(id);
 
 	}
+///////////////////////////////////////////////////////
+///	Login
+	
+	@Override
+	@Transactional(readOnly=true)
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+        User user = userDao.findUserForLoginByUsername(username);
+        
+        if(user == null) {
+        	logger.error("Username : '" + username + "' is not found on the system");
+        	throw new UsernameNotFoundException("Username: " + username + " doesn't exist!");
+        }
+        
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        
+        for(Role role: user.getRoles()) {
+        	logger.info("Role: ".concat(role.getAuthority()));
+        	authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+        }
+        
+        if(authorities.isEmpty()) {
+        	logger.error("Login error:'" + username + "' has no roles!");
+        	throw new UsernameNotFoundException("Login error: '" + username + "' has no roles!");
+        }
+
+
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+	}
 	
 //////////////////////////////////////////////	
 // CUSTOM
@@ -48,7 +93,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public UserData findByUsername(String username) {
+	public UserData getUserDataByUsername(String username) {
 		return (UserData) userDao.findByUsername(username);
 	}
 
@@ -71,4 +116,6 @@ public class UserServiceImpl implements IUserService {
 	public User findReturnUserById(int id) {
 		return (User) userDao.findReturnUserById(id);
 	}
+
+
 }

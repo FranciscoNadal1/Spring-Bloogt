@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerMapping;
 
+import com.blog.project.app.entities.Role;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
@@ -96,7 +97,7 @@ public class UserController {
 	public UserData getUserByUsername(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable(value = "username") String username) {
 		response.setContentType(contentType);
-		UserData returningJSON = userService.findByUsername(username);
+		UserData returningJSON = userService.getUserDataByUsername(username);
 
 		if (returningJSON.equals(null))
 			LocalUtils.ThrowPayloadEmptyException(request);
@@ -146,7 +147,15 @@ public class UserController {
 		
 		newUser.setName((String) payload.get("name"));
 		newUser.setUsername((String) payload.get("username"));
-		newUser.setRole((String) payload.get("role"));
+	//	newUser.setRole((String) payload.get("role"));
+
+		Role basicRole = new Role();
+		basicRole.setAuthority("ROLE_USER");
+		// We add the fields the user couldn't
+		newUser.getRoles().add(basicRole);
+		
+		
+//		newUser.setRoles(((List<String>) payload.get("roles"));
 		newUser.setAvatar((String) payload.get("avatar"));
 		newUser.setSurname((String) payload.get("surname"));
 		newUser.setPassword((String) payload.get("password"));

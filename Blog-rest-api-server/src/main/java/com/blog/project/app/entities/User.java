@@ -3,11 +3,14 @@ package com.blog.project.app.entities;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,9 +57,15 @@ public class User implements Serializable {
 	@Column(name = "created_at")
 	private Date createdAt;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private List<Role> roles;
+	
+/*
 	@Basic(optional=true)
 	private String role;
-
+*/
+	
 	@OneToMany
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private List<Comments> comments;
@@ -125,12 +134,23 @@ public class User implements Serializable {
 		this.createdAt = created_at;
 	}
 
-	public String getRole() {
-		return role;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public List<String> getUserRoles() {
+		List<String> listString = new LinkedList<>();
+		
+		for(Role role: roles) {
+			listString.add(role.getAuthority());
+		}
+		
+		return listString;
+	}
+	
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public List<Comments> getComments() {
@@ -173,7 +193,8 @@ public class User implements Serializable {
 		String getAvatar();
 		String getSurname();
 		String getEmail();
-		String getRole();
+		
+		List<String> getUserRoles();
 		Date getCreatedAt();
 	}
 
@@ -191,6 +212,7 @@ public class User implements Serializable {
 		String getUsername();
 		List<PostByUser> getPosts();
 	}
+	
 	public interface OnlyUsername {
 		String getId();
 		String getUsername();

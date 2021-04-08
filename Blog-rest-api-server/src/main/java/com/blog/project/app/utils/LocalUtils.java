@@ -6,18 +6,40 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.blog.project.app.errors.NoPayloadDataException;
 import com.blog.project.app.models.service.ICategoryService;
+import com.blog.project.app.models.service.ICommentsService;
 import com.blog.project.app.models.service.IHashtagService;
+import com.blog.project.app.models.service.IPostService;
+import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.rest.controllers.UserController;
 
 @Service
 public class LocalUtils {
 
+	@Autowired
+	private IPostService postService;
+
+	@Autowired
+	private ICategoryService categoryService;
+
+	@Autowired
+	private IUserService userService;
+
+	@Autowired
+	private ICommentsService commentService;
+
+	@Autowired
+	private IHashtagService hashtagService;
+
+	
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	public static void ThrowPayloadEmptyException(HttpServletRequest request) {
@@ -56,7 +78,13 @@ public class LocalUtils {
 		}
 	}
 
+	public void addDataToMenu(Model model){
 
+		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
+		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
+		
+		
+	}
 	
 	public void addDataToMenu(Model model, /*IPostService postService,  IUserService userService, ICommentsService commentService,*/ ICategoryService categoryService, IHashtagService hashtagService){
 

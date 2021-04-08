@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Post;
+import com.blog.project.app.controllers.PostsManagement;
 import com.blog.project.app.entities.Category.CategoryNumberOfPosts;
 import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
@@ -57,6 +59,7 @@ public class PostsController {
 ///////////		GET Methods
 ///////////
 ///////////		Methods to retrieve information
+
 
 	@GetMapping("/getAllPosts")
 	public List<showPosts> getAllPosts(HttpServletResponse response, HttpServletRequest request) {

@@ -18,12 +18,15 @@
 
 						<th>Avatar</th>
 						<th>Username</th>
-						<th>Role</th>
+						<th>Moderator</th>
+						<th>Admin</th>
 
 						<th>Name</th>
 						<th>Surname</th>
 						<th>Email</th>
+						<!-- 
 						<th>Creation Date</th>
+						-->
 
 					</tr>
 					<!-- 								 -->
@@ -32,12 +35,20 @@
 						<td><img src="${user.avatar}" /></td>
 						<td><a th:text="${user.username}"
 							th:href="@{/profile/} + ${user.username}"></a></td>
-						<td th:text="${user.role}"></td>
+						<td >
+							<input th:if="${#lists.contains(user.userRoles, 'ROLE_MODERATOR')}" type="checkbox" checked disabled class="text-center">							
+							<input th:if="!${#lists.contains(user.userRoles, 'ROLE_MODERATOR')}" type="checkbox"  disabled class="text-center">
+						</td>
+						<td >
+							<input th:if="${#lists.contains(user.userRoles, 'ROLE_ADMIN')}" type="checkbox" checked disabled class="text-center">
+							<input th:if="!${#lists.contains(user.userRoles, 'ROLE_ADMIN')}" type="checkbox"  disabled class="text-center">
+						</td>
 						<td th:text="${user.name}"></td>
 						<td th:text="${user.surname}"></td>
 						<td th:text="${user.email}"></td>
+						<!--  
 						<td th:text="${user.createdAt}"></td>
-
+						-->
 					</tr>
 					<!--								 -->
 				</tbody>

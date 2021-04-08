@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.blog.project.app.entities.Category.CategoryList;
+import com.blog.project.app.entities.Role;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
@@ -57,7 +58,7 @@ public class UserManagement {
 	public String userProfile(Model model, @PathVariable(value = "username") String username) {
 		model.addAttribute("titulo", "Profile");
 
-		UserData returningJSON = userService.findByUsername(username);
+		UserData returningJSON = userService.getUserDataByUsername(username);
 		int idUser = Integer.parseInt(returningJSON.getId());
 
 		List<UserComments> allCommentsOfUser = userService.findAllCommentsOfUserProjectedById(idUser);
@@ -89,8 +90,11 @@ public class UserManagement {
 	@PostMapping("/newUser")
 	public String submitCreateUser(@Valid User user, BindingResult result, Model model) {
 
+		Role basicRole = new Role();
+		basicRole.setAuthority("ROLE_USER");
 		// We add the fields the user couldn't
-		user.setRole("ROLE_USER");
+		user.getRoles().add(basicRole);
+		//user.add("ROLE_USER");
 		user.setCreatedAt(LocalUtils.getActualDate());
 		///////////////////////////////////////////////
 		

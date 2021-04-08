@@ -1,5 +1,6 @@
 package com.blog.project.app.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -8,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +30,8 @@ import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateAsc;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateDesc;
 import com.blog.project.app.entities.Post.showPosts;
+import com.blog.project.app.entities.User;
+import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.ICommentsService;
 import com.blog.project.app.models.service.IHashtagService;
@@ -64,7 +70,7 @@ public class PostsManagement {
 		return listPost(model);
 	}
 
-	@GetMapping("/list")
+	@GetMapping(value={"/list","/"})
 	public String listPost(Model model) {
 		model.addAttribute("titulo", "Latest posts");
 
@@ -152,6 +158,7 @@ public class PostsManagement {
 
 		return "allposts";
 	}
+	
 	@GetMapping("/newPost")
 	public String createNewPost(Model model) {
 
@@ -168,8 +175,10 @@ public class PostsManagement {
 
 	@PostMapping("/newPost")
 	public String createNewPostPost(Post post, BindingResult result, Model model) {
-
-
+		
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUserUsername = loggedInUser.getName();
+		User loggedUser = userService.getUserByUsername(loggedUserUsername);
 		
 		int categoryId = Integer.parseInt((String)result.getFieldValue("category"));
 		String hashtagString = (String)result.getFieldValue("hashtags");
@@ -183,8 +192,9 @@ public class PostsManagement {
 		post.setCategory(categoryToInsert);
 		post.setCreatedAt(LocalUtils.getActualDate());
 		// TODO Should be created by the user that is LoggedIN!!!!
-		post.setCreatedBy(userService.findReturnUserById(1));
-
+		
+		post.setCreatedBy(loggedUser);
+		
 	    postService.savePost(post);
 		
 	    StringTokenizer tokenizer = new StringTokenizer(hashtagString, ",");
@@ -222,7 +232,10 @@ public class PostsManagement {
 
 	@PostMapping("/sendComment")
 	public String newComment(HttpServletRequest request, Model model) {
-		System.out.println();
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUserUsername = loggedInUser.getName();
+		User loggedUser = userService.getUserByUsername(loggedUserUsername);
+		
 
 		String getPostId = null;
 		StringTokenizer tokenizer = new StringTokenizer(request.getHeader("Referer"), "//");
@@ -235,7 +248,7 @@ public class PostsManagement {
 		String commentContent = request.getParameter("content");
 
 // TODO User must be the one that is logged in
-		Comments newComment = new Comments(commentContent, userService.findReturnUserById(1),
+		Comments newComment = new Comments(commentContent, loggedUser,
 				postService.findReturnPostById(Integer.parseInt(getPostId)));
 
 		commentService.save(newComment);

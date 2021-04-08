@@ -58,12 +58,8 @@
 
 
 
-					<!-- 	
-		<div class="card-footer text-muted" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy HH:mm')}">2 days ago</div>
-		
-		 -->
 
-					<div class="form-group  border-top pt-3 pl-3 pr-3">
+					<div  sec:authorize="isAuthenticated()" class="form-group  border-top pt-3 pl-3 pr-3">
 						<form th:action="@{/post/sendComment}" method="post">
 							<label for="comment">Add comment:</label>
 							<textarea class="form-control mb-1" rows="5" id="comment"
@@ -72,7 +68,11 @@
 								name="content" value="Send comment" />
 						</form>
 					</div>
-
+					
+					
+					<div  sec:authorize="!isAuthenticated()" class="form-group  border-top pt-3 pl-3 pr-3">
+					<div id="OnlyLoggedUsersCanPost">Only logged users can post new comments</div>
+					</div>
 
 
 
@@ -97,9 +97,9 @@
 									<a th:text="${comment.message}"></a>
 								</div>
 								<div class="card-footer text-muted">
-									<span th:text="'Author : '"></span><a
-										th:href="@{/profile/} + ${post.createdBy.username}"
-										th:text="${post.createdBy.username}"></a>
+									<span th:text="'Written by : '"></span><a
+										th:href="@{/profile/} + ${comment.createdBy.username}"
+										th:text="${comment.createdBy.username}"></a>
 								</div>
 								<div class="card-footer text-muted"
 									th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
