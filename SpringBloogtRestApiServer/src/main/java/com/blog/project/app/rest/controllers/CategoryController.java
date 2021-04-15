@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,9 @@ import com.blog.project.app.entities.Category.CategoryDetails;
 import com.blog.project.app.entities.Category.CategoryList;
 import com.blog.project.app.entities.Category.CategoryNumberOfPosts;
 import com.blog.project.app.errors.NoPayloadDataException;
+import com.blog.project.app.errors.UnauthorizedArea;
 import com.blog.project.app.models.service.ICategoryService;
+import com.blog.project.app.rest.auth.JWTHandler;
 import com.blog.project.app.utils.LocalUtils;
 
 import net.minidev.json.JSONObject;
@@ -32,11 +35,15 @@ import net.minidev.json.JSONObject;
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
 	@Autowired
 	private ICategoryService categoryService;
 
+	@Autowired
+	private JWTHandler jwtHandler;
+	
 	private String contentType = "application/json";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,8 +94,11 @@ public class CategoryController {
 
 	@PostMapping("/newCategory")
 	public JSONObject createCategory(HttpServletResponse response, HttpServletRequest request,
-			@RequestBody Map<String, Object> payload) {
-
+			@RequestBody Map<String, Object> payload, @RequestHeader(value="Authorization", required=false) String authorization) {
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_MODERATOR", "ROLE_ADMIN"))
+			throw new UnauthorizedArea();
+		
 		if (payload.isEmpty())
 			throw new NoPayloadDataException();
 
@@ -116,8 +126,11 @@ public class CategoryController {
 
 	@PutMapping("/updateCategory/{id}")
 	public JSONObject updateCategoryById(HttpServletResponse response, HttpServletRequest request,
-			@RequestBody Map<String, Object> payload, @PathVariable(value = "id") int id) {
+			@RequestBody Map<String, Object> payload, @PathVariable(value = "id") int id, @RequestHeader(value="Authorization", required=false) String authorization) {
 
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_MODERATOR", "ROLE_ADMIN"))
+			throw new UnauthorizedArea();
+		
 		if (payload.isEmpty())
 			throw new NoPayloadDataException();
 
@@ -148,7 +161,10 @@ public class CategoryController {
 	@DeleteMapping("/deleteCategory/{id}")
 	@Transactional
 	public JSONObject deleteCategoryById(HttpServletResponse response, HttpServletRequest request,
-			@RequestBody Map<String, Object> payload, @PathVariable(value = "id") int id) {
+			@RequestBody Map<String, Object> payload, @PathVariable(value = "id") int id, @RequestHeader(value="Authorization", required=false) String authorization) {
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_ADMIN"))
+			throw new UnauthorizedArea();
 
 		CategoryNumberOfPosts returningJSON = categoryService.findAllnumberOfPostsById(id);
 		if (returningJSON.getPostCount() != 0)
