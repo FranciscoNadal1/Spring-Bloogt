@@ -50,8 +50,6 @@ public class JsonWebTokenHandler implements JWTHandler {
 		if (!passwordIsFromUser(username, password))
 			throw new RuntimeException("Token could not be generated");
 
-		// SecretKey secretKey = new SecretKeySpec(SECRET_KEY.getBytes(),
-		// SignatureAlgorithm.HS256.getJcaName());
 
 		String token = Jwts.builder().setSubject(username)
 				.claim("authorities",
@@ -125,7 +123,16 @@ public class JsonWebTokenHandler implements JWTHandler {
 
 		return responseJson;
 	}
-
+	@Override
+	public String getUsernameFromJWT(String jwt) {
+		if (this.isTokenValid(jwt)) {
+			JSONObject responseJson = getJsonOfToken(jwt);			
+			return (String) responseJson.get("sub");
+		}
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	private List<GrantedAuthority> getRolesFromUser(String username) {
 		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("");
@@ -173,4 +180,6 @@ public class JsonWebTokenHandler implements JWTHandler {
 		else
 			return false;
 	}
+
+
 }

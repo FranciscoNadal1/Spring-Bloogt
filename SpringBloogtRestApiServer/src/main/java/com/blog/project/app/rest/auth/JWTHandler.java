@@ -12,4 +12,5 @@ public interface JWTHandler {
 	public boolean isTokenValid(String jwt);
 	public JSONObject getJsonOfToken(String jwt);
 	public boolean containsRole(String jwt, String ... role);
+	public String getUsernameFromJWT(String jwt);
 }

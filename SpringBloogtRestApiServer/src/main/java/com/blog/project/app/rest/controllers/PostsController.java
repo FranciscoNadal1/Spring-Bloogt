@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Post;
-import com.blog.project.app.controllers.PostsManagement;
-import com.blog.project.app.entities.Category.CategoryNumberOfPosts;
 import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
+import com.blog.project.app.entities.User;
 import com.blog.project.app.errors.NoPayloadDataException;
 import com.blog.project.app.errors.UnauthorizedArea;
 import com.blog.project.app.models.service.ICategoryService;
@@ -104,6 +103,9 @@ public class PostsController {
 		
 		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER")  )
 			throw new UnauthorizedArea();
+		
+		
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
 
 		if (payload.isEmpty())
 			throw new NoPayloadDataException();
@@ -112,24 +114,34 @@ public class PostsController {
 
 		Post newPost = new Post();
 
+//		Can upload the category of the post by ID or by the category name, depending if they are a number or a string
+			String categoryNameOrId = (String) payload.get("category");
+//		Can upload the category of the post by ID or by the category name, depending if they are a number or a string
+				Category categoryOfPost = null;
+				if (LocalUtils.isNumeric(categoryNameOrId)) {
+					categoryOfPost = categoryService.findCategoryById(Integer.parseInt(categoryNameOrId));
+					newPost.setCategory(categoryOfPost);
+				}
+				else {
+					categoryOfPost = categoryService.findCategoryByName(categoryNameOrId);
+					newPost.setCategory(categoryOfPost);
+				}
+				if(categoryOfPost == null) 
+					throw new RuntimeException("Post must have a category");
+				
+				
+		
+		
+		
 		String postTitle = (String) payload.get("title");
-
-//	Can upload the category of the post by ID or by the category name, depending if they are a number or a string
-		String categoryNameOrId = (String) payload.get("category");
-
 		newPost.setTitle(postTitle);
 		newPost.setContent((String) payload.get("content"));
 		newPost.setTimesViewed(0);
 		newPost.setCreatedAt((Date) LocalUtils.getActualDate());
-		// TODO Should be sent by the one that is logged!!!
-		newPost.setCreatedBy(userService.findReturnUserById(1));
+		newPost.setCreatedBy(authenticatedUser);
 		newPost.setImagePost((String) payload.get("imagePost"));
 
-//	Can upload the category of the post by ID or by the category name, depending if they are a number or a string
-		if (LocalUtils.isNumeric(categoryNameOrId))
-			newPost.setCategory(categoryService.findCategoryById(Integer.parseInt(categoryNameOrId)));
-		else
-			newPost.setCategory(categoryService.findCategoryByName(categoryNameOrId));
+
 
 		postService.savePost(newPost);
 
