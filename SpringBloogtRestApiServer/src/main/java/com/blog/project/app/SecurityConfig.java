@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.blog.project.app.auth.LoginSuccessHandler;
 import com.blog.project.app.models.service.UserServiceImpl;
@@ -32,16 +34,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return bCryptPasswordEncoder;
     }
     
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/api/**");
+    }
+    
 	protected void configure(HttpSecurity http) throws Exception {
-	//	http.authorizeRequests().antMatchers("/post/**", "/**").anonymous().anyRequest().authenticated();
+
 		http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/images/**").permitAll()
 		.anyRequest().permitAll()
 		.and()
 			.formLogin().loginPage("/login").successHandler(successHandler).permitAll()
-		.and().csrf().disable()
+		.and()
 		.logout().permitAll()
-		
 		;
+
 		
 	}
 	@Autowired
