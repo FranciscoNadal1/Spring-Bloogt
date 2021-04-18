@@ -56,7 +56,29 @@ public class UserManagement {
 
 	@GetMapping("/profile/{username}")
 	public String userProfile(Model model, @PathVariable(value = "username") String username) {
-		model.addAttribute("titulo", "Profile");
+		
+		
+		User loggedUser = null;
+		try {
+		 loggedUser = userService.getLoggedUser();
+		}catch(Exception e) {
+
+		}
+		List<User> followedBy = userService.getUsersThatFollowUser(username);
+		
+		if(followedBy.contains(loggedUser))
+			model.addAttribute("followingThisUser", true);
+		else
+			model.addAttribute("followingThisUser", false);
+			
+			
+		
+		if(loggedUser.getUsername().equals(username))
+			model.addAttribute("titulo", "Your profile");			
+		else
+			model.addAttribute("titulo", "Profile");
+		
+		
 
 		UserData returningJSON = userService.getUserDataByUsername(username);
 		int idUser = Integer.parseInt(returningJSON.getId());
@@ -69,6 +91,9 @@ public class UserManagement {
 		model.addAttribute("posts", allPostsOfUser);
 
 		List<CategoryList> categoriesForMenu = categoryService.findAllProjectedBy();
+
+		model.addAttribute("followedBy", followedBy);
+		
 		utils.addDataToMenu(model, categoryService, hashtagService);
 
 		System.out.println(returningJSON.getEmail());
@@ -85,7 +110,20 @@ public class UserManagement {
 
 		return "forms/createUser";
 	}
-	
+
+	@GetMapping("/follow/{username}")
+	public String followUser(Model model, @PathVariable(value = "username") String username) {
+		
+		
+		userService.followUser(username);
+
+	   // model.addAttribute("user", new User());
+		model.addAttribute("titulo", "New User : ");
+		utils.addDataToMenu(model, categoryService, hashtagService);
+
+		return "redirect:/profile/" + username;
+	}
+
 	
 	@PostMapping("/newUser")
 	public String submitCreateUser(@Valid User user, BindingResult result, Model model) {

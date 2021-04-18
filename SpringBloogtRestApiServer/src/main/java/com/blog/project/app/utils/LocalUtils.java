@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerMapping;
 
+import com.blog.project.app.entities.User;
 import com.blog.project.app.errors.NoPayloadDataException;
 import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.ICommentsService;
@@ -93,5 +96,7 @@ public class LocalUtils {
 		
 		
 	}
+	
+
 
 }

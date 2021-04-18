@@ -2,6 +2,8 @@ package com.blog.project.app.models.service;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
+
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
@@ -33,4 +35,11 @@ public interface IUserService {
 
 	//User Posts
 	public List<UserPosts> findAllPostsOfUserProjectedById(int id);
+	
+	////////////////////////////////////////////////////////////////
+	public User getLoggedUser();
+	
+	
+	public List<User> getUsersThatFollowUser(String username);
+	public void followUser(String username);
 }

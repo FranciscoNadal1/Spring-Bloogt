@@ -32,9 +32,43 @@
 					</ul>
 
 				</div>
+					<div sec:authorize="isAuthenticated()" class="profileButtons">
+					<div class="followButton">					
+						<a th:if="${followingThisUser} == false and ${#authentication.name} != ${user.username}" th:href="@{'/follow/' + ${user.username}}">Follow</a>
+						<a th:if="${followingThisUser} == true">You already following this user</a>
+					</div>
+
+
+					</div>
 			</div>
 
+			<div class="card mt-3 mb-3 rounded">
+				<div class="card-header " th:text="'Following : ' + ${#lists.size(user.following)}">Following</div>
+				<div class="card-body  border border-light">
+				 
+						<div th:each="following, iterStat: ${user.following}" >						
+								<span th:text="${following.username}"></span>
 
+						</div>		
+						 
+					</div>
+				</div>
+				
+				
+			<div class="card mt-3 mb-3 rounded">
+				<div class="card-header " th:text="'Followed by : ' + ${#lists.size(followedBy)}">Followers</div>
+				<div class="card-body  border border-light">
+				 
+						<div th:each="followed, iterStat: ${followedBy}" >						
+								<span th:text="${followed.username}"></span>
+
+						</div>		
+						 
+					</div>
+				</div>
+				
+				
+				
 			<div class="card mt-3 mb-3 rounded">
 				<div class="card-header ">Created posts</div>
 				<div class="card-body  border border-light">

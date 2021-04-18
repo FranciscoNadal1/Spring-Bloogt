@@ -175,10 +175,14 @@ public class PostsManagement {
 
 	@PostMapping("/newPost")
 	public String createNewPostPost(Post post, BindingResult result, Model model) {
-		
+		/*
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String loggedUserUsername = loggedInUser.getName();
 		User loggedUser = userService.getUserByUsername(loggedUserUsername);
+		*/
+
+		User loggedUser = userService.getLoggedUser();
+		
 		
 		int categoryId = Integer.parseInt((String)result.getFieldValue("category"));
 		String hashtagString = (String)result.getFieldValue("hashtags");

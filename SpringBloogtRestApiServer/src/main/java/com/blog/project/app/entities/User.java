@@ -15,6 +15,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
@@ -60,7 +63,15 @@ public class User implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private List<Role> roles;
-	
+	/*
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "follower_id")
+	private List<User> followers;	
+	*/
+	@ManyToMany
+	@JoinTable(name = "user_following", joinColumns = @JoinColumn(name = "following_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+	private List<User> following;
+
 /*
 	@Basic(optional=true)
 	private String role;
@@ -179,12 +190,31 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	
+	public List<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
 	
+	
+	@Override
+	public String toString() {
+		
+		
+		return "|Username|"+ this.getUsername()+"|";
+	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////
 ///////////		Used to avoid showing all fields
 	
+
+
+
+
+
 	public interface UserData {
 		String getId();
 		
@@ -196,6 +226,7 @@ public class User implements Serializable {
 		
 		List<String> getUserRoles();
 		Date getCreatedAt();
+		List<OnlyUsername> getFollowing();
 	}
 
 

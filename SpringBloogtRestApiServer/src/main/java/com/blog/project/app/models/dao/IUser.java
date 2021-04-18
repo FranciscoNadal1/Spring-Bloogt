@@ -2,6 +2,7 @@ package com.blog.project.app.models.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.blog.project.app.entities.User;
@@ -23,7 +24,12 @@ public interface IUser extends BaseRepository <User, Long> {
 
 	
     User findAuthenticationByUsername(@Param("username") String username);	
+    User findUserByUsername(String username);	
 	User findReturnUserById(int id);
 	List<UserComments> findAllCommentsOfUserProjectedById(int id);
 	List<UserPosts> findAllPostsOfUserProjectedById(int id);
+
+
+	@Query(value = "SELECT user.* FROM user_following, user where user_following.following_id = user.id and user_following.user_id = ?1", nativeQuery = true)					
+	List<User> findFollowingById(int userid);
 }

@@ -6,8 +6,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -117,5 +119,37 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		return (User) userDao.findReturnUserById(id);
 	}
 
+///////////////////////////////////////////////////////////////////////////////////
+	public User getLoggedUser() {
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUserUsername = loggedInUser.getName();
+		User loggedUser = this.getUserByUsername(loggedUserUsername);
+
+		return loggedUser;
+	}
+	
+	@Override
+	public List<User> getUsersThatFollowUser(String username) {
+		User user = userDao.findUserByUsername(username);
+		List<User> userList = userDao.findFollowingById(user.getId());
+		
+		return userList;
+	}
+	
+	@Transactional
+	public void followUser(String username) {
+		User userThatFollows = this.getLoggedUser();
+		User userThatIsFollowed = this.getUserByUsername(username);
+
+		List<User> followedBy = this.getUsersThatFollowUser(username);
+		
+		for(User user : followedBy) 
+			if(user.getUsername().equals(userThatFollows.getUsername())) 
+				return;				
+				
+		userThatFollows.getFollowing().add(userThatIsFollowed);
+		userDao.save(userThatFollows);
+		
+	}
 
 }

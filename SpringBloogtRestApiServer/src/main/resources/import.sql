@@ -4,11 +4,21 @@
 # Both passwords are 123456
 INSERT INTO user (id, username, password, avatar, created_at,  surname,email) VALUES(1, 'admin', '$2y$12$SYLrbQlVDMzd85Y12NHXIuPK32cDG5U1/57h0DvrijjcO//IV.rvy', 'noAvatar.jpg', "2019-12-13 11:32:45",  '','admin@SpringBloogt.com');
 INSERT INTO user (id, username, password, avatar, created_at,  surname,email) VALUES(2, 'pleb', '$2y$12$7heln3AQZ6sT2PuJuf7l2u2hespbMx8Kb4zirLRiEpPmyPFnkgbya', 'noAvatar.jpg', "2019-12-13 11:32:45",  '','pleb@SpringBloogt.com');
+INSERT INTO user (id, username, password, avatar, created_at,  surname,email) VALUES(3, 'moderator', '$2y$12$7heln3AQZ6sT2PuJuf7l2u2hespbMx8Kb4zirLRiEpPmyPFnkgbya', 'noAvatar.jpg', "2019-12-13 11:32:45",  '','moderator@SpringBloogt.com');
+INSERT INTO user (id, username, password, avatar, created_at,  surname,email) VALUES(4, 'regularUser', '$2y$12$7heln3AQZ6sT2PuJuf7l2u2hespbMx8Kb4zirLRiEpPmyPFnkgbya', 'noAvatar.jpg', "2019-12-13 11:32:45",  '','regularuser@SpringBloogt.com');
+
+
+INSERT INTO `user_following` (following_id, user_id) VALUES (1,2);
+INSERT INTO `user_following` (following_id, user_id) VALUES (2,1);
+INSERT INTO `user_following` (following_id, user_id) VALUES (3,1);
 
 INSERT INTO `authorities` (user_id, authority) VALUES (1,'ROLE_USER');
 INSERT INTO `authorities` (user_id, authority) VALUES (2,'ROLE_USER');
 INSERT INTO `authorities` (user_id, authority) VALUES (1,'ROLE_MODERATOR');
 INSERT INTO `authorities` (user_id, authority) VALUES (1,'ROLE_ADMIN');
+INSERT INTO `authorities` (user_id, authority) VALUES (3,'ROLE_MODERATOR');
+INSERT INTO `authorities` (user_id, authority) VALUES (3,'ROLE_USER');
+INSERT INTO `authorities` (user_id, authority) VALUES (4,'ROLE_USER');
 /*
 INSERT INTO category(id, name) VALUES(1, "Health");
 INSERT INTO category(id, name) VALUES(2, "Science");
