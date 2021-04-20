@@ -1,0 +1,908 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Blog Rest Api
+  contact: {}
+host: 'localhost:8998'
+basePath: /api
+securityDefinitions: {}
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /user/getAllUsers:
+    get:
+      summary: GET ALL USERS
+      tags:
+        - UserApis
+      operationId: GETALLUSERS
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /user/getUserByMail/francisconadal1@gmail.com:
+    get:
+      summary: GET user BY mail
+      tags:
+        - UserApis
+      operationId: GETuserBYmail
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /user/getUserById/2:
+    get:
+      summary: GET user BY id
+      tags:
+        - UserApis
+      operationId: GETuserBYid
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /user/getUserByUsername/francisco:
+    get:
+      summary: GET user BY username
+      tags:
+        - UserApis
+      operationId: GETuserBYusername
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /user/getCommentsByUserId/1:
+    get:
+      summary: GET comments by userID
+      tags:
+        - UserApis
+      operationId: GETcommentsbyuserID
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /user/getPostsByUserId/1:
+    get:
+      summary: GET Posts by userID
+      tags:
+        - UserApis
+      operationId: GETPostsbyuserID
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /user/newUser:
+    post:
+      summary: POST Nuevo usuario
+      tags:
+        - UserApis
+      operationId: POSTNuevousuario
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POSTNuevousuarioRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /posts/getAllPosts:
+    get:
+      summary: GET ALL POSTS
+      tags:
+        - PostApis
+      operationId: GETALLPOSTS
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /posts/getPostById/6:
+    get:
+      summary: GET POSTS by ID
+      tags:
+        - PostApis
+      operationId: GETPOSTSbyID
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /posts/newPost:
+    post:
+      summary: POST Create new POST
+      tags:
+        - PostApis
+      operationId: POSTCreatenewPOST
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POSTCreatenewPOSTRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /posts/deletePost/2:
+    delete:
+      summary: DELETE POST by Id
+      tags:
+        - PostApis
+      operationId: DELETEPOSTbyId
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /category/getAllCategories:
+    get:
+      summary: GET ALL Categories
+      tags:
+        - CategoryApi
+      operationId: GETALLCategories
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /category/getCategoryById/1:
+    get:
+      summary: GET CATEGORI by ID
+      tags:
+        - CategoryApi
+      operationId: GETCATEGORIbyID
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /category/getAllPostsByCategoryId:
+    get:
+      summary: GET ALL CATEGORIES AND POSTS
+      tags:
+        - CategoryApi
+      operationId: GETALLCATEGORIESANDPOSTS
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /category/newCategory:
+    post:
+      summary: POST Create new Category
+      tags:
+        - CategoryApi
+      operationId: POSTCreatenewCategory
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POSTCreatenewCategoryRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /category/updateCategory/1:
+    put:
+      summary: PUT UPDATE Category
+      tags:
+        - CategoryApi
+      operationId: PUTUPDATECategory
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/PUTUPDATECategoryRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /category/deleteCategory/3:
+    delete:
+      summary: DELETE Category
+      tags:
+        - CategoryApi
+      operationId: DELETECategory
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/DELETECategoryRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /comments/getAllComments:
+    get:
+      summary: GET ALL Comments
+      tags:
+        - CommentsApi
+      operationId: GETALLComments
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /comments/getCommentById/1:
+    get:
+      summary: GET CATEGORY by ID
+      tags:
+        - CommentsApi
+      operationId: GETCATEGORYbyID
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /comments/newComment:
+    post:
+      summary: POST Create new Comment
+      tags:
+        - CommentsApi
+      operationId: POSTCreatenewComment
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POSTCreatenewCommentRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /hashtags/getAllHashtags:
+    get:
+      summary: GET ALL Hashtags
+      tags:
+        - HashtagsApi
+      operationId: GETALLHashtags
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /hashtags/getHashtagById/1:
+    get:
+      summary: GET ALL Hashtags By Id
+      tags:
+        - HashtagsApi
+      operationId: GETALLHashtagsById
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /hashtags/getPostsOfHashtagById/1:
+    get:
+      summary: GET ALL Post of Hashtags By Id
+      tags:
+        - HashtagsApi
+      operationId: GETALLPostofHashtagsById
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /hashtags/getPostsOfHashtagByName/FirstPost:
+    get:
+      summary: GET ALL Post of Hashtags By Name
+      tags:
+        - HashtagsApi
+      operationId: GETALLPostofHashtagsByName
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /hashtags/newHashtag:
+    post:
+      summary: POST Create new hashtag
+      tags:
+        - HashtagsApi
+      operationId: POSTCreatenewhashtag
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POSTCreatenewhashtagRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /management/checkStatus:
+    get:
+      summary: CHECK STATUS
+      tags:
+        - Managing
+      operationId: CHECKSTATUS
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /login:
+    post:
+      summary: login
+      tags:
+        - Login
+      operationId: login
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/loginrequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /checkRole:
+    post:
+      summary: check role
+      tags:
+        - Login
+      operationId: checkrole
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/checkrolerequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /validateToken:
+    post:
+      summary: validate Token
+      tags:
+        - Login
+      operationId: validateToken
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/validateTokenRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /follows/admin/following:
+    get:
+      summary: getFollowingOfUser
+      tags:
+        - FollowApis
+      operationId: getFollowingOfUser
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /follows/admin/followedBy:
+    get:
+      summary: getFollowedBy
+      tags:
+        - FollowApis
+      operationId: getFollowedBy
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /follows/follow:
+    post:
+      summary: Follow user
+      tags:
+        - FollowApis
+      operationId: Followuser
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/FollowuserRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /follows/unfollow:
+    delete:
+      summary: Unfollow user
+      tags:
+        - FollowApis
+      operationId: Unfollowuser
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          default: 'Bearer {token}'
+          type: string
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/UnfollowuserRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+definitions:
+  POSTNuevousuarioRequest:
+    title: POSTNuevousuarioRequest
+    example:
+      name: 'null'
+      role: ROLE_USER
+      username: Horatio
+      avatar: noAvatar.jpg
+      password: '123123123'
+      surname: nadal
+      email: francisconadal11111111111111@gmail.com
+    type: object
+    properties:
+      name:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+      avatar:
+        type: string
+      password:
+        type: string
+      surname:
+        type: string
+      email:
+        type: string
+    required:
+      - name
+      - role
+      - username
+      - avatar
+      - password
+      - surname
+      - email
+  POSTCreatenewPOSTRequest:
+    title: POSTCreatenewPOSTRequest
+    example:
+      content: |-
+        </br><strong>STRONG</strong>newP
+         ost 
+         u
+      title: Fourthu POST Fourthu POSTeeee
+      createdAt: '2021-11-06 18:06:12.0'
+      category: '1'
+      hashtags:
+        - EYYYY
+      imagePost: null
+    type: object
+    properties:
+      content:
+        type: string
+      title:
+        type: string
+      createdAt:
+        type: string
+      category:
+        type: string
+      hashtags:
+        type: array
+        items:
+          type: string
+      imagePost:
+        type: string
+    required:
+      - content
+      - title
+      - createdAt
+      - category
+      - hashtags
+      - imagePost
+  POSTCreatenewCategoryRequest:
+    title: POSTCreatenewCategoryRequest
+    example:
+      name: Actualidadggg
+    type: object
+    properties:
+      name:
+        type: string
+    required:
+      - name
+  PUTUPDATECategoryRequest:
+    title: PUTUPDATECategoryRequest
+    example:
+      name: ola k ase
+    type: object
+    properties:
+      name:
+        type: string
+    required:
+      - name
+  DELETECategoryRequest:
+    title: DELETECategoryRequest
+    example:
+      name: ola k ase
+    type: object
+    properties:
+      name:
+        type: string
+    required:
+      - name
+  POSTCreatenewCommentRequest:
+    title: POSTCreatenewCommentRequest
+    example:
+      message: Como va todo
+      user_id: 1
+      post_id: 1
+    type: object
+    properties:
+      message:
+        type: string
+      user_id:
+        type: integer
+        format: int32
+      post_id:
+        type: integer
+        format: int32
+    required:
+      - message
+      - user_id
+      - post_id
+  POSTCreatenewhashtagRequest:
+    title: POSTCreatenewhashtagRequest
+    example:
+      name: News
+    type: object
+    properties:
+      name:
+        type: string
+    required:
+      - name
+  loginrequest:
+    title: loginrequest
+    example:
+      username: admin
+      password: '123456'
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password
+  checkrolerequest:
+    title: checkrolerequest
+    example:
+      token: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwbGViIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTYxODUyNzczOSwiZXhwIjoxNjE4NTI4MzM5fQ._lrB-0MUwOifuYqBkk72BSJ8bfQusbodaBsGao-2NI-7rN4mRJDdHIpOvHvuDnqZ
+    type: object
+    properties:
+      token:
+        type: string
+    required:
+      - token
+  validateTokenRequest:
+    title: validateTokenRequest
+    example:
+      token: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iLCJST0xFX01PREVSQVRPUiIsIlJPTEVfVVNFUiJdLCJpYXQiOjE2MTg5NTgxMzgsImV4cCI6MTYxODk1ODczOH0.r6tjA0XvKXlJy94Xz0tr1-H6WNMd_pfnu69xksrDdIHw0TVPEwSFtXWwtFKsYxC7
+    type: object
+    properties:
+      token:
+        type: string
+    required:
+      - token
+  FollowuserRequest:
+    title: FollowuserRequest
+    example:
+      username: pleb
+    type: object
+    properties:
+      username:
+        type: string
+    required:
+      - username
+  UnfollowuserRequest:
+    title: UnfollowuserRequest
+    example:
+      username: pleb
+    type: object
+    properties:
+      username:
+        type: string
+    required:
+      - username
+tags:
+  - name: UserApis
+  - name: PostApis
+  - name: CategoryApi
+  - name: CommentsApi
+  - name: HashtagsApi
+  - name: Managing
+  - name: Login
+  - name: FollowApis
