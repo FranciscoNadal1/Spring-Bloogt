@@ -89,7 +89,7 @@ html, body {
 
 #Wrapper, .brandLogo, #navbarSupportedContent{
 	position: relative;
-    width: 1280px;
+    width: 1650px;
     margin: 0 auto;
 }
 
@@ -199,3 +199,17 @@ body {
 	background-repeat: no-repeat, repeat-y;
 	*/
 }
+
+/*
+##################################################################################################################################
+*/
+.newUnreadMessages{
+	background-color:grey;
+	text-color:white;
+}
+.noNewMessages{
+	background-color:white;
+	text-color:grey;
+	
+}
+

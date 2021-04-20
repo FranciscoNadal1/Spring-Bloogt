@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div id="Wrapper">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
+				<div class=" headerPostList"
+					th:text="${#strings.toUpperCase(titulo)}"></div>
+
+				<div class="post-list card bg-white">
+					<div class="card-body">
+
+						<div class="chatListEach" th:each="chat : ${chatList}">
+							<a th:href="@{'/chat/' + ${chat.id}}">
+								<div class="border"  th:class="${mapChatNumberUnread.get(chat.id)} > 0 ? newUnreadMessages : noNewMessages" >
+									
+									<div class="chatWith" th:each="user : ${chat.usersInvolved}">
+										<div th:if="${#authentication.getPrincipal().getUsername()} != ${user.username}" >
+										<h2>
+										<span th:text="'Chat with : ' + ${user.username}"/>
+										
+										</h2>
+										</div>
+									</div>
+									<div class="chatCreatedAt" th:text="'Created at :' + ${chat.createdAt} "></div>
+									<div th:text="'Unread messages : ' + ${mapChatNumberUnread.get(chat.id)}"></div>
+								</div>
+							</a>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+			<div th:replace="fragments/sidebar.html"></div>
+
+		</div>
+	</div>
+	<footer clear-top th:replace="fragments/footer.html"></footer>
+	</div>
+</body>
+</html>

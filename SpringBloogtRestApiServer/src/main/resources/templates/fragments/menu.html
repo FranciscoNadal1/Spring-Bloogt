@@ -50,6 +50,15 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav navbar-right">
+					<li sec:authorize="isAuthenticated()">
+						<a th:href="@{'/chatList'}">
+							<span class="text-danger" th:text="${unreadMessages}"></span>
+							<img th:if ="${unreadMessages} > 0" height="40px" width="40px" src="http://pngimg.com/uploads/envelope/envelope_PNG18366.png" />
+							<img th:if ="${unreadMessages} == 0" height="40px" width="40px" src="http://geekfluent.com/wp-content/uploads/2017/03/Open-Letter.png" />
+							
+							
+						</a>
+					</li>
 					<li sec:authorize="!isAuthenticated()">
 						<a class="btn btn-outline-success" th:href="@{/login}">Sign In</a>
 					</li>

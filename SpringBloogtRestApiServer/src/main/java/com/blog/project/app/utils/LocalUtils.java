@@ -16,6 +16,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.errors.NoPayloadDataException;
 import com.blog.project.app.models.service.ICategoryService;
+import com.blog.project.app.models.service.IChatMessageService;
 import com.blog.project.app.models.service.ICommentsService;
 import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.models.service.IPostService;
@@ -40,6 +41,8 @@ public class LocalUtils {
 	@Autowired
 	private IHashtagService hashtagService;
 
+	@Autowired
+	private IChatMessageService chatService;
 	
 	
 	
@@ -85,7 +88,8 @@ public class LocalUtils {
 
 		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
 		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
-		
+
+		model.addAttribute("unreadMessages", chatService.getUnreadMessages());
 		
 	}
 	
@@ -93,6 +97,8 @@ public class LocalUtils {
 
 		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
 		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
+		
+		model.addAttribute("unreadMessages", chatService.getUnreadMessages());
 		
 		
 	}

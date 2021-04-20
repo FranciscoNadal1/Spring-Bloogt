@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div id="Wrapper">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
+				<div class=" headerPostList" th:text="${#strings.toUpperCase(titulo)}"></div>
+				<div class="post-list card bg-white">
+					<div class="card-body">
+					
+					
+					
+<h2>
+Send message to <span th:text="${username}"></span>
+</h2>
+				
+				<form method="POST"  modelAttribute="newMessage" th:action="@{/newmessage} + '/'+ ${username}">
+				
+				<textarea type="text" name="message" value="Send message" rows="10" cols="70"></textarea>
+				<input type="submit" class="btn btn-primary btn-lg btn-block" value="Send message">
+				</form>
+				
+				
+				
+</div>
+</div>
+			</div>
+			<div th:replace="fragments/sidebar.html"></div>
+
+		</div>
+	</div>
+	<footer clear-top th:replace="fragments/footer.html"></footer>
+	</div>
+</body>
+</html>

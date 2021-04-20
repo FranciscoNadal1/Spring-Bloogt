@@ -77,6 +77,7 @@ public class PostsManagement {
 		List<showPosts> returningJSON = postService.findAllPostsProjection();
 
 		utils.addDataToMenu(model, categoryService, hashtagService);
+
 		model.addAttribute("posts", returningJSON);
 
 		return "allposts";

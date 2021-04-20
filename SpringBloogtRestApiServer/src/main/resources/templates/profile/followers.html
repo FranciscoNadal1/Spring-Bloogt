@@ -13,7 +13,31 @@
 					th:text="${#strings.toUpperCase(titulo)}"></div>
 
 				<div class="post-list card bg-white">
-					<div class="card-body"></div>
+					<div class="card-body">
+					
+					
+<table class="table table-bordered">
+<thead>
+  <tr>
+    <th class="tg-0lax">Avatar</th>
+    <th class="tg-0lax">Name</th>
+    <th class="tg-0lax"></th>
+  </tr>
+  <tr th:each="user : ${followedBy}">
+	  <td th:text="${user.avatar}"></td>
+	  <td th:text="${user.username}"></td>
+	  <td>es</td>
+    
+  </tr>
+</thead>
+</table>
+					
+					
+					
+					
+					
+					
+					</div>
 				</div>
 			</div>
 			<div th:replace="fragments/sidebar.html"></div>

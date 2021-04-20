@@ -9,6 +9,9 @@
 
 	<div id="Wrapper">
 	<div class="container-fluid">
+	
+		<div th:replace="fragments/userSidebar.html"></div> 
+				
 		<div id="content-section" class="float-left col-8">
 			<div class="card bg-light">
 				<div class="card-header" th:text="${titulo}"></div>
@@ -37,7 +40,10 @@
 						<a th:if="${followingThisUser} == false and ${#authentication.name} != ${user.username}" th:href="@{'/follow/' + ${user.username}}">Follow</a>
 						<a th:if="${followingThisUser} == true">You already following this user</a>
 					</div>
-
+					<div class="messageButton">					
+						<a th:if="${#authentication.name} != ${user.username}" th:href="@{'/newchat/' + ${user.username}}">Message</a>
+						<a th:if="${followingThisUser} == true"></a>
+					</div>
 
 					</div>
 			</div>
@@ -48,7 +54,6 @@
 				 
 						<div th:each="following, iterStat: ${user.following}" >						
 								<span th:text="${following.username}"></span>
-
 						</div>		
 						 
 					</div>
@@ -110,7 +115,9 @@
 					</div>
 				</div>
 			</div>
-				<div th:replace="fragments/sidebar.html"></div>
+			
+				
+				
 			</div>
 </div>
 			<footer th:replace="fragments/footer.html"></footer>

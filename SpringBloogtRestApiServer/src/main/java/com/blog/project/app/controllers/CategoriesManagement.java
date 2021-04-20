@@ -24,39 +24,6 @@ public class CategoriesManagement {
 	@Autowired
 	private static ICategoryService staticCategoryService;
 
-	/*
-
-	@GetMapping("/userlist")
-	public String listUsers(Map<String, Object> model) {
-		model.put("titulo", "List of users" );
-		
-
-		List<UserData> returningJSON = userService.findAllProjectedBy();
-
-		model.put("users", returningJSON );
-		
-		return "listofusers";
-	}
-	@GetMapping("/profile/{username}")
-	public String userProfile(Map<String, Object> model,
-			@PathVariable(value = "username") String username) {
-		model.put("titulo", "Profile" );
-		
-		UserData returningJSON = userService.findByUsername(username);		
-		int idUser = Integer.parseInt(returningJSON.getId());
-		
-		List<UserComments> allCommentsOfUser 	= 	userService.findAllCommentsOfUserProjectedById(idUser);
-		List<UserPosts> allPostsOfUser 			= 	userService.findAllPostsOfUserProjectedById(idUser);
-		
-		model.put("user", returningJSON );
-		model.put("comments", allCommentsOfUser );
-		model.put("posts", allPostsOfUser );
-		
-		System.out.println(returningJSON.getEmail());
-		
-		return "profile";
-	}
-	*/
 	
 	public static List<CategoryList> staticCategoryList(){
 		
@@ -65,9 +32,4 @@ public class CategoriesManagement {
 		return returningJSON;		
 	}
 	
-	
-	public static String doWhatever(){
-		
-		return "ey";		
-	}
 }

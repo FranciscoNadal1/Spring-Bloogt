@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -25,6 +26,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.Comments.ShowComments;
 import com.blog.project.app.entities.Post.PostByUser;
+import com.blog.project.app.entities.chat.Chat;
 
 @Entity
 public class User implements Serializable {
@@ -42,8 +44,6 @@ public class User implements Serializable {
 	
 	@NotEmpty
 	private String surname;
-	
-
 
 	@NotEmpty
 	private String email;
@@ -63,19 +63,16 @@ public class User implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private List<Role> roles;
-	/*
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "follower_id")
-	private List<User> followers;	
-	*/
+
+
 	@ManyToMany
 	@JoinTable(name = "user_following", joinColumns = @JoinColumn(name = "following_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<User> following;
 
-/*
-	@Basic(optional=true)
-	private String role;
-*/
+	@ManyToMany(cascade = CascadeType.ALL)	
+	private List<Chat> chats;
+
+
 	
 	@OneToMany
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -199,6 +196,14 @@ public class User implements Serializable {
 	}
 	
 	
+	public List<Chat> getChats() {
+		return chats;
+	}
+
+	public void setChats(List<Chat> chats) {
+		this.chats = chats;
+	}
+
 	@Override
 	public String toString() {
 		

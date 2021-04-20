@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div id="Wrapper">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
+				<div class=" headerPostList"
+					th:text="${#strings.toUpperCase(titulo)}"></div>
+
+				<div class="post-list card bg-white">
+					<div class="card-body">
+
+
+									
+									<h2>Messages</h2>
+									
+									<div class="messages">
+										<div th:each="message : ${chat.messages}">
+										
+											<div th:if="${message.author.username} == ${chattingWith}" class="d-flex flex-row">
+												<div class="border col-8 left bg-success p-2" th:text="${message.message}"></div>
+												<div class=" col-4 left" >												
+												<span th:text="${message.author.username}"></span>
+												 - 
+												<span th:text="${message.createdAt}"></span>
+												
+												</div>												
+											</div>			
+																			
+											<div th:if="${message.author.username} != ${chattingWith}" class="d-flex flex-row-reverse">
+												<div class="border col-8 right bg-primary p-2 align-right" th:text="${message.message}"></div>
+												<div class=" col-4 right" >												
+												<span th:text="${message.author.username}"></span>
+												 - 
+												<span th:text="${message.createdAt}"></span>
+												
+												</div>
+											</div>										
+											
+											
+											
+										</div>
+									</div>
+									<form method="POST" th:action="@{'/sendMessageToChat/' + ${chat.id}}">
+									<textarea name="answer" ></textarea>
+									<input type="submit" value="Answer"/>
+									</form>
+									
+<!-- 						
+						<div th:each="chat : ${chatList}">
+							<a th:href="@{'/profile/' + ${username} + '/chat/' + ${chat.id}}">
+								<div class="border">
+									<div th:text="'Created at :' + ${chat.createdAt} "></div>
+									<div th:each="user : ${chat.usersInvolved}">
+										<div th:if="${username} != ${user.username}" th:text="'Chat with : ' + ${user.username}"></div>
+									</div>
+								</div>
+							</a>
+						</div>
+-->
+
+					</div>
+				</div>
+			</div>
+			<div th:replace="fragments/sidebar.html"></div>
+
+		</div>
+	</div>
+	<footer clear-top th:replace="fragments/footer.html"></footer>
+	</div>
+</body>
+</html>

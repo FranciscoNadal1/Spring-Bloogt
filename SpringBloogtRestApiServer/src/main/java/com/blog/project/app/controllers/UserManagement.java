@@ -19,7 +19,9 @@ import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.entities.User.UserPosts;
+import com.blog.project.app.entities.chat.Chat;
 import com.blog.project.app.models.service.ICategoryService;
+import com.blog.project.app.models.service.IChatMessageService;
 import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.utils.LocalUtils;
@@ -36,6 +38,9 @@ public class UserManagement {
 
 	@Autowired
 	private IHashtagService hashtagService;
+	
+	@Autowired
+	private IChatMessageService chatMessageService;
 
 	@Autowired
 	private LocalUtils utils;
@@ -53,7 +58,31 @@ public class UserManagement {
 
 		return "listofusers";
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////			PROFILE
+	@GetMapping("/profile/{username}/following")
+	public String followingProfile(Model model, @PathVariable(value = "username") String username) {
 
+		User profileUser = userService.getUserByUsername(username);
+		
+
+			model.addAttribute("profileUser", profileUser);	
+			model.addAttribute("titulo", username + " is following");	
+
+		return "/profile/following";		
+	}
+	
+	@GetMapping("/profile/{username}/followers")
+	public String followersProfile (Model model, @PathVariable(value = "username") String username) {
+
+		model.addAttribute("titulo", username + " is followed by :");
+		List<User> followedBy = userService.getUsersThatFollowUser(username);
+		model.addAttribute("followedBy", followedBy);
+		return "/profile/followers";	
+	}	
+	
+	
 	@GetMapping("/profile/{username}")
 	public String userProfile(Model model, @PathVariable(value = "username") String username) {
 		
@@ -70,14 +99,12 @@ public class UserManagement {
 			model.addAttribute("followingThisUser", true);
 		else
 			model.addAttribute("followingThisUser", false);
-			
-			
+						
 		
 		if(loggedUser.getUsername().equals(username))
 			model.addAttribute("titulo", "Your profile");			
 		else
-			model.addAttribute("titulo", "Profile");
-		
+			model.addAttribute("titulo", "Profile");		
 		
 
 		UserData returningJSON = userService.getUserDataByUsername(username);
@@ -101,6 +128,7 @@ public class UserManagement {
 		return "profile";
 	}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@GetMapping("/newUser")
 	public String createUser(Model model) {
 
@@ -111,6 +139,9 @@ public class UserManagement {
 		return "forms/createUser";
 	}
 
+	
+	
+	
 	@GetMapping("/follow/{username}")
 	public String followUser(Model model, @PathVariable(value = "username") String username) {
 		
@@ -124,6 +155,8 @@ public class UserManagement {
 		return "redirect:/profile/" + username;
 	}
 
+	
+	
 	
 	@PostMapping("/newUser")
 	public String submitCreateUser(@Valid User user, BindingResult result, Model model) {

@@ -3,17 +3,33 @@
 <!-- <div class=" headerPostList col-3 float-right"></div> -->	
 	<div class="sidebar-sticky float-left col-3 ">
 
+		<div id="SidebarCategories" class="">
+			<div class="page-header">
+		<ul class="list-group list-group-flush">
+			<div class="panel-body">
+				<a th:href="@{'/profile/' + ${username}+ '/following'}">
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span th:text="Following"></span>
+					</li>
+				</a>
+				<a th:href="@{'/profile/' + ${username}+ '/followers'}">
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span th:text="Followers">Followers</span>
+					</li>
+				</a>				
+				<a th:href="@{'/profile/' + ${username}+ '/chats'}">
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span th:text="Chats">Chats</span>
+					</li>
+				</a>				
+			</div>
+		</ul>
+			</div>
 
+		</div>
+<!-- 
 		<a th:href="@{/post/newPost/}"></a>
 
-		<div id="Suscribe" class="form-group">
-			<h4>Join the blog!</h4>
-			<p>Get the latests posts to your email</p>
-			<input type="email" class="form-control mb-2"
-				placeholder="Enter your email address..." name="emailSuscribe" /> <input
-				class="btn btn-secondary btn-lg btn-block" type="submit"
-				value="Suscribe to the newsletter" />
-		</div>
 
 		<div id="SidebarCategories" class="">
 			<div class="page-header">
@@ -57,6 +73,7 @@
 				</a>
 			</div>
 		</ul>
+		 -->
 	</div>
 
 </div>
