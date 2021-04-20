@@ -1,5 +1,5 @@
 # Spring-Bloogt
-WIP - Very early stage.
+WIP - Almost finished first version.
 
 ## ¿What is this?
 It's a collection of Rest APIs that give all functionalities of a blog-like webpage.
