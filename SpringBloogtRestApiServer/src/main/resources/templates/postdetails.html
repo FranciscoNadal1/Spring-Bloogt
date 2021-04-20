@@ -22,14 +22,34 @@
 
 
 					<div class="card-body">
-					<div th:if="${post.imagePost != null}" class="align-middle" >
-					
-						<img class="rounded mx-auto d-block postMainImage" th:src="${post.imagePost}"/>
-	</div>					
-							<p class="card-text" th:utext="${post.content}"></p> 
+						<div th:if="${post.imagePost != null}" class="align-middle">
+
+							<img class="rounded mx-auto d-block postMainImage"
+								th:src="${post.imagePost}" />
+						</div>
+						<p class="card-text" th:utext="${post.content}"></p>
 
 
 						<div class="commentsAuthorDate">
+
+
+
+							<span th:text="${likes} - ${dislikes}"></span> <span
+								th:text="' (' + (${likes} + ${dislikes}) + ') votes'"></span> 
+								
+								<span sec:authorize="isAuthenticated()">
+							<a
+								th:href="@{'/reaction/likePost/' + ${post.id}}"> <span>
+									<img height="30px" width="40px"
+									src="https://upload.wikimedia.org/wikipedia/commons/6/67/Facebook_logo_thumbs_up_like_transparent.png" />
+							</span>
+							</a> <a th:href="@{'/reaction/dislikePost/' + ${post.id}}"> <span>
+									<img height="30px" width="40px"
+									src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c539.png" />
+							</span>
+							</a> 
+							</span>
+							
 							<span> <img height="20%"
 								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-134-chat-conversation@2x.png" />
 							</span> <span class="commentsPost"
@@ -43,10 +63,12 @@
 								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
 								class="createdAtPost" th:text="${post.createdAt}" />
 						</div>
-						<div class="viewCount"><span th:text="'Viewed times : ' + ${post.timesViewed}"></span></div>
-						
-						
-						
+						<div class="viewCount">
+							<span th:text="'Viewed times : ' + ${post.timesViewed}"></span>
+						</div>
+
+
+
 						<div class="hashtagListPostDetails"
 							th:each="hashtag :  ${post.hashtags}">
 							<div id="hashtaPostDetails">
@@ -59,7 +81,8 @@
 
 
 
-					<div  sec:authorize="isAuthenticated()" class="form-group  border-top pt-3 pl-3 pr-3">
+					<div sec:authorize="isAuthenticated()"
+						class="form-group  border-top pt-3 pl-3 pr-3">
 						<form th:action="@{/post/sendComment}" method="post">
 							<label for="comment">Add comment:</label>
 							<textarea class="form-control mb-1" rows="5" id="comment"
@@ -68,10 +91,12 @@
 								name="content" value="Send comment" />
 						</form>
 					</div>
-					
-					
-					<div  sec:authorize="!isAuthenticated()" class="form-group  border-top pt-3 pl-3 pr-3">
-					<div id="OnlyLoggedUsersCanPost">Only logged users can post new comments</div>
+
+
+					<div sec:authorize="!isAuthenticated()"
+						class="form-group  border-top pt-3 pl-3 pr-3">
+						<div id="OnlyLoggedUsersCanPost">Only logged users can post
+							new comments</div>
 					</div>
 
 
@@ -100,10 +125,37 @@
 									<span th:text="'Written by : '"></span><a
 										th:href="@{/profile/} + ${comment.createdBy.username}"
 										th:text="${comment.createdBy.username}"></a>
+
 								</div>
-								<div class="card-footer text-muted"
-									th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
+								<div>
+									<div class="card-footer text-muted">
+										<span
+											th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
+										<span class="float-right"> 
+
 									
+										<span
+											th:text="${likesComments.get(comment.id)} - ${dislikesComments.get(comment.id)}"></span> <span
+											th:text="' (' + (${likesComments.get(comment.id)} + ${dislikesComments.get(comment.id)}) + ') votes'"></span>
+										<span sec:authorize="isAuthenticated()">
+											<a th:href="@{'/reaction/likeComment/' + ${comment.id}}"> <span>
+													<img height="30px" width="40px"
+													src="https://upload.wikimedia.org/wikipedia/commons/6/67/Facebook_logo_thumbs_up_like_transparent.png" />
+											</span>
+										</a> <a th:href="@{'/reaction/dislikeComment/' + ${comment.id}}"> <span>
+													<img height="30px" width="40px"
+													src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c539.png" />
+											</span>
+										</a>
+										</span>	
+
+
+
+
+										</span>
+									</div>
+								</div>
+
 							</div>
 						</div>
 					</div>

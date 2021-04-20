@@ -11,6 +11,7 @@ import com.blog.project.app.entities.Post.showPosts;
 public interface IPost extends BaseRepository<Post, Long> {
 
 	PostDetails findById(int id);
+	Post findPostById(int id);
 	
 	PostDetailsCommentsSortByDateAsc findByIdOrderByCreatedAtAsc(int id);
 	PostDetailsCommentsSortByDateDesc findByIdOrderByCreatedAtDesc(int id);

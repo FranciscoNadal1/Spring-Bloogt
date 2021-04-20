@@ -1,17 +1,16 @@
 package com.blog.project.app.controllers;
 
-import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,11 +30,11 @@ import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateAsc;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateDesc;
 import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.User;
-import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.ICommentsService;
 import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.models.service.IPostService;
+import com.blog.project.app.models.service.IReactionService;
 import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.utils.LocalUtils;
 
@@ -62,6 +61,8 @@ public class PostsManagement {
 	@Autowired
 	private LocalUtils utils;
 
+	@Autowired
+	private IReactionService reactionService;
 	/*
 	 * @Autowired private GeneralRepository generalRepo;
 	 */
@@ -115,7 +116,27 @@ public class PostsManagement {
 		model.addAttribute("post", returningJSON);
 		model.addAttribute("froalaIsNeed", true);
 
+
+		Post post = postService.findReturnPostById(id);
+		model.addAttribute("likes", reactionService.getLikesPost(post));
+		model.addAttribute("dislikes", reactionService.getDislikesPost(post));
+		
+		Map<String, Integer> likesOfComment = new HashMap<String,Integer>();
+		Map<String, Integer> dislikesOfComment = new HashMap<String,Integer>();
+		
+		for(Comments comment : post.getComments()) {		
+			System.out.println("ERES TONTÍSIMO");	
+			String commentIdString = ""+comment.getId();
+			likesOfComment.put(commentIdString, reactionService.getLikesComment(comment));
+			dislikesOfComment.put(commentIdString, reactionService.getDislikesComment(comment));
+			
+		}
+		model.addAttribute("likesComments", likesOfComment);
+		model.addAttribute("dislikesComments", dislikesOfComment);
+		
+
 		utils.addDataToMenu(model, categoryService, hashtagService);
+		
 		return "postdetails";
 	}
 
