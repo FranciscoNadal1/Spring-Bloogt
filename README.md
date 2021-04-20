@@ -44,6 +44,8 @@ spring.datasource.password=root
 spring.dataSource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
 ```
+# Database schema :
+![alt text](https://github.com/FranciscoNadal1/Spring-Bloogt/blob/master/documentation/Database%20Diagram.png)
 
 # Api paths (in progress):
 
