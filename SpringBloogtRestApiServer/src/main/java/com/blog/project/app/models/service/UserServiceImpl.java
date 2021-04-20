@@ -18,8 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.blog.project.app.entities.Role;
 import com.blog.project.app.entities.User;
+import com.blog.project.app.entities.User.OnlyUsername;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
+import com.blog.project.app.entities.User.UserFollowData;
 import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IUser;
 
@@ -136,20 +138,68 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		return userList;
 	}
 	
-	@Transactional
-	public void followUser(String username) {
-		User userThatFollows = this.getLoggedUser();
+	@Override
+	public List<OnlyUsername> getProjectionUsersThatFollowUser(String username) {
+		User user = userDao.findUserByUsername(username);
+		List<OnlyUsername> userList = userDao.findFollowerDataById(user.getId());
+		
+		return userList;
+	}	
+	@Override
+	
+	public List<OnlyUsername> getProjectionUsersThatAreFollowedByUser(String username) {
+		User user = userDao.findUserByUsername(username);
+		List<OnlyUsername> userList = userDao.findFollowedDataById(user.getId());
+		
+		return userList;
+	}		
+	
+	
+	public void unfollowUserCommon(User userThatFollows, String username) {
+		
+		User userThatIsFollowed = this.getUserByUsername(username);
+
+		List<User> followedBy = this.getUsersThatFollowUser(username);
+		/*
+		for(User user : followedBy) 
+			if(user.getUsername().equals(userThatFollows.getUsername())) 
+				throw new RuntimeException("User already followed");				
+				*/
+		if(userThatFollows.getFollowing().contains(userThatIsFollowed))
+			userThatFollows.getFollowing().remove(userThatIsFollowed);
+		else
+			throw new RuntimeException("You are not following this user");		
+			
+		userDao.save(userThatFollows);
+		
+	}
+	
+//	@Transactional
+	public void followUserCommon(User userThatFollows, String username) {
+		
 		User userThatIsFollowed = this.getUserByUsername(username);
 
 		List<User> followedBy = this.getUsersThatFollowUser(username);
 		
 		for(User user : followedBy) 
 			if(user.getUsername().equals(userThatFollows.getUsername())) 
-				return;				
+				throw new RuntimeException("User already followed");				
 				
 		userThatFollows.getFollowing().add(userThatIsFollowed);
 		userDao.save(userThatFollows);
 		
+	}
+	
+	public void followUser(String username) { 
+		this.followUserCommon(this.getLoggedUser(), username);
+	}
+	
+	
+
+
+	@Override
+	public UserFollowData getUserFollowDataByUsername(String username) {
+		return (UserFollowData) userDao.findAllFollowDataByUsername(username);
 	}
 
 }

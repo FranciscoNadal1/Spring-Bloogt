@@ -95,16 +95,21 @@ public class UserManagement {
 		}
 		List<User> followedBy = userService.getUsersThatFollowUser(username);
 		
-		if(followedBy.contains(loggedUser))
-			model.addAttribute("followingThisUser", true);
-		else
-			model.addAttribute("followingThisUser", false);
-						
-		
-		if(loggedUser.getUsername().equals(username))
-			model.addAttribute("titulo", "Your profile");			
-		else
-			model.addAttribute("titulo", "Profile");		
+		if(loggedUser != null)
+			if(followedBy.contains(loggedUser))
+				model.addAttribute("followingThisUser", true);
+			else
+				model.addAttribute("followingThisUser", false);
+				/*		
+		if(loggedUser != null) {
+			if(loggedUser.getUsername().equals(username))
+				model.addAttribute("titulo", "Your profile");			
+			else
+				model.addAttribute("titulo", "Profile");	
+		}else*/
+			model.addAttribute("titulo", "Profile");	
+
+
 		
 
 		UserData returningJSON = userService.getUserDataByUsername(username);

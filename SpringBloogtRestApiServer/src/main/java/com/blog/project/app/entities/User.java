@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.Comments.ShowComments;
@@ -251,6 +252,11 @@ public class User implements Serializable {
 	
 	public interface OnlyUsername {
 		String getId();
+		String getAvatar();
 		String getUsername();
+	}
+	
+	public interface UserFollowData extends OnlyUsername{
+		List<OnlyUsername> getFollowing();
 	}
 }
