@@ -41,6 +41,11 @@ public class CommentsServiceImpl implements ICommentsService {
 		return (List<ShowAllComments>) commentsDao.findAllProjectedBy();
 	}
 
+	@Override
+	public Comments findCommentById(int id) {
+		return commentsDao.findCommentById(id);
+	}
+
 //////////////////////////////////////////////	
 // CUSTOM
 

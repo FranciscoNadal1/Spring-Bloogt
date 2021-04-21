@@ -17,7 +17,7 @@ public interface IChatMessageService {
 	public List<ListChatsOfUser> findAllChatsOfLoggedUserProjection(User user);
 	public ChatsAndMessageOfUser findChatOfUserProjection(Chat chat, User user);
 	public Chat findChatById(int chatId);
-	public void newMessageToChat(String message, int chatId);
+	public void newMessageToChat(User fromUser, String message, int chatId);
 	
 	public int getUnreadMessages();
 	

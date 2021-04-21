@@ -119,7 +119,7 @@
 							<div th:each="comment: ${post.comments}"
 								class="border border-secondary rounded mb-4">
 								<div class=" list-group-item card-text">
-									<a th:text="${comment.message}"></a>
+									<span th:class="${comment.removedByModerator} ? font-weight-light : h6 "th:text="${comment.message}"></span>
 								</div>
 								<div class="card-footer text-muted">
 									<span th:text="'Written by : '"></span><a
@@ -129,11 +129,12 @@
 								</div>
 								<div>
 									<div class="card-footer text-muted">
+									<a th:if="${!comment.removedByModerator}" sec:authorize="hasRole('ROLE_MODERATOR')" th:href="@{'/post/banComment/' + ${comment.id}}"><button>Remove this comment</button></a>
 										<span
 											th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}" />
 										<span class="float-right"> 
 
-									
+									<div class="likeDislikesComment"  th:if="${!comment.removedByModerator}" >
 										<span
 											th:text="${likesComments.get(comment.id)} - ${dislikesComments.get(comment.id)}"></span> <span
 											th:text="' (' + (${likesComments.get(comment.id)} + ${dislikesComments.get(comment.id)}) + ') votes'"></span>
@@ -148,7 +149,7 @@
 											</span>
 										</a>
 										</span>	
-
+</div>
 
 
 
