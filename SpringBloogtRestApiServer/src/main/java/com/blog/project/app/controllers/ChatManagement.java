@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.IChatMessageService;
 import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.models.service.IUserService;
+import com.blog.project.app.rest.controllers.CategoryController;
 import com.blog.project.app.utils.LocalUtils;
 
 @Controller
@@ -37,7 +40,8 @@ public class ChatManagement {
 	private ICategoryService categoryService;
 	@Autowired
 	private IHashtagService hashtagService;
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(ChatManagement.class);
 	
 	@GetMapping(value={"/newchat/{username}"})
 	public String chat(Model model, @PathVariable(value = "username") String username) {
@@ -137,9 +141,6 @@ public class ChatManagement {
 		return "redirect:/chat/"+chatId+"";
 	}
 		
-	
-	
-	
 	@PostMapping(value={"/newmessage/{username}"})
 	public String createNewChat(HttpServletRequest request, Model model, @PathVariable(value = "username") String username) {
 		
@@ -153,9 +154,10 @@ public class ChatManagement {
 		}
 		
 		String messageStr = request.getParameter("message");
-		//Message message = new Message(messageStr, userService.getLoggedUser());
 
-		int chatId = chatService.newChat(messageStr, toUser);
+		logger.info("User:" + toUser + " just created a chat with " + toUser);
+
+		int chatId = chatService.newChatFromTo(loggedUser, messageStr, toUser);
 		utils.addDataToMenu(model, categoryService, hashtagService);
 		
 

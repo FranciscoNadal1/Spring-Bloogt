@@ -2,6 +2,7 @@ package com.blog.project.app.entities.chat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.OneToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.User;
+import com.blog.project.app.entities.User.OnlyUsername;
 
 @Entity
 public class Message implements Serializable{
@@ -84,5 +86,18 @@ public class Message implements Serializable{
 	public void setRead(boolean isRead) {
 		this.isRead = isRead;
 	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		Projections
+///////////
+///////////		Used to avoid showing all fields
 	
+
+	public interface MessageData {
+		int getId();
+		String message();
+		OnlyUsername getAuthor();
+		Date getCreatedAt();
+		boolean isRead();
+	}	
 }

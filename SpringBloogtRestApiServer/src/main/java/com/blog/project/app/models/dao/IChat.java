@@ -6,14 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.chat.Chat;
+import com.blog.project.app.entities.chat.Chat.ChatsAndMessageOfUser;
+import com.blog.project.app.entities.chat.Chat.ListChatsOfUser;
 
 public interface IChat extends BaseRepository <Chat, Long> {
-
-	@Query(value = "SELECT * FROM chat, user_chats where chat.id = user_chats.chats_id and users_involved_id = ?1", nativeQuery = true)		
-	List<Chat> getAllChatsOfUser(int userid);
 	
-	
-	
+	List<Chat> findAllChatsByUsersInvolvedContains(User user);
+	List<ListChatsOfUser> findProjectionAllChatsByUsersInvolvedContains(User user);
+	ChatsAndMessageOfUser findByIdAndUsersInvolvedContains(int chatId, User user);
 	
 	@Query(value = "SELECT count(*)\r\n" + 
 			"	FROM chat, message, user_chats\r\n" + 
@@ -32,10 +32,8 @@ public interface IChat extends BaseRepository <Chat, Long> {
 			"	and chat.id = ?2\r\n" + 
 			"	and user_chats.users_involved_id = ?1\r\n" + 
 			"	and message.author_id <> ?1", nativeQuery = true)		
-	int getUnreadOfChat(int userid, int chatid);
+	int getUnreadOfChat(int userid, int chatid);	
 	
-	
-	
-	Chat findById(int chatId);
-	
+	Chat findById(int chatId);	
+	void delete(Chat chat);
 }
