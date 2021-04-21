@@ -39,12 +39,13 @@ public class ReactionServiceImpl implements IReactionService {
 
 
 	@Transactional
-	public void likeOrDislikePostOrComment(int id, boolean likeOrDislike, String postOrComment) {
+	@Override
+	public void likeOrDislikePostOrComment(User user, int id, boolean likeOrDislike, String postOrComment) {
 		try {
 			Post post = null;
 			Comments comment = null;
 			Reaction reaction = null;
-			User loggedUser = userService.getLoggedUser();		
+			User loggedUser = user;		
 			
 			
 			if(postOrComment.equals("Post")) {				
@@ -55,10 +56,7 @@ public class ReactionServiceImpl implements IReactionService {
 			if(postOrComment.equals("Comment")) {
 				comment = commentsDao.findCommentsById(id);			
 				reaction =  commentReactionDao.findByCommentAndReactedBy(comment, loggedUser);					
-			}
-			
-			
-				
+			}			
 			
 			if(reaction == null) {
 
@@ -89,27 +87,30 @@ public class ReactionServiceImpl implements IReactionService {
 			userService.save(loggedUser);		
 			}catch(Exception e) {
 				e.printStackTrace();
-				return;
+				throw new RuntimeException("Reaction could not be applied");
 			}
 	}
 	
 	@Override
 	public void likeOrDislikePost(int postId, boolean likeOrDislike) {		
-		this.likeOrDislikePostOrComment(postId, likeOrDislike, "Post");		
+
+		User loggedUser = userService.getLoggedUser();
+		this.likeOrDislikePostOrComment(loggedUser, postId, likeOrDislike, "Post");		
 	}
 	
 	@Override
-	public void likeOrDislikeComment(int commentId, boolean likeOrDislike) {		
-		this.likeOrDislikePostOrComment(commentId, likeOrDislike, "Comment");		
+	public void likeOrDislikeComment(int commentId, boolean likeOrDislike) {
+		User loggedUser = userService.getLoggedUser();
+		this.likeOrDislikePostOrComment(loggedUser, commentId, likeOrDislike, "Comment");		
 	}	
 	
-	
+	/*
 	public int getPuntuation(int postId) {
 		Post post = postDao.findPostById(postId);
 		
 		return 10;
 	}
-
+*/
 	@Override
 	public int getDislikesPost(Post post) {
 		return	postReactionDao.countByPostAndReactionFalse(post);

@@ -20,6 +20,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.jpa.repository.Query;
@@ -33,6 +34,7 @@ import com.blog.project.app.entities.chat.Chat;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -47,6 +49,7 @@ public class User implements Serializable {
 	private String surname;
 
 	@NotEmpty
+	@Email
 	private String email;
 
 	@NotEmpty
@@ -70,7 +73,7 @@ public class User implements Serializable {
 	@JoinTable(name = "user_following", joinColumns = @JoinColumn(name = "following_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<User> following;
 
-	@ManyToMany(cascade = CascadeType.ALL)	
+	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
 	private List<Chat> chats;
 
 
