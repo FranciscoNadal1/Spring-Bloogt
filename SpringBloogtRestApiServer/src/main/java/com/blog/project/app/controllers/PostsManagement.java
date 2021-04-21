@@ -63,9 +63,7 @@ public class PostsManagement {
 
 	@Autowired
 	private IReactionService reactionService;
-	/*
-	 * @Autowired private GeneralRepository generalRepo;
-	 */
+
 	@GetMapping("/")
 	public String index(Model model) {
 		return listPost(model);
@@ -125,7 +123,6 @@ public class PostsManagement {
 		Map<String, Integer> dislikesOfComment = new HashMap<String,Integer>();
 		
 		for(Comments comment : post.getComments()) {		
-			System.out.println("ERES TONTÍSIMO");	
 			String commentIdString = ""+comment.getId();
 			likesOfComment.put(commentIdString, reactionService.getLikesComment(comment));
 			dislikesOfComment.put(commentIdString, reactionService.getDislikesComment(comment));
@@ -194,7 +191,22 @@ public class PostsManagement {
 		model.addAttribute("froalaIsNeed", true);
 		return "forms/newPost";
 	}
+	
+	@GetMapping("/banComment/{idComment}")
+	public String banComment(HttpServletRequest request, Model model, @PathVariable(value = "idComment") int idComment) {
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUserUsername = loggedInUser.getName();
 
+		Comments comment = commentService.findCommentById(idComment);
+		
+		if(loggedInUser.getAuthorities().toString().contains("ROLE_MODERATOR")){
+			comment.setRemovedByModerator(true);
+			commentService.save(comment);
+		}
+		
+		return "redirect:" + request.getHeader("Referer");
+	}
+	
 	@PostMapping("/newPost")
 	public String createNewPostPost(Post post, BindingResult result, Model model) {
 		/*
@@ -273,7 +285,6 @@ public class PostsManagement {
 
 		String commentContent = request.getParameter("content");
 
-// TODO User must be the one that is logged in
 		Comments newComment = new Comments(commentContent, loggedUser,
 				postService.findReturnPostById(Integer.parseInt(getPostId)));
 
@@ -281,7 +292,8 @@ public class PostsManagement {
 
 		return "redirect:" + request.getHeader("Referer");
 	}
-	
+
+
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -8,6 +8,7 @@ import com.blog.project.app.entities.Comments.ShowAllComments;
 public interface ICommentsService {
 /// Default
 	public List<Comments> findAll();
+	public Comments findCommentById(int id);
 
 	public void save(Comments comments);
 

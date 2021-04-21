@@ -9,9 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +68,7 @@ public class CommentsController {
 ///////////
 ///////////		Methods to retrieve information
 
+	
 	@GetMapping("/getAllComments")
 	public List<ShowAllComments> getAllComments(HttpServletResponse response, HttpServletRequest request) {
 		response.setContentType(contentType);
@@ -134,8 +139,32 @@ public class CommentsController {
 		return responseJson;
 	}
 	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		POST Methods
+///////////
+///////////		Methods to create new information
 	
+	@PutMapping("/banComment/{idComment}")
+	public JSONObject banComment(
+			HttpServletRequest request, 
+			Model model, 
+			@PathVariable(value = "idComment") int idComment,
+			@RequestHeader(value="Authorization", required=false) String authorization) {
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_MODERATOR"))
+			throw new UnauthorizedArea();
+		
 	
-	
+		Comments comment = commentsService.findCommentById(idComment);
+		
+			comment.setRemovedByModerator(true);
+			commentsService.save(comment);
+			
+			JSONObject responseJson = new JSONObject();
+			responseJson.appendField("status", "OK");
+			responseJson.appendField("message", "Comment is banned now");
+			
+			return responseJson;
+	}
 	
 }

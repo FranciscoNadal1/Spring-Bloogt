@@ -128,7 +128,41 @@ public class ChatController {
 		responseJson.appendField("message", "Chat created with" + username);
 		return responseJson;
 	}
-	
+
+
+
+	@PostMapping("/newMessage/{idChat}")
+	public JSONObject sendMessageToChat(
+			HttpServletResponse response, 
+			HttpServletRequest request,
+			@RequestBody Map<String, Object> payload,
+			@PathVariable(value = "idChat") int idChat, 
+			@RequestHeader(value="Authorization", required=false) String authorization) {
+		JSONObject responseJson = new JSONObject();		
+
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
+			throw new UnauthorizedArea();
+
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+		
+		Chat chat = chatService.findChatById(idChat);
+		if(chat == null)
+			throw new RuntimeException("Chat doesn't exist");
+
+		String message;
+		try {
+			message = (String) payload.get("message");
+		} catch (Exception e) {
+			throw new RuntimeException("You need to specify a correct message");
+		}
+
+		chatService.newMessageToChat(authenticatedUser, message, chat.getId());
+
+		
+		responseJson.appendField("status", "OK");
+		responseJson.appendField("message", "Message sent to chat");
+		return responseJson;
+	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////	DELETE
 	

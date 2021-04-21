@@ -89,10 +89,12 @@ public class ChatMessageServiceImpl implements IChatMessageService {
 
 	@Override
 	@Transactional
-	public void newMessageToChat(String message, int chatId) {
-		User fromUser = userService.getLoggedUser();
+	public void newMessageToChat(User fromUser, String message, int chatId) {
+	//	User fromUser = userService.getLoggedUser();
 
 		Chat chat = chatDao.findById(chatId);
+		if(!chat.getUsersInvolved().contains(fromUser))
+			throw new RuntimeException("You can't send a message on this chat");
 
 		Message newMessage = new Message(message, fromUser);
 		chat.getMessages().add(newMessage);

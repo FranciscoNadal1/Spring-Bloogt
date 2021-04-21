@@ -135,7 +135,7 @@ public class ChatManagement {
 			throw new RuntimeException("You need to be logged in");
 		}
 		
-		chatService.newMessageToChat(request.getParameter("answer"), chatId);
+		chatService.newMessageToChat(loggedUser, request.getParameter("answer"), chatId);
 		utils.addDataToMenu(model, categoryService, hashtagService);
 		
 		return "redirect:/chat/"+chatId+"";

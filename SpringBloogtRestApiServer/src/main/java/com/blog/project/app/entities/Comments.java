@@ -17,6 +17,8 @@ import com.blog.project.app.entities.Post.PostByHashtag;
 import com.blog.project.app.entities.User.OnlyUsername;
 import com.blog.project.app.utils.LocalUtils;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+
 @Entity
 public class Comments  implements Comparable<Comments> {
 
@@ -26,6 +28,7 @@ public class Comments  implements Comparable<Comments> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(length=1000)
 	private String message;
 
 	@ManyToOne
@@ -41,8 +44,8 @@ public class Comments  implements Comparable<Comments> {
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "created_at")
 	private Date createdAt;
-	
-	
+
+	private boolean removedByModerator;
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +57,7 @@ public class Comments  implements Comparable<Comments> {
 		this.createdBy = createdBy;
 		this.post = post;
 		this.createdAt = LocalUtils.getActualDate();
+		this.removedByModerator = false;
 	}
 
 	public int getId() {
@@ -65,7 +69,10 @@ public class Comments  implements Comparable<Comments> {
 	}
 
 	public String getMessage() {
-		return message;
+		if(this.isRemovedByModerator())
+			return "This message was eliminated by a moderator";
+		else
+			return message;
 	}
 
 	public void setMessage(String message) {
@@ -95,7 +102,14 @@ public class Comments  implements Comparable<Comments> {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	
+	public boolean isRemovedByModerator() {
+		return removedByModerator;
+	}
 
+	public void setRemovedByModerator(boolean removedByModerator) {
+		this.removedByModerator = removedByModerator;
+	}
 	
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,14 +117,19 @@ public class Comments  implements Comparable<Comments> {
 ///////////
 ///////////		Used to avoid showing all fields
 	
-	
+
+
+
+
 	public interface ShowComments extends Comparable<ShowComments> {
 
 		String getId();
+		
 		String getMessage();
+		
 		OnlyUsername getCreatedBy();
 		Date getCreatedAt();
-		
+		boolean isRemovedByModerator();
 		void setPost(Post post);
 
 
@@ -120,10 +139,13 @@ public class Comments  implements Comparable<Comments> {
 
 		String getId();
 		OnlyUsername getCreatedBy();
+		
 		String getMessage();
+		
 		PostByHashtag getPost();
 		//OnlyUsername getCreatedBy();
 		Date getCreatedAt();
+		boolean isRemovedByModerator();
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////		Comparators
