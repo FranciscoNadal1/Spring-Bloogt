@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,7 +39,8 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
+	
+	@NotNull
 	@NotEmpty
 	private String username;
 
@@ -48,6 +50,7 @@ public class User implements Serializable {
 	@NotEmpty
 	private String surname;
 
+	@NotNull
 	@NotEmpty
 	@Email
 	private String email;
@@ -56,6 +59,7 @@ public class User implements Serializable {
 	private String avatar;
 
 	@NotEmpty
+	@NotNull
 	private String password;
 
 
@@ -64,7 +68,7 @@ public class User implements Serializable {
 	@Column(name = "created_at")
 	private Date createdAt;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_id")
 	private List<Role> roles;
 
@@ -93,7 +97,6 @@ public class User implements Serializable {
 	}
 
 	public List<Post> getPosts() {
-
 		Collections.sort(posts);
 		return posts;
 	}

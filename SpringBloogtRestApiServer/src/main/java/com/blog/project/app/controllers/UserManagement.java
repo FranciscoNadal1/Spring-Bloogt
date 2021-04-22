@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,6 +45,9 @@ public class UserManagement {
 
 	@Autowired
 	private LocalUtils utils;
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@GetMapping("/userlist")
 	public String listUsers(Model model) {
@@ -166,11 +170,6 @@ public class UserManagement {
 	@PostMapping("/newUser")
 	public String submitCreateUser(@Valid User user, BindingResult result, Model model) {
 
-		Role basicRole = new Role();
-		basicRole.setAuthority("ROLE_USER");
-		// We add the fields the user couldn't
-		user.getRoles().add(basicRole);
-		//user.add("ROLE_USER");
 		user.setCreatedAt(LocalUtils.getActualDate());
 		///////////////////////////////////////////////
 		
@@ -188,7 +187,9 @@ public class UserManagement {
 	    model.addAttribute("titulo", "New User : ");
 		utils.addDataToMenu(model, categoryService, hashtagService);
 
-		userService.save(user);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		userService.saveUserAndAssignRole(user,"ROLE_USER");
 
 		return "redirect:userlist";
 	}

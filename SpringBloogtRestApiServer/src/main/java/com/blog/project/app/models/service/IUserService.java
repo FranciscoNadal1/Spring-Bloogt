@@ -26,9 +26,9 @@ public interface IUserService {
 	public UserFollowData getUserFollowDataByUsername(String username);
 	
 	public UserData getUserDataByUsername(String username);
-//	public User findByUsername(String username);
+
 	public List<UserData> findAllProjectedBy();
-	
+	public void saveUserAndAssignRole(User user, String role);
 
 
 	public User findReturnUserById(int id);

@@ -1,6 +1,7 @@
 package com.blog.project.app.models.service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.entities.User.UserFollowData;
 import com.blog.project.app.entities.User.UserPosts;
+import com.blog.project.app.models.dao.IRoles;
 import com.blog.project.app.models.dao.IUser;
 
 @Service
@@ -32,6 +34,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	
 	@Autowired
 	private IUser userDao;
+	
+	@Autowired
+	private IRoles rolesDao;
 	
 	@Override
 	public User getUserByUsername(String username) {
@@ -200,6 +205,32 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	@Override
 	public UserFollowData getUserFollowDataByUsername(String username) {
 		return (UserFollowData) userDao.findAllFollowDataByUsername(username);
+	}
+	
+	
+	@Override
+	@Transactional
+	public void saveUserAndAssignRole(User user, String role) {
+		
+		Role basicRole = new Role();
+		basicRole.setAuthority("ROLE_USER");
+		rolesDao.save(basicRole);		
+		
+		if(user.getRoles() != null)
+			for(Role roleIt : user.getRoles())
+				if(!roleIt.getAuthority().equals("ROLE_USER")) {
+					throw new RuntimeException("User already contains that role");
+				}
+		
+		System.out.println(basicRole.getAuthority());
+		
+		if(user.getRoles() == null)
+			user.setRoles(new LinkedList<Role>());
+		
+		user.getRoles().add(basicRole);
+				
+		userDao.save(user);
+		
 	}
 
 }

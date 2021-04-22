@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,9 @@ public class UserController {
 	@Autowired
 	private IUserService userService;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	private String contentType = "application/json";
 
 ///////////////////////////////////////////////////////////////////////
@@ -147,25 +151,20 @@ public class UserController {
 		
 		newUser.setName((String) payload.get("name"));
 		newUser.setUsername((String) payload.get("username"));
-	//	newUser.setRole((String) payload.get("role"));
-
-		Role basicRole = new Role();
-		basicRole.setAuthority("ROLE_USER");
-		// We add the fields the user couldn't
-		newUser.getRoles().add(basicRole);
-		
-		
-//		newUser.setRoles(((List<String>) payload.get("roles"));
 		newUser.setAvatar((String) payload.get("avatar"));
 		newUser.setSurname((String) payload.get("surname"));
-		newUser.setPassword((String) payload.get("password"));
+		
+		
+		newUser.setPassword(passwordEncoder.encode((String) payload.get("password")));
+		
 		newUser.setCreatedAt((Date) LocalUtils.getActualDate());		
 		newUser.setEmail((String) payload.get("email"));
-		userService.save(newUser);
+		
+		userService.saveUserAndAssignRole(newUser,"ROLE_USER");
 
 		JSONObject responseJson = new JSONObject();
 		responseJson.appendField("status", "OK");
-		responseJson.appendField("message", "user created");
+		responseJson.appendField("message", "user "+ newUser.getUsername() +" created");
 		return responseJson;
 	}
 
