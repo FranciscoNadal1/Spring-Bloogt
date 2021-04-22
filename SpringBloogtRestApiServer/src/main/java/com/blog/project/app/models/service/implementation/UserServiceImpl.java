@@ -1,4 +1,4 @@
-package com.blog.project.app.models.service;
+package com.blog.project.app.models.service.implementation;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -26,6 +26,7 @@ import com.blog.project.app.entities.User.UserFollowData;
 import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IRoles;
 import com.blog.project.app.models.dao.IUser;
+import com.blog.project.app.models.service.IUserService;
 
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {

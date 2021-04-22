@@ -187,6 +187,14 @@ public class UserManagement {
 	    model.addAttribute("titulo", "New User : ");
 		utils.addDataToMenu(model, categoryService, hashtagService);
 
+		if(userService.getUserByUsername(user.getUsername()) != null) 
+			throw new RuntimeException("Username already taken");
+
+		if(!userService.findByEmail(user.getEmail()).isEmpty()) 
+			throw new RuntimeException("Email is already in use");
+		
+		
+		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		
 		userService.saveUserAndAssignRole(user,"ROLE_USER");

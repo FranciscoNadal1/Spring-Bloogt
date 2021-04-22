@@ -1,4 +1,4 @@
-package com.blog.project.app.models.service;
+package com.blog.project.app.models.service.implementation;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Hashtag.HashtagShow;
 import com.blog.project.app.entities.Hashtag.PostsOfHashtag;
 import com.blog.project.app.models.dao.IHashtag;
+import com.blog.project.app.models.service.IHashtagService;
 
 @Service
 public class HashtagServiceImpl implements IHashtagService {

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</header>
+</head>
+<body>
+	<header th:replace="fragments/menu :: menu"></header>
+
+	<div id="Wrapper">
+		<div class="container-fluid">
+			<div id="content-section" class="float-left col-9">
+			
+			<div class="card text-white bg-danger mb-3">
+			  <div class="card-header">ERROR</div>
+			  <div class="card-body">
+			    <h5 class="card-title" th:text="${titulo}">Danger card title</h5>
+			    <p class="card-text" th:text="${message}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			  </div>
+			</div>
+			
+			</div>
+			<div th:replace="fragments/sidebar.html"></div>
+
+		</div>
+	</div>
+	<footer clear-top th:replace="fragments/footer.html"></footer>
+	</div>
+</body>
+</html>

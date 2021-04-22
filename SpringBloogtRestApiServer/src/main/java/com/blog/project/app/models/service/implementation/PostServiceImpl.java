@@ -1,4 +1,4 @@
-package com.blog.project.app.models.service;
+package com.blog.project.app.models.service.implementation;
 
 import java.util.List;
 
@@ -8,13 +8,8 @@ import org.springframework.stereotype.Service;
 import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
-import com.blog.project.app.entities.User;
-import com.blog.project.app.entities.User.UserComments;
-import com.blog.project.app.entities.User.UserData;
-import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IPost;
-import com.blog.project.app.models.dao.IUser;
-import com.blog.project.app.repository.GeneralRepository;
+import com.blog.project.app.models.service.IPostService;
 
 @Service
 public class PostServiceImpl implements IPostService {

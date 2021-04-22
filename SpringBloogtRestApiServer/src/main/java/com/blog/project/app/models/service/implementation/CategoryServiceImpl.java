@@ -1,4 +1,4 @@
-package com.blog.project.app.models.service;
+package com.blog.project.app.models.service.implementation;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.blog.project.app.entities.Category.CategoryDetails;
 import com.blog.project.app.entities.Category.CategoryList;
 import com.blog.project.app.entities.Category.CategoryNumberOfPosts;
 import com.blog.project.app.models.dao.ICategory;
+import com.blog.project.app.models.service.ICategoryService;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {

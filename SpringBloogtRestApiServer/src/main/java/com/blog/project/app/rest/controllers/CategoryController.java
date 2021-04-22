@@ -160,8 +160,7 @@ public class CategoryController {
 
 	@DeleteMapping("/deleteCategory/{id}")
 	@Transactional
-	public JSONObject deleteCategoryById(HttpServletResponse response, HttpServletRequest request,
-			@RequestBody Map<String, Object> payload, @PathVariable(value = "id") int id, @RequestHeader(value="Authorization", required=false) String authorization) {
+	public JSONObject deleteCategoryById(HttpServletResponse response, HttpServletRequest request, @PathVariable(value = "id") int id, @RequestHeader(value="Authorization", required=false) String authorization) {
 		
 		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_ADMIN"))
 			throw new UnauthorizedArea();

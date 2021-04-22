@@ -1,10 +1,7 @@
 package com.blog.project.app.rest.controllers;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,17 +15,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.HandlerMapping;
 
-import com.blog.project.app.entities.Role;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.UserComments;
 import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.entities.User.UserPosts;
-import com.blog.project.app.errors.NoPayloadDataException;
 import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.utils.LocalUtils;
 
@@ -48,15 +43,9 @@ public class UserController {
 	
 	private String contentType = "application/json";
 
-///////////////////////////////////////////////////////////////////////
-	/*
-	 * GET METHODS
-	 * 
-	 * /getAllUsers /getUserByMail/{mail} /getUserById/{id}
-	 * /getUserByUsername/{username}
-	 * 
-	 */
-//////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		GET Methods
+///////////
 
 	@GetMapping("/getAllUsers")
 	public List<UserData> getAllUsers(HttpServletResponse response, HttpServletRequest request) {
@@ -134,31 +123,40 @@ public class UserController {
 
 		return returningJSON;
 	}
-///////////////////////////////////////////////////////////////////////
-	/*
-	 * POST METHODS
-	 * 
-	 * 
-	 */
-//////////////////////////////////////////////////////////////////////
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		POST Methods
+///////////
 
 	@PostMapping("/newUser")
 	public JSONObject createUser(HttpServletRequest request, @RequestBody Map<String, Object> payload) {
-		System.out.println(payload.get("message"));
+
 		User newUser = new User();
 
-
+		String username =  (String) payload.get("username");
+		if(userService.getUserByUsername(username) == null) 
+			newUser.setUsername(username);						
+		else
+			throw new RuntimeException("Username already taken");
 		
+
 		newUser.setName((String) payload.get("name"));
-		newUser.setUsername((String) payload.get("username"));
 		newUser.setAvatar((String) payload.get("avatar"));
 		newUser.setSurname((String) payload.get("surname"));
 		
 		
 		newUser.setPassword(passwordEncoder.encode((String) payload.get("password")));
 		
-		newUser.setCreatedAt((Date) LocalUtils.getActualDate());		
-		newUser.setEmail((String) payload.get("email"));
+		newUser.setCreatedAt((Date) LocalUtils.getActualDate());	
+		
+		String email = (String) payload.get("email");
+		System.out.println(userService.findByEmail(email));
+		if(userService.findByEmail(email).isEmpty()) 
+			newUser.setEmail(email);				
+		else
+			throw new RuntimeException("Email is already in use");
+		
+		//newUser.setEmail((String) payload.get("email"));
 		
 		userService.saveUserAndAssignRole(newUser,"ROLE_USER");
 
@@ -167,5 +165,67 @@ public class UserController {
 		responseJson.appendField("message", "user "+ newUser.getUsername() +" created");
 		return responseJson;
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		PUT Methods
+///////////	
+	
+
+	@PutMapping("/modifyUser/{username}")
+	public JSONObject modifyUser(HttpServletRequest request, @RequestBody Map<String, Object> payload, @PathVariable(value = "username") String username) {
+
+		User newUser = userService.getUserByUsername(username);
+		if(newUser == null)
+			throw new RuntimeException("You did not specify a valid username");
+
+
+		JSONObject responseJson = new JSONObject();
+		
+		responseJson.appendField("status", "OK");
+		responseJson.appendField("message", "User "+ newUser.getUsername() +" fields were modified");
+		
+		JSONObject modifiedFields = new JSONObject();
+		List<String> modifiedFieldsStringList = new LinkedList<>();
+		
+		if(payload.containsKey("name")) {
+			newUser.setName((String) payload.get("name"));	
+			modifiedFieldsStringList.add("name");
+		}
+		
+		if(payload.containsKey("avatar")) {
+			newUser.setAvatar((String) payload.get("avatar"));
+			modifiedFieldsStringList.add("avatar");
+		}
+		
+		if(payload.containsKey("surname")) {
+			newUser.setSurname((String) payload.get("surname"));
+			modifiedFieldsStringList.add("surname");
+		}
+		
+		if(payload.containsKey("email")) {
+			String email = (String) payload.get("email");
+			if(userService.findByEmail(email).isEmpty()) {
+				newUser.setEmail(email);
+				modifiedFieldsStringList.add("email");				
+			}
+			else
+				throw new RuntimeException("Email is already in use");
+		}
+		
+		
+		if(modifiedFieldsStringList.isEmpty())
+			throw new RuntimeException("You did not specify valid fields to modify");
+		
+		//modifiedFields.appendField("list", modifiedFieldsStringList);
+		responseJson.appendField("modifiedFields", modifiedFieldsStringList);
+		
+		userService.save(newUser);
+		
+		return responseJson;
+	}
+	
+	
+	
+	
 
 }
