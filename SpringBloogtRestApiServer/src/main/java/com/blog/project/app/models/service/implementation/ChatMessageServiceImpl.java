@@ -1,4 +1,4 @@
-package com.blog.project.app.models.service;
+package com.blog.project.app.models.service.implementation;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +18,8 @@ import com.blog.project.app.entities.chat.Chat.ListChatsOfUser;
 import com.blog.project.app.entities.chat.Message;
 import com.blog.project.app.models.dao.IChat;
 import com.blog.project.app.models.dao.IMessage;
+import com.blog.project.app.models.service.IChatMessageService;
+import com.blog.project.app.models.service.IUserService;
 
 @Service
 public class ChatMessageServiceImpl implements IChatMessageService {

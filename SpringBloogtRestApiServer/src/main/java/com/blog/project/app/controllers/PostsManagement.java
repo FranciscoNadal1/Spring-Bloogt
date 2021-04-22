@@ -194,8 +194,8 @@ public class PostsManagement {
 	
 	@GetMapping("/banComment/{idComment}")
 	public String banComment(HttpServletRequest request, Model model, @PathVariable(value = "idComment") int idComment) {
+		
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-		String loggedUserUsername = loggedInUser.getName();
 
 		Comments comment = commentService.findCommentById(idComment);
 		

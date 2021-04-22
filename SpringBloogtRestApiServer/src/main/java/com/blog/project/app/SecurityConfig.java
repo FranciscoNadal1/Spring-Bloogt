@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.blog.project.app.auth.LoginSuccessHandler;
-import com.blog.project.app.models.service.UserServiceImpl;
+import com.blog.project.app.models.service.implementation.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity

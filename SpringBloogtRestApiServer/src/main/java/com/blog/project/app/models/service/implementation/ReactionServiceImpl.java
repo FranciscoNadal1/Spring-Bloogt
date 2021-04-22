@@ -1,4 +1,4 @@
-package com.blog.project.app.models.service;
+package com.blog.project.app.models.service.implementation;
 
 import java.util.Date;
 
@@ -17,6 +17,8 @@ import com.blog.project.app.models.dao.ICommentReaction;
 import com.blog.project.app.models.dao.IComments;
 import com.blog.project.app.models.dao.IPost;
 import com.blog.project.app.models.dao.IPostReaction;
+import com.blog.project.app.models.service.IReactionService;
+import com.blog.project.app.models.service.IUserService;
 
 @Service
 public class ReactionServiceImpl implements IReactionService {

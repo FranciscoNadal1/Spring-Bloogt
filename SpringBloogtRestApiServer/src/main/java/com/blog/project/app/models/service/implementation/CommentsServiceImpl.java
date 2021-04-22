@@ -1,4 +1,4 @@
-package com.blog.project.app.models.service;
+package com.blog.project.app.models.service.implementation;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.blog.project.app.entities.Comments;
 import com.blog.project.app.entities.Comments.ShowAllComments;
 import com.blog.project.app.models.dao.IComments;
+import com.blog.project.app.models.service.ICommentsService;
 
 @Service
 public class CommentsServiceImpl implements ICommentsService {
