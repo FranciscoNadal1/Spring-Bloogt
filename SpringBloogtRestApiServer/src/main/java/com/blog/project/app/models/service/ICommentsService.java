@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.blog.project.app.entities.Comments;
 import com.blog.project.app.entities.Comments.ShowAllComments;
+import com.blog.project.app.entities.Comments.ShowComments;
+import com.blog.project.app.entities.Post;
 
 public interface ICommentsService {
 /// Default
 	public List<Comments> findAll();
 	public Comments findCommentById(int id);
+	public List<ShowComments> findCommentByPost(Post id);
 
 	public void save(Comments comments);
 

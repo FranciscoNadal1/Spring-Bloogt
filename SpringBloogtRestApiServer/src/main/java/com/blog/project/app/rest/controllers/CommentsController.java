@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,7 @@ import com.blog.project.app.utils.LocalUtils;
 import net.minidev.json.JSONObject;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/comments")
 public class CommentsController {
 	private static final Logger logger = LoggerFactory.getLogger(CommentsController.class);
@@ -74,6 +76,19 @@ public class CommentsController {
 		response.setContentType(contentType);
 
 		List<ShowAllComments> returningJSON = commentsService.findAllProjectedBy();
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}
+
+	@GetMapping("/getCommentByPostId/{id}")
+	public List<ShowComments> getCommentByPostId(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "id") int id) {
+		response.setContentType(contentType);
+
+		List<ShowComments> returningJSON = commentsService.findCommentByPost(postService.findReturnPostById(id));
 
 		if (returningJSON.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);

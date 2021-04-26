@@ -30,6 +30,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.blog.project.app.entities.Comments.ShowComments;
 import com.blog.project.app.entities.Post.PostByUser;
 import com.blog.project.app.entities.chat.Chat;
+import com.sun.istack.Nullable;
 
 @Entity
 public class User implements Serializable {

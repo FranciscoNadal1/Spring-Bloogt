@@ -17,6 +17,7 @@ public interface IComments extends BaseRepository <Comments, Long> {
 
 	Iterable<Comments> findAll();
 	List<ShowAllComments> findById(int id);
+	List<ShowComments> findByPost(Post post);
 	List<ShowAllComments> findAllProjectedBy();
 
 	public Comments findCommentById(int id);
