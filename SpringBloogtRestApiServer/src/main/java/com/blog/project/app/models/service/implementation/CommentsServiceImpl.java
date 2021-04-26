@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.blog.project.app.entities.Comments;
 import com.blog.project.app.entities.Comments.ShowAllComments;
+import com.blog.project.app.entities.Comments.ShowComments;
+import com.blog.project.app.entities.Post;
 import com.blog.project.app.models.dao.IComments;
 import com.blog.project.app.models.service.ICommentsService;
 
@@ -45,6 +47,11 @@ public class CommentsServiceImpl implements ICommentsService {
 	@Override
 	public Comments findCommentById(int id) {
 		return commentsDao.findCommentById(id);
+	}
+
+	@Override
+	public List<ShowComments> findCommentByPost(Post post) {
+		return commentsDao.findByPost(post);
 	}
 
 //////////////////////////////////////////////	

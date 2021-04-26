@@ -83,6 +83,19 @@ public class CommentsController {
 		return returningJSON;
 	}
 
+	@GetMapping("/getCommentByPostId/{id}")
+	public List<ShowComments> getCommentByPostId(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "id") int id) {
+		response.setContentType(contentType);
+
+		List<ShowComments> returningJSON = commentsService.findCommentByPost(postService.findReturnPostById(id));
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}
+
 	@GetMapping("/getCommentById/{id}")
 	public List<ShowAllComments> getCommentById(HttpServletResponse response, HttpServletRequest request,
 			@PathVariable(value = "id") int id) {
