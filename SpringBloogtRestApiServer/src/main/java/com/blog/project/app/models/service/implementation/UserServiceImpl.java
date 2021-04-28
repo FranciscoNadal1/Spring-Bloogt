@@ -118,10 +118,18 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	}
 
 	@Override
+	public List<UserComments> findAllCommentsOfUserProjectedByUsername(String username) {
+		return (List<UserComments>)userDao.findAllCommentsOfUserProjectedByUsername(username);
+	}
+
+	@Override
 	public List<UserPosts> findAllPostsOfUserProjectedById(int id) {
 		return (List<UserPosts>)userDao.findAllPostsOfUserProjectedById(id);
 	}
-
+	@Override
+	public List<UserPosts> findAllPostsOfUserProjectedByUsername(String username) {
+		return (List<UserPosts>)userDao.findAllPostsOfUserProjectedByUsername(username);
+	}
 	@Override
 	public User findReturnUserById(int id) {
 		return (User) userDao.findReturnUserById(id);
@@ -233,5 +241,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		userDao.save(user);
 		
 	}
+
 
 }
