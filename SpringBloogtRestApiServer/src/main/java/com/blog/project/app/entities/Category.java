@@ -1,6 +1,7 @@
 package com.blog.project.app.entities;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.blog.project.app.entities.Hashtag.HashtagShow;
+import com.blog.project.app.entities.Post.PostNoContent;
 import com.blog.project.app.entities.Post.showPosts;
 
 @Entity
@@ -72,9 +74,16 @@ public class Category implements Serializable {
 	
 
 	public List<Post> getPosts() {
+		Collections.reverse(this.posts);
 		return posts;
 	}
-
+	
+	public Post getLastPost() {
+		List<Post> posts = this.getPosts();
+		Collections.reverse(posts);
+		return posts.get(0);
+	}
+	
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
@@ -83,7 +92,6 @@ public class Category implements Serializable {
 ///////////		Projections
 ///////////
 ///////////		Used to avoid showing all fields
-
 
 
 	public interface CategoryName {
@@ -97,13 +105,12 @@ public class Category implements Serializable {
 		@Value("#{target.getPosts().size()}")
 	    int getPostCount();
 
-	}
-	public interface CategoryDetails {
-		String getId();		
-		String getName();
+		@Value("#{target.getLastPost()}")
+		PostNoContent getLastPost();
 
-		@Value("#{target.getPosts().size()}")
-	    int getPostCount();
+	}
+	public interface CategoryDetails extends CategoryList{
+
 		List<showPosts> getPosts();
 		List<HashtagShow> getHashtags();
 	}

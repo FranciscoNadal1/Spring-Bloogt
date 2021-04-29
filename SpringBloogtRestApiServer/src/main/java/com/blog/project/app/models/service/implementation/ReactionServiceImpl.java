@@ -68,9 +68,18 @@ public class ReactionServiceImpl implements IReactionService {
 					reaction =  new CommentReaction();
 				reaction.setCreatedAt(new Date());
 				
-			}
-
+			}else
+				if(reaction.getReaction() == likeOrDislike) {
+					if(likeOrDislike)
+						throw new RuntimeException("You already liked this comment");
+					if(!likeOrDislike)
+						throw new RuntimeException("You already disliked this comment");
+					
+				}
+				
+			
 			reaction.setReactedBy(loggedUser);
+			
 			reaction.setReaction(likeOrDislike); 
 			
 			if(postOrComment.equals("Post")) {

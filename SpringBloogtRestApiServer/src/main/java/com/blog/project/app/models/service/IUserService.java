@@ -39,8 +39,8 @@ public interface IUserService {
 	public List<UserComments> findAllCommentsOfUserProjectedByUsername(String username);
 
 	//User Posts
-	public List<UserPosts> findAllPostsOfUserProjectedById(int id);
-	public List<UserPosts> findAllPostsOfUserProjectedByUsername(String username);
+	public UserPosts findAllPostsOfUserProjectedById(int id);
+	public UserPosts findAllPostsOfUserProjectedByUsername(String username);
 	
 	////////////////////////////////////////////////////////////////
 	public User getLoggedUser();

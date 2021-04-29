@@ -31,8 +31,8 @@ public interface IUser extends BaseRepository <User, Long> {
 	User findReturnUserById(int id);
 	List<UserComments> findAllCommentsOfUserProjectedById(int id);
 	List<UserComments> findAllCommentsOfUserProjectedByUsername(String username);
-	List<UserPosts> findAllPostsOfUserProjectedById(int id);
-	List<UserPosts> findAllPostsOfUserProjectedByUsername(String username);
+	UserPosts findAllPostsOfUserProjectedById(int id);
+	UserPosts findAllPostsOfUserProjectedByUsername(String username);
 
 
 	@Query(value = "SELECT user.* FROM user_following, user where user_following.following_id = user.id and user_following.user_id = ?1", nativeQuery = true)					

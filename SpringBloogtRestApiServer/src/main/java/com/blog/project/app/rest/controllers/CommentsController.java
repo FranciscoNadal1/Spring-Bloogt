@@ -72,15 +72,21 @@ public class CommentsController {
 
 	
 	@GetMapping("/getAllComments")
-	public List<ShowAllComments> getAllComments(HttpServletResponse response, HttpServletRequest request) {
+	public List<ShowAllComments> getAllComments(HttpServletResponse response, HttpServletRequest request) {		
 		response.setContentType(contentType);
-
+		
+		try {
+			
 		List<ShowAllComments> returningJSON = commentsService.findAllProjectedBy();
-
+		
 		if (returningJSON.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);
+		
 
 		return returningJSON;
+		}catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	@GetMapping("/getCommentByPostId/{id}")

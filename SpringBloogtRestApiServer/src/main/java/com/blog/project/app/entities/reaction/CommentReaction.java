@@ -1,19 +1,15 @@
 package com.blog.project.app.entities.reaction;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import com.blog.project.app.entities.Comments;
 
 @Entity
 public class CommentReaction extends Reaction{
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 //	@JoinColumn(name = "reaction_id", referencedColumnName = "id")
 	private Comments comment;
 

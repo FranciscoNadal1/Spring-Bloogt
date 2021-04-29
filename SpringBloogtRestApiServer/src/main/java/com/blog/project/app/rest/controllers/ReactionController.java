@@ -52,11 +52,15 @@ public class ReactionController {
 		JSONObject responseJson = new JSONObject();
 		
 		try {			
-			if(reaction.equals("like"))
+			if(reaction.equals("like")) {
 			commentReactionService.likeOrDislikePostOrComment(authenticatedUser, idComment, true, "Comment");
+			
+			}
 
-			if(reaction.equals("dislike"))
+			if(reaction.equals("dislike")) {
 			commentReactionService.likeOrDislikePostOrComment(authenticatedUser, idComment, false, "Comment");
+			
+			}
 			
 			responseJson.appendField("status", "OK");
 			responseJson.appendField("message", "You reacted to this comment"); 

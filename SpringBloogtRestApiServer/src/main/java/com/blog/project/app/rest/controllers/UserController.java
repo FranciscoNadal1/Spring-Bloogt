@@ -128,26 +128,26 @@ public class UserController {
 	}
 	
 	@GetMapping("/getPostsByUserId/{id}")
-	public List<UserPosts> getPostsByUserId(HttpServletRequest request, HttpServletResponse response,
+	public UserPosts getPostsByUserId(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable(value = "id") int id) {
 		response.setContentType(contentType);
 		
-		List<UserPosts> returningJSON = userService.findAllPostsOfUserProjectedById(id);
+		UserPosts returningJSON = userService.findAllPostsOfUserProjectedById(id);
 
-		if (returningJSON.isEmpty())
+		if (returningJSON == null)
 			LocalUtils.ThrowPayloadEmptyException(request);
 
 		return returningJSON;
 	}
 	
 	@GetMapping("/getPostsByUsername/{username}")
-	public List<UserPosts> getPostsByUserId(HttpServletRequest request, HttpServletResponse response,
+	public UserPosts getPostsByUserId(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable(value = "username") String username) {
 		response.setContentType(contentType);		
 		
-		List<UserPosts> returningJSON = userService.findAllPostsOfUserProjectedByUsername(username);
+		UserPosts returningJSON = userService.findAllPostsOfUserProjectedByUsername(username);
 
-		if (returningJSON.isEmpty())
+		if (returningJSON == null)
 			LocalUtils.ThrowPayloadEmptyException(request);
 
 		return returningJSON;

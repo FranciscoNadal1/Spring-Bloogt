@@ -75,7 +75,9 @@ public abstract class Reaction {
 		this.reaction = reaction;
 	}
 
-
+	public boolean getReaction() {
+		return this.reaction;
+	}
 
 
 	public User getReactedBy() {

@@ -14,7 +14,7 @@ public interface IReactionService {
 	public int getDislikesComment(Comments post);
 	public int getLikesComment(Comments post);
 
-	public void likeOrDislikePostOrComment(User user, int id, boolean likeOrDislike, String postOrComment) ;
+	public void likeOrDislikePostOrComment(User user, int id, boolean likeOrDislike, String postOrComment);
 	
 	// For logged user - Embed blog
 	public void likeOrDislikePost(int postId, boolean likeOrDislike);

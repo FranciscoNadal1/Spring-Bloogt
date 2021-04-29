@@ -123,12 +123,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	}
 
 	@Override
-	public List<UserPosts> findAllPostsOfUserProjectedById(int id) {
-		return (List<UserPosts>)userDao.findAllPostsOfUserProjectedById(id);
+	public UserPosts findAllPostsOfUserProjectedById(int id) {
+		return (UserPosts)userDao.findAllPostsOfUserProjectedById(id);
 	}
 	@Override
-	public List<UserPosts> findAllPostsOfUserProjectedByUsername(String username) {
-		return (List<UserPosts>)userDao.findAllPostsOfUserProjectedByUsername(username);
+	public UserPosts findAllPostsOfUserProjectedByUsername(String username) {
+		return (UserPosts)userDao.findAllPostsOfUserProjectedByUsername(username);
 	}
 	@Override
 	public User findReturnUserById(int id) {

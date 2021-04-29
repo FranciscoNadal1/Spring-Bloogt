@@ -227,26 +227,24 @@ public class Post implements Serializable, Comparable<Post> {
 	public interface PostBy{
 
 		String getId();
-
 		String getTitle();
-
 		String getContent();
-
 		Date getCreatedAt();
-
 		@Value("#{target.getComments().size()}")
 		int getCommentaryCount();
-
-		// List<ShowComments> getComments();
 		CategoryName getCategory();
 		String getImagePost();
-
 		int getTimesViewed();
 	}
 	public interface PostByUser extends PostBy {
 		List<HashtagShow> getHashtags();
 	}
-
+	public interface PostNoContent{
+		String getId();
+		String getTitle();
+		OnlyUsername getCreatedBy();
+		Date getCreatedAt();
+	}
 	
 	public interface PostByHashtag  extends PostBy{
 
