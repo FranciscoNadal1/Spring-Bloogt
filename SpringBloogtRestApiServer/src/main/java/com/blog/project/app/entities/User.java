@@ -274,6 +274,8 @@ public class User implements Serializable {
 		String getId();
 		String getAvatar();
 		String getUsername();
+		String getName();
+		String getSurname();
 	}
 	
 	public interface UserFollowData extends OnlyUsername{

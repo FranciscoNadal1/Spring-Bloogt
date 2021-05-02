@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.User;
+import com.blog.project.app.entities.User.OnlyUsername;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -91,6 +92,23 @@ public abstract class Reaction {
 	public int getId() {
 		return id;
 	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		Projections
+///////////
+///////////		Used to avoid showing all fields
 	
+
+	public interface ReactionData {
+		int getId();
+		 Date getCreatedAt();
+		 OnlyUsername getReactedBy();
+		 boolean getReaction();
+	}	
 	
+	public interface ReactionByUser {
+		 int getId();
+		 Date getCreatedAt();
+		 boolean getReaction();
+	}	
 }

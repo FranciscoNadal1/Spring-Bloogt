@@ -120,7 +120,7 @@ public class UserManagement {
 		int idUser = Integer.parseInt(returningJSON.getId());
 
 		List<UserComments> allCommentsOfUser = userService.findAllCommentsOfUserProjectedById(idUser);
-		List<UserPosts> allPostsOfUser = userService.findAllPostsOfUserProjectedById(idUser);
+		UserPosts allPostsOfUser = userService.findAllPostsOfUserProjectedById(idUser);
 
 		model.addAttribute("user", returningJSON);
 		model.addAttribute("comments", allCommentsOfUser);

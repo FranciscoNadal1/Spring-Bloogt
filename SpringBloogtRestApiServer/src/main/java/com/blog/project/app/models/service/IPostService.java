@@ -2,13 +2,11 @@ package com.blog.project.app.models.service;
 
 import java.util.List;
 
+import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.User;
-import com.blog.project.app.entities.User.UserComments;
-import com.blog.project.app.entities.User.UserData;
-import com.blog.project.app.entities.User.UserPosts;
 
 public interface IPostService {
 /// Default
@@ -20,6 +18,12 @@ public interface IPostService {
 
 	public PostDetails findPostById(int id);
 	public List<showPosts> findAllPostsProjection();
+	public List<showPosts> findAllPostsProjectionByCategory(Category category);
+	public List<showPosts> findAllPostsProjectionByCategoryNot(Category category);
+//	public List<showPosts> findAllPostsOfFollowingUser(User user);
+
+	public List<showPosts> findAllPostsOfFollowingUser(List<User> users);
+	public List<showPosts> findAllPostsOfFollowingUserAndCategory(List<User> users, Category category);
 	public Post findReturnPostById(int id);
 	void deletePostById(int id);
 

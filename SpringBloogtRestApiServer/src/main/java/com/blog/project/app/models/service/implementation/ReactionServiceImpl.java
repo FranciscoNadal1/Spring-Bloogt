@@ -1,6 +1,7 @@
 package com.blog.project.app.models.service.implementation;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -11,8 +12,11 @@ import com.blog.project.app.entities.Comments;
 import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.reaction.CommentReaction;
+import com.blog.project.app.entities.reaction.CommentReaction.ReactionCommentByUser;
 import com.blog.project.app.entities.reaction.PostReaction;
+import com.blog.project.app.entities.reaction.PostReaction.ReactionPostByUser;
 import com.blog.project.app.entities.reaction.Reaction;
+import com.blog.project.app.entities.reaction.Reaction.ReactionData;
 import com.blog.project.app.models.dao.ICommentReaction;
 import com.blog.project.app.models.dao.IComments;
 import com.blog.project.app.models.dao.IPost;
@@ -141,5 +145,33 @@ public class ReactionServiceImpl implements IReactionService {
 	public int getLikesComment(Comments post) {
 		return commentReactionDao.countByCommentAndReactionTrue(post);
 	}
+
+	
+	
+	
+	
+	@Override
+	public ReactionData findReactionsByPost(Post post) {
+		return postReactionDao.findByPost(post);
+	}
+
+	@Override
+	public ReactionData findReactionsByComment(Comments comment) {
+		return commentReactionDao.findByComment(comment);
+	}
+
+	@Override
+	public List<ReactionPostByUser> getPostReactionsOfUser(User user) {
+		return postReactionDao.findByReactedBy(user);
+		
+	}
+
+	@Override
+	public List<ReactionCommentByUser> getCommentReactionsOfUser(User user) {
+		return commentReactionDao.findCommentByReactedBy(user);
+		
+	}
+	
+	
 
 }

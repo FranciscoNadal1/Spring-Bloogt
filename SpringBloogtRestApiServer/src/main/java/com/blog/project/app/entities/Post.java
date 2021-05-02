@@ -27,6 +27,9 @@ import com.blog.project.app.entities.Category.CategoryName;
 import com.blog.project.app.entities.Comments.ShowComments;
 import com.blog.project.app.entities.Hashtag.HashtagShow;
 import com.blog.project.app.entities.User.OnlyUsername;
+import com.blog.project.app.entities.reaction.CommentReaction;
+import com.blog.project.app.entities.reaction.PostReaction;
+import com.blog.project.app.entities.reaction.Reaction;
 
 @Entity
 public class Post implements Serializable, Comparable<Post> {
@@ -56,7 +59,7 @@ public class Post implements Serializable, Comparable<Post> {
 	@JoinTable(name = "Hashtag_post", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hashtag_id", referencedColumnName = "id"))
 	private List<Hashtag> hashtags;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "post_id", referencedColumnName = "id")
 	private List<Comments> comments;
 
@@ -71,6 +74,12 @@ public class Post implements Serializable, Comparable<Post> {
 	// TODO This should be on a different table, to register the date of the view to get statistics, but user support comes first.
 	@Column(name = "times_viewed")
 	private int timesViewed;
+	
+	
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	private List<PostReaction> reaction;
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	
@@ -158,6 +167,14 @@ public class Post implements Serializable, Comparable<Post> {
 	public void setTimesViewed(int timesViewed) {
 		this.timesViewed = timesViewed;
 	}
+	
+	public List<PostReaction> getReaction() {
+		return reaction;
+	}
+
+	public void setReaction(List<PostReaction> reaction) {
+		this.reaction = reaction;
+	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Custom methods
 ///////////
@@ -176,6 +193,35 @@ public class Post implements Serializable, Comparable<Post> {
 		Collections.reverse(comments);
 		return comments;
 	}
+	
+	public int getPositiveReactions() {
+		int positiveReactions = 0;
+		List<PostReaction> listReaction = this.getReaction();
+		for(Reaction reaction : listReaction) 
+			if(reaction.getReaction() == true)
+				positiveReactions++;
+		
+		return positiveReactions;
+	}
+	
+	public int getNegativeReactions() {
+		int negativeReactions = 0;
+		List<PostReaction> listReaction = this.getReaction();
+		for(Reaction reaction : listReaction) 
+			if(reaction.getReaction() == false)
+				negativeReactions++;
+		
+		return negativeReactions;
+	}	
+	
+	public int getTotalReactions() {
+		int reactions = 0;
+		List<PostReaction> listReaction = this.getReaction();
+		for(Reaction reaction : listReaction) 
+				reactions++;
+		
+		return reactions;
+	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////
@@ -184,25 +230,28 @@ public class Post implements Serializable, Comparable<Post> {
 	public interface showPosts {
 
 		String getId();
-
 		String getTitle();
-
 		String getContent();
-
 		String getCreatedAt();
-
 		List<HashtagShow> getHashtags();
-
 		OnlyUsername getCreatedBy();
-
 		String getImagePost();
 
 		@Value("#{target.getComments().size()}")
 		int getCommentaryCount();
 
-		CategoryName getCategory();
-		
+		CategoryName getCategory();		
 		int getTimesViewed();
+		
+
+		@Value("#{target.getNegativeReactions()}")
+		int getNegativeReactions();
+		@Value("#{target.getPositiveReactions()}")
+		int getPositiveReactions();
+		@Value("#{target.getTotalReactions()}")
+		int getTotalReactions();
+
+
 	}
 
 	public interface PostDetails extends showPosts{
@@ -235,6 +284,14 @@ public class Post implements Serializable, Comparable<Post> {
 		CategoryName getCategory();
 		String getImagePost();
 		int getTimesViewed();
+		
+
+		@Value("#{target.getNegativeReactions()}")
+		int getNegativeReactions();
+		@Value("#{target.getPositiveReactions()}")
+		int getPositiveReactions();
+		@Value("#{target.getTotalReactions()}")
+		int getTotalReactions();
 	}
 	public interface PostByUser extends PostBy {
 		List<HashtagShow> getHashtags();
@@ -244,6 +301,14 @@ public class Post implements Serializable, Comparable<Post> {
 		String getTitle();
 		OnlyUsername getCreatedBy();
 		Date getCreatedAt();
+		
+
+		@Value("#{target.getNegativeReactions()}")
+		int getNegativeReactions();
+		@Value("#{target.getPositiveReactions()}")
+		int getPositiveReactions();
+		@Value("#{target.getTotalReactions()}")
+		int getTotalReactions();
 	}
 	
 	public interface PostByHashtag  extends PostBy{

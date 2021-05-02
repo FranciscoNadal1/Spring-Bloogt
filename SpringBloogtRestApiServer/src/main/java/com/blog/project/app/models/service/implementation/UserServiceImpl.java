@@ -138,7 +138,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 ///////////////////////////////////////////////////////////////////////////////////
 	public User getLoggedUser() {
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-		String loggedUserUsername = loggedInUser.getName();
+		String loggedUserUsername;
+		try {
+			loggedUserUsername = loggedInUser.getName();
+		} catch (NullPointerException e) {
+			throw new RuntimeException("There are problems with the user logged");
+		}
 		User loggedUser = this.getUserByUsername(loggedUserUsername);
 
 		return loggedUser;

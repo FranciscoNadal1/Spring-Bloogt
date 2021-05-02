@@ -81,7 +81,9 @@ public class Category implements Serializable {
 	public Post getLastPost() {
 		List<Post> posts = this.getPosts();
 		Collections.reverse(posts);
-		return posts.get(0);
+		for(Post post : posts)
+			return post;
+		return null;
 	}
 	
 	public void setPosts(List<Post> posts) {
