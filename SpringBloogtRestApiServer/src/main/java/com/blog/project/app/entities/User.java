@@ -24,6 +24,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -211,11 +212,17 @@ public class User implements Serializable {
 	public void setChats(List<Chat> chats) {
 		this.chats = chats;
 	}
+	
+	public int writtenPosts() {
+		return this.getPosts().size();
+		
+	}	
+	public int writtenComments() {
+		return this.getComments().size();
+	}
 
 	@Override
-	public String toString() {
-		
-		
+	public String toString() {		
 		return "|Username|"+ this.getUsername()+"|";
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -240,6 +247,12 @@ public class User implements Serializable {
 		List<String> getUserRoles();
 		Date getCreatedAt();
 		List<OnlyUsername> getFollowing();
+
+		@Value("#{target.writtenPosts()}")
+		int getWrittenPosts();
+		
+		@Value("#{target.writtenComments()}")
+		int getWrittenComments();
 	}
 
 
@@ -261,6 +274,8 @@ public class User implements Serializable {
 		String getId();
 		String getAvatar();
 		String getUsername();
+		String getName();
+		String getSurname();
 	}
 	
 	public interface UserFollowData extends OnlyUsername{

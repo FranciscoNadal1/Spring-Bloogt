@@ -1,5 +1,6 @@
 package com.blog.project.app.rest.controllers;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.project.app.entities.Category;
@@ -69,7 +71,7 @@ public class PostsController {
 ///////////		Methods to retrieve information
 
 
-	@GetMapping("/getAllPosts")
+	@GetMapping("/getAll")
 	public List<showPosts> getAllPosts(HttpServletResponse response, HttpServletRequest request) {
 		response.setContentType(contentType);
 
@@ -81,7 +83,76 @@ public class PostsController {
 		return returningJSON;
 	}
 
-	@GetMapping("/getPostById/{id}")
+	
+	@GetMapping("/getAll/category/name/{category}")
+	public List<showPosts> getAllPostsOfCategoryByName(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "category") String category) {
+		response.setContentType(contentType);
+
+		Category cat = categoryService.findCategoryByName(category);
+		if(cat == null)
+			throw new RuntimeException("Category wasn't found");
+		
+		List<showPosts> returningJSON = postService.findAllPostsProjectionByCategory(cat);
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}
+
+	@GetMapping("/getAll/category/name/not/{category}")
+	public List<showPosts> getAllPostsOfCategoryByNotName(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "category") String category) {
+		response.setContentType(contentType);
+
+		Category cat = categoryService.findCategoryByName(category);
+		if(cat == null)
+			throw new RuntimeException("Category wasn't found");
+		
+		List<showPosts> returningJSON = postService.findAllPostsProjectionByCategoryNot(cat);
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}
+	
+	@GetMapping("/getAll/category/id/{id}")
+	public List<showPosts> getAllPostsOfCategoryById(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "id") int id) {
+		response.setContentType(contentType);
+
+		Category cat = categoryService.findCategoryById(id);
+		if(cat == null)
+			throw new RuntimeException("Category wasn't found");
+		
+		List<showPosts> returningJSON = postService.findAllPostsProjectionByCategory(cat);
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}	
+
+	@GetMapping("/getAll/category/not/id/{id}")
+	public List<showPosts> getAllPostsOfCategoryNotById(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "id") int id) {
+		response.setContentType(contentType);
+
+		Category cat = categoryService.findCategoryById(id);
+		if(cat == null)
+			throw new RuntimeException("Category wasn't found");
+		
+		List<showPosts> returningJSON = postService.findAllPostsProjectionByCategoryNot(cat);
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}	
+	
+	@GetMapping("/getById/{id}")
 	public PostDetails getPostById(HttpServletResponse response, HttpServletRequest request,
 			@PathVariable(value = "id") int id) {
 		response.setContentType(contentType);
@@ -93,12 +164,97 @@ public class PostsController {
 
 		return returningJSON;
 	}
+	
+	
+
+
+	@GetMapping("/getAll/following")
+	public List<showPosts> getAllPostsFollowing(HttpServletResponse response, HttpServletRequest request, @RequestHeader(value="Authorization", required=false) String authorization,
+			@RequestParam(name="includeSelf", required = false, defaultValue = "true") boolean includeSelf) {
+		response.setContentType(contentType);
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER")  )
+			throw new UnauthorizedArea();
+		
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+		List<User> followingUsers = authenticatedUser.getFollowing();
+		
+		if(includeSelf)
+			followingUsers.add(authenticatedUser);
+		
+		List<showPosts> returningJSON = postService.findAllPostsOfFollowingUser(followingUsers);
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}
+
+	@GetMapping("/getAll/following/category/id/{categoryId}")
+	public List<showPosts> getAllPostsFollowing(HttpServletResponse response, 
+			HttpServletRequest request, 
+			@RequestHeader(value="Authorization", required=false) String authorization,
+			@PathVariable(value = "categoryId") int categoryId,
+			@RequestParam(name="includeSelf", required = false, defaultValue = "true") boolean includeSelf) {
+		response.setContentType(contentType);
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER")  )
+			throw new UnauthorizedArea();
+
+		Category cat = categoryService.findCategoryById(categoryId);
+		if(cat == null)
+			throw new RuntimeException("Category wasn't found");
+		
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+			
+		List<User> followingUsers = authenticatedUser.getFollowing();
+		if(includeSelf)
+			followingUsers.add(authenticatedUser);
+		
+		List<showPosts> returningJSON = postService.findAllPostsOfFollowingUserAndCategory(followingUsers, cat);
+
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}	
+	
+
+	@GetMapping("/getAll/following/category/name/{categoryName}")
+	public List<showPosts> getAllPostsFollowing(HttpServletResponse response, 
+			HttpServletRequest request, 
+			@RequestHeader(value="Authorization", required=false) String authorization,
+			@PathVariable(value = "categoryName") String categoryName,
+			@RequestParam(name="includeSelf", required = false, defaultValue = "true") boolean includeSelf) {
+		response.setContentType(contentType);
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER")  )
+			throw new UnauthorizedArea();
+
+		Category cat = categoryService.findCategoryByName(categoryName);
+		if(cat == null)
+			throw new RuntimeException("Category wasn't found");
+		
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+		List<User> followingUsers = authenticatedUser.getFollowing();
+		if(includeSelf)
+			followingUsers.add(authenticatedUser);
+		
+		List<showPosts> returningJSON = postService.findAllPostsOfFollowingUserAndCategory(followingUsers, cat);
+		
+		
+		if (returningJSON.isEmpty())
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}	
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		POST Methods
 ///////////
 ///////////		Methods to create new information
 
-	@PostMapping("/newPost")
+	@PostMapping("/new")
 	public JSONObject createPost(HttpServletResponse response, HttpServletRequest request,
 			@RequestBody Map<String, Object> payload, @RequestHeader(value="Authorization", required=false) String authorization) {
 		
@@ -151,28 +307,30 @@ public class PostsController {
 //	and the hashtag will be created  if it's a name and doesn't exist
 		List<Hashtag> hashtagList = new LinkedList<Hashtag>();
 		int idPost = newPost.getId();
-		for (String hashtag : (List<String>) payload.get("hashtags")) {
-			Hashtag hash = null;
-
-			try {
-				if (LocalUtils.isNumeric(hashtag))
-					hash = hashtagService.findHashtagById(Integer.parseInt(hashtag));
-				else
-					hash = hashtagService.findHashtagByName(hashtag);
-
-				hash.getPosts().add(newPost);
-				hashtagService.save(hash);
-
-			} catch (NullPointerException e) {
-				if (LocalUtils.isNumeric(hashtag))
-					throw new RuntimeException("You can't create a hashtag that is only a number");
-
-				hash = new Hashtag(hashtag, newPost);
-				hashtagService.save(hash);
-			} catch (Exception e) {
-				throw new RuntimeException("Error with the hashtag provided");
+		
+		if(payload.containsKey("hashtags"))
+			for (String hashtag : (List<String>) payload.get("hashtags")) {
+				Hashtag hash = null;
+	
+				try {
+					if (LocalUtils.isNumeric(hashtag))
+						hash = hashtagService.findHashtagById(Integer.parseInt(hashtag));
+					else
+						hash = hashtagService.findHashtagByName(hashtag);
+	
+					hash.getPosts().add(newPost);
+					hashtagService.save(hash);
+	
+				} catch (NullPointerException e) {
+					if (LocalUtils.isNumeric(hashtag))
+						throw new RuntimeException("You can't create a hashtag that is only a number");
+	
+					hash = new Hashtag(hashtag, newPost);
+					hashtagService.save(hash);
+				} catch (Exception e) {
+					throw new RuntimeException("Error with the hashtag provided");
+				}
 			}
-		}
 
 		newPost = null;
 

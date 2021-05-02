@@ -99,7 +99,7 @@ public class UserController {
 
 		return returningJSON;
 	}
-
+//////////////////////////////////////////////////
 
 	@GetMapping("/getCommentsByUserId/{id}")
 	public List<UserComments> getCommentsByUserId(HttpServletRequest request, HttpServletResponse response,
@@ -113,18 +113,46 @@ public class UserController {
 
 		return returningJSON;
 	}
-	@GetMapping("/getPostsByUserId/{id}")
-	public List<UserPosts> getPostsByUserId(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable(value = "id") int id) {
+	
+	@GetMapping("/getCommentsByUsername/{username}")
+	public List<UserComments> getCommentsByUsername(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable(value = "username") String username) {
 		response.setContentType(contentType);
 		
-		List<UserPosts> returningJSON = userService.findAllPostsOfUserProjectedById(id);
+		List<UserComments> returningJSON = userService.findAllCommentsOfUserProjectedByUsername(username);
 
 		if (returningJSON.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);
 
 		return returningJSON;
 	}
+	
+	@GetMapping("/getPostsByUserId/{id}")
+	public UserPosts getPostsByUserId(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable(value = "id") int id) {
+		response.setContentType(contentType);
+		
+		UserPosts returningJSON = userService.findAllPostsOfUserProjectedById(id);
+
+		if (returningJSON == null)
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}
+	
+	@GetMapping("/getPostsByUsername/{username}")
+	public UserPosts getPostsByUserId(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable(value = "username") String username) {
+		response.setContentType(contentType);		
+		
+		UserPosts returningJSON = userService.findAllPostsOfUserProjectedByUsername(username);
+
+		if (returningJSON == null)
+			LocalUtils.ThrowPayloadEmptyException(request);
+
+		return returningJSON;
+	}
+	
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		POST Methods

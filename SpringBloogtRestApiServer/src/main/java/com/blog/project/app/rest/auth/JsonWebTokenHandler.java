@@ -56,7 +56,7 @@ public class JsonWebTokenHandler implements JWTHandler {
 						getRolesFromUser(username).stream().map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000)).signWith(secretKey).compact();
+				.setExpiration(new Date(System.currentTimeMillis() + 604800000)).signWith(secretKey).compact();
 
 		return "Bearer " + token;
 	}

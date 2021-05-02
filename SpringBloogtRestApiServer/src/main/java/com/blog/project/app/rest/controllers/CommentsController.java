@@ -72,15 +72,21 @@ public class CommentsController {
 
 	
 	@GetMapping("/getAllComments")
-	public List<ShowAllComments> getAllComments(HttpServletResponse response, HttpServletRequest request) {
+	public List<ShowAllComments> getAllComments(HttpServletResponse response, HttpServletRequest request) {		
 		response.setContentType(contentType);
-
+		
+		try {
+			
 		List<ShowAllComments> returningJSON = commentsService.findAllProjectedBy();
-
+		
 		if (returningJSON.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);
+		
 
 		return returningJSON;
+		}catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	@GetMapping("/getCommentByPostId/{id}")
@@ -120,6 +126,9 @@ public class CommentsController {
 		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
 			throw new UnauthorizedArea();
 		
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+
+		
 		if(payload.isEmpty())
 			throw new NoPayloadDataException();
 		
@@ -129,8 +138,6 @@ public class CommentsController {
 		int userId;
 		try {
 		     postId = (int) payload.get("post_id");
-		     userId = (int) payload.get("user_id");
-		     
 		} catch (Exception e) {
 		    throw new InvalidPayloadException();
 		}
@@ -143,7 +150,7 @@ public class CommentsController {
 		newComment.setMessage((String)payload.get("message"));
 		//////////////////////////////////////////////
 		
-		newComment.setCreatedBy(userService.findReturnUserById(userId));		
+		newComment.setCreatedBy(authenticatedUser);		
 		newComment.setPost(postService.findReturnPostById(postId));
 
 		commentsService.save(newComment);

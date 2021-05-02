@@ -118,10 +118,18 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	}
 
 	@Override
-	public List<UserPosts> findAllPostsOfUserProjectedById(int id) {
-		return (List<UserPosts>)userDao.findAllPostsOfUserProjectedById(id);
+	public List<UserComments> findAllCommentsOfUserProjectedByUsername(String username) {
+		return (List<UserComments>)userDao.findAllCommentsOfUserProjectedByUsername(username);
 	}
 
+	@Override
+	public UserPosts findAllPostsOfUserProjectedById(int id) {
+		return (UserPosts)userDao.findAllPostsOfUserProjectedById(id);
+	}
+	@Override
+	public UserPosts findAllPostsOfUserProjectedByUsername(String username) {
+		return (UserPosts)userDao.findAllPostsOfUserProjectedByUsername(username);
+	}
 	@Override
 	public User findReturnUserById(int id) {
 		return (User) userDao.findReturnUserById(id);
@@ -130,7 +138,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 ///////////////////////////////////////////////////////////////////////////////////
 	public User getLoggedUser() {
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-		String loggedUserUsername = loggedInUser.getName();
+		String loggedUserUsername;
+		try {
+			loggedUserUsername = loggedInUser.getName();
+		} catch (NullPointerException e) {
+			throw new RuntimeException("There are problems with the user logged");
+		}
 		User loggedUser = this.getUserByUsername(loggedUserUsername);
 
 		return loggedUser;
@@ -233,5 +246,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		userDao.save(user);
 		
 	}
+
 
 }

@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.blog.project.app.utils.LocalUtils;
-
+/*
 @Controller
 public class ErrorManagement implements ErrorController  {
 
@@ -19,19 +19,7 @@ public class ErrorManagement implements ErrorController  {
 	
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
-    //	String status = (String) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-    //	 Object status = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-/*
-    	System.out.println("--------------------------------------");
-    	String errorMessage = request.getAttribute(RequestDispatcher.ERROR_MESSAGE).toString();
-    	System.out.println("errorMessage");
-    	String errorException = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION).toString();
-    	String errorException2 = request.getAttribute(RequestDispatcher.).toString();
-    	System.out.println("errorException");
-    //	String errorException = RequestDispatcher.
-    //	System.out.println("errorMessage");
-    	System.out.println("--------------------------------------");
-*/
+
 
 		model.addAttribute("titulo", "An error has ocurred");	
 		model.addAttribute("message", request.getAttribute(RequestDispatcher.ERROR_EXCEPTION).toString());	
@@ -47,3 +35,4 @@ public class ErrorManagement implements ErrorController  {
         return null;
     }
 }
+*/

@@ -1,23 +1,32 @@
 package com.blog.project.app.entities;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.blog.project.app.entities.Post.PostByHashtag;
+import com.blog.project.app.entities.Post.PostNoContent;
 import com.blog.project.app.entities.User.OnlyUsername;
+import com.blog.project.app.entities.reaction.CommentReaction;
+import com.blog.project.app.entities.reaction.Reaction;
 import com.blog.project.app.utils.LocalUtils;
-
-import net.bytebuddy.implementation.bind.annotation.Default;
 
 @Entity
 public class Comments  implements Comparable<Comments> {
@@ -45,7 +54,16 @@ public class Comments  implements Comparable<Comments> {
 	@Column(name = "created_at")
 	private Date createdAt;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "comment")
+	private List<CommentReaction> reaction;
+	
+	
 	private boolean removedByModerator;
+
+
+
+	
+	
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +129,42 @@ public class Comments  implements Comparable<Comments> {
 		this.removedByModerator = removedByModerator;
 	}
 	
+	public List<CommentReaction> getReaction() {
+		return reaction;
+	}
+
+	public void setReaction(List<CommentReaction> reaction) {
+		this.reaction = reaction;
+	}
+
+	public int getPositiveReactions() {
+		int positiveReactions = 0;
+		List<CommentReaction> listReaction = this.getReaction();
+		for(Reaction reaction : listReaction) 
+			if(reaction.getReaction() == true)
+				positiveReactions++;
+		
+		return positiveReactions;
+	}
 	
+	public int getNegativeReactions() {
+		int negativeReactions = 0;
+		List<CommentReaction> listReaction = this.getReaction();
+		for(Reaction reaction : listReaction) 
+			if(reaction.getReaction() == false)
+				negativeReactions++;
+		
+		return negativeReactions;
+	}	
+	
+	public int getTotalReactions() {
+		int reactions = 0;
+		List<CommentReaction> listReaction = this.getReaction();
+		for(Reaction reaction : listReaction) 
+				reactions++;
+		
+		return reactions;
+	}		
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////
@@ -123,29 +176,30 @@ public class Comments  implements Comparable<Comments> {
 
 	public interface ShowComments extends Comparable<ShowComments> {
 
-		String getId();
-		
-		String getMessage();
-		
+		String getId();		
 		OnlyUsername getCreatedBy();
+		String getMessage();		
 		Date getCreatedAt();
 		boolean isRemovedByModerator();
-		void setPost(Post post);
-
+		//void setPost(Post post);
+		//int getReaction();
+		@Value("#{target.getNegativeReactions()}")
+		int getNegativeReactions();
+		@Value("#{target.getPositiveReactions()}")
+		int getPositiveReactions();
+		@Value("#{target.getTotalReactions()}")
+		int getTotalReactions();
 
 	}
 
-	public interface ShowAllComments {
+	public interface ShowAllComments extends ShowComments{
 
-		String getId();
-		OnlyUsername getCreatedBy();
-		
-		String getMessage();
-		
-		PostByHashtag getPost();
-		//OnlyUsername getCreatedBy();
-		Date getCreatedAt();
-		boolean isRemovedByModerator();
+		//String getId();
+		//OnlyUsername getCreatedBy();		
+		//String getMessage();		
+		PostNoContent getPost();
+		//Date getCreatedAt();
+		//boolean isRemovedByModerator();
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////		Comparators
