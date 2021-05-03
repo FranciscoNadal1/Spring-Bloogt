@@ -118,8 +118,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	}
 
 	@Override
-	public List<UserComments> findAllCommentsOfUserProjectedByUsername(String username) {
-		return (List<UserComments>)userDao.findAllCommentsOfUserProjectedByUsername(username);
+	public UserComments findAllCommentsOfUserProjectedByUsername(String username) {
+		return (UserComments)userDao.findAllCommentsOfUserProjectedByUsername(username);
 	}
 
 	@Override

@@ -69,7 +69,7 @@ public class FollowsController {
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////			POST
-	
+/*
 	@PostMapping("/follow")
 	public JSONObject followUser(HttpServletRequest request, @RequestBody Map<String, Object> payload, @RequestHeader(value="Authorization", required=false) String authorization) {
 		System.out.println(payload.get("message"));
@@ -95,10 +95,60 @@ public class FollowsController {
 		responseJson.appendField("message", "User followed");
 		return responseJson;
 	}
-	
+*/
+	@PostMapping("/follow/{username}")
+	public JSONObject followUser(
+			HttpServletRequest request, 
+			@RequestHeader(value="Authorization", required=false) String authorization,
+			@PathVariable(value = "username") String username) {
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
+			throw new UnauthorizedArea();
+
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+		
+		User userToFollow = null;
+
+			userToFollow = userService.getUserByUsername(username);
+			
+		if(userToFollow == null)
+			throw new RuntimeException("User doesn't exist");	
+
+		
+		userService.followUserCommon(authenticatedUser, userToFollow.getUsername());
+		
+		JSONObject responseJson = new JSONObject();
+		responseJson.appendField("status", "OK");
+		responseJson.appendField("message", "User followed");
+		return responseJson;
+	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////	DELETE
 	
+	@DeleteMapping("/unfollow/{username}")
+	public JSONObject unfollowUser(
+			HttpServletRequest request, 
+			@RequestHeader(value="Authorization", required=false) String authorization,
+			@PathVariable(value = "username") String username) {
+
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
+			throw new UnauthorizedArea();
+
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+		User userToUnfollow = userService.getUserByUsername(username);
+
+		if(userToUnfollow == null)
+			throw new RuntimeException("User doesn't exist");	
+		
+		userService.unfollowUserCommon(authenticatedUser, userToUnfollow.getUsername());
+		
+		JSONObject responseJson = new JSONObject();
+		responseJson.appendField("status", "OK");
+		responseJson.appendField("message", "User unfollowed");
+		return responseJson;
+	}
+	
+	/*
 	@DeleteMapping("/unfollow")
 	public JSONObject unfollowUser(HttpServletRequest request, @RequestBody Map<String, Object> payload, @RequestHeader(value="Authorization", required=false) String authorization) {
 		System.out.println(payload.get("message"));
@@ -120,4 +170,5 @@ public class FollowsController {
 		responseJson.appendField("message", "User unfollowed");
 		return responseJson;
 	}
+	*/
 }

@@ -172,7 +172,7 @@ public class User implements Serializable {
 
 	public List<Comments> getComments() {
 		Collections.sort(comments);
-		return comments;
+		return this.comments;
 	}
 
 	public void setComments(List<Comments> comments) {
@@ -261,6 +261,8 @@ public class User implements Serializable {
 	public interface UserComments {
 		String getId();
 		String getUsername();
+
+		@Value("#{target.getComments()}")
 		List<ShowComments> getComments();
 	}
 

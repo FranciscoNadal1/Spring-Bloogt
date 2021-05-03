@@ -30,7 +30,7 @@ public interface IUser extends BaseRepository <User, Long> {
     User findUserByUsername(String username);	
 	User findReturnUserById(int id);
 	List<UserComments> findAllCommentsOfUserProjectedById(int id);
-	List<UserComments> findAllCommentsOfUserProjectedByUsername(String username);
+	UserComments findAllCommentsOfUserProjectedByUsername(String username);
 	UserPosts findAllPostsOfUserProjectedById(int id);
 	UserPosts findAllPostsOfUserProjectedByUsername(String username);
 

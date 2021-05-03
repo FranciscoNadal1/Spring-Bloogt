@@ -17,7 +17,7 @@
 				<div class="card-header" th:text="${titulo}"></div>
 				<div class="card-body">
 
-					<img th:if="${#strings.length(user.avatar) > 0}"
+					<img th:if="${user.avatar != null}"
 						th:src="@{'/uploads/' + ${user.avatar}}" th:alt="${user.avatar}"
 						class="img-thumbnail rounded float-left" style="max-width: 25%;" />
 
