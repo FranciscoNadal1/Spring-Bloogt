@@ -115,13 +115,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/getCommentsByUsername/{username}")
-	public List<UserComments> getCommentsByUsername(HttpServletRequest request, HttpServletResponse response,
+	public UserComments getCommentsByUsername(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable(value = "username") String username) {
 		response.setContentType(contentType);
 		
-		List<UserComments> returningJSON = userService.findAllCommentsOfUserProjectedByUsername(username);
+		UserComments returningJSON = userService.findAllCommentsOfUserProjectedByUsername(username);
 
-		if (returningJSON.isEmpty())
+		if (returningJSON == null)
 			LocalUtils.ThrowPayloadEmptyException(request);
 
 		return returningJSON;

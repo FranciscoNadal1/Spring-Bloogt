@@ -172,6 +172,18 @@ public class ReactionServiceImpl implements IReactionService {
 		
 	}
 	
+
+	@Override
+	public List<ReactionCommentByUser> getCommentReactionUpOrDownOfUser( boolean reaction, User user) {
+		return commentReactionDao.findByReactionAndReactedBy(reaction, user);
+		
+	}	
+	
+	@Override
+	public List<ReactionPostByUser> getPostReactionUpOrDownOfUser( boolean reaction, User user) {
+		return postReactionDao.findByReactionAndReactedBy(reaction, user); 
+		
+	}	
 	
 
 }

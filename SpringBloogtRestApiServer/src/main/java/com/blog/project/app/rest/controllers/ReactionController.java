@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.project.app.entities.Comments;
@@ -19,6 +20,7 @@ import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.reaction.CommentReaction.ReactionCommentByUser;
 import com.blog.project.app.entities.reaction.PostReaction.ReactionPostByUser;
+import com.blog.project.app.entities.reaction.Reaction;
 import com.blog.project.app.entities.reaction.Reaction.ReactionData;
 import com.blog.project.app.errors.UnauthorizedArea;
 import com.blog.project.app.models.service.ICommentsService;
@@ -49,8 +51,70 @@ public class ReactionController {
 	@Autowired
 	IUserService userService;
 
+	@GetMapping("/posts/user/{username}")
+	public List<ReactionPostByUser> postsReactionsOfUser(
+			@RequestHeader(value="Authorization", required=false) String authorization,
+			@PathVariable(value = "username") String username,
+			@RequestParam(required = false) boolean reaction) {
+
+		User user = userService.getUserByUsername(username);
+		
+		List<ReactionPostByUser> reactionPostData = null;
+		
+
+		if(reaction == true) {
+			reactionPostData = commentReactionService.getPostReactionUpOrDownOfUser(true,user);
+			return reactionPostData;
+		}
+		if(reaction == false) {
+			reactionPostData = commentReactionService.getPostReactionUpOrDownOfUser(false,user);
+			return reactionPostData;
+			
+		}
+		
+		reactionPostData = commentReactionService.getPostReactionsOfUser(user);
+		
+		if(reactionPostData == null) 
+			throw new RuntimeException("This user has no reactions");
+		
+		return reactionPostData;
+	}
+	@GetMapping("/comments/user/{username}")
+	public List<ReactionCommentByUser> commentReactionsOfUser(
+			@RequestHeader(value="Authorization", required=false) String authorization,
+			@PathVariable(value = "username") String username,
+			@RequestParam(required = false) boolean reaction) {
+
+		User user = userService.getUserByUsername(username);
+		
+		List<ReactionCommentByUser> reactionCommentData = null;
+		System.out.println("------------");
+		System.out.println(reaction);
+		
+			if(reaction == true) {
+				reactionCommentData = commentReactionService.getCommentReactionUpOrDownOfUser(true,user);
+				return reactionCommentData;
+			}
+			if(reaction == false) {
+				reactionCommentData = commentReactionService.getCommentReactionUpOrDownOfUser(false,user);
+				return reactionCommentData;
+			}
+				
+			
+
+			reactionCommentData = commentReactionService.getCommentReactionsOfUser(user);
+
+		
+		if(reactionCommentData == null) 
+			throw new RuntimeException("This user has no reactions");
+		
+		return reactionCommentData;
+	}	
+	
+	
+	
 	@GetMapping("/comment/user")
-	public List<ReactionCommentByUser> commentReactionsUser(@RequestHeader(value="Authorization", required=false) String authorization) {
+	public List<ReactionCommentByUser> commentReactionsLoggedUser(@RequestHeader(value="Authorization", required=false) String authorization) {
 
 		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
 			throw new UnauthorizedArea();
@@ -66,7 +130,7 @@ public class ReactionController {
 	}
 
 	@GetMapping("/post/user")
-	public List<ReactionPostByUser> postReactionsUser(@RequestHeader(value="Authorization", required=false) String authorization) {
+	public List<ReactionPostByUser> postReactionsLoggedUser(@RequestHeader(value="Authorization", required=false) String authorization) {
 
 		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
 			throw new UnauthorizedArea();

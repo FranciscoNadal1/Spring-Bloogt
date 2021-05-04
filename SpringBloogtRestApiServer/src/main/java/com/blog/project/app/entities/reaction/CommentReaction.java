@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.blog.project.app.entities.Comments;
+import com.blog.project.app.entities.Comments.ShowComments;
 
 @Entity
 public class CommentReaction extends Reaction {
@@ -17,12 +18,16 @@ public class CommentReaction extends Reaction {
 //	@JoinColumn(name = "reaction_id", referencedColumnName = "id")
 	private Comments comment;
 
-	public Comments getComment() {
+	public Comments getComments() {
 		return comment;
 	}
 
 	public void setComment(Comments comment) {
 		this.comment = comment;
+	}
+	
+	public int getCommentId() {
+		return this.comment.getId();
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,8 +37,10 @@ public class CommentReaction extends Reaction {
 
 	public interface ReactionCommentByUser {
 
-		@Value("#{target.getPostId()}")
-		int getPostId();
+		@Value("#{target.getCommentId()}")
+		int getCommentId();
+
+		ShowComments getComments();
 
 		Date getCreatedAt();
 
