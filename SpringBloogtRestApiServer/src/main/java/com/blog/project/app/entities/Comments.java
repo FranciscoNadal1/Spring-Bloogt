@@ -108,7 +108,10 @@ public class Comments  implements Comparable<Comments> {
 	public Post getPost() {
 		return post;
 	}
-
+	public int getPostId() {
+		return this.getPost().getId();
+	}
+	
 	public void setPost(Post post) {
 		this.post = post;
 	}
@@ -189,6 +192,9 @@ public class Comments  implements Comparable<Comments> {
 		int getPositiveReactions();
 		@Value("#{target.getTotalReactions()}")
 		int getTotalReactions();
+
+		@Value("#{target.getPostId()}")
+		int getPostId();
 
 	}
 

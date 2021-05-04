@@ -41,7 +41,7 @@ public interface IUser extends BaseRepository <User, Long> {
 	@Query(value = "SELECT user.* FROM user_following, user where user_following.following_id = user.id and user_following.user_id = ?1", nativeQuery = true)					
 	List<OnlyUsername> findFollowerDataById(int userid);
 	
-
-	@Query(value = "SELECT user.* FROM user_following, user where user_following.following_id = user.id and user_following.following_id = ?1", nativeQuery = true)					
+//	select * from user	where user.id in(	SELECT user_following.user_id	FROM user_following, user 	where 	user_following.following_id = user.id 	and user.id = ?1)
+	@Query(value = "select * from user	where user.id in(	SELECT user_following.user_id	FROM user_following, user 	where 	user_following.following_id = user.id 	and user.id = ?1)", nativeQuery = true)					
 	List<OnlyUsername> findFollowedDataById(int userid);
 }

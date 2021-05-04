@@ -27,6 +27,8 @@ public interface IReactionService {
 	
 	public List<ReactionPostByUser> getPostReactionsOfUser(User user);
 	public List<ReactionCommentByUser> getCommentReactionsOfUser(User user);
+	public List<ReactionCommentByUser> getCommentReactionUpOrDownOfUser( boolean reaction, User user);
+	public List<ReactionPostByUser> getPostReactionUpOrDownOfUser( boolean reaction, User user);
 	
 	// For logged user - Embed blog
 	public void likeOrDislikePost(int postId, boolean likeOrDislike);

@@ -108,8 +108,12 @@ public class FollowsController {
 		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
 		
 		User userToFollow = null;
+		
+			
 
 			userToFollow = userService.getUserByUsername(username);
+			if(userToFollow.equals(authenticatedUser))
+				throw new RuntimeException("You can't follow yourself");	
 			
 		if(userToFollow == null)
 			throw new RuntimeException("User doesn't exist");	
@@ -137,6 +141,10 @@ public class FollowsController {
 		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
 		User userToUnfollow = userService.getUserByUsername(username);
 
+
+		if(userToUnfollow.equals(authenticatedUser))
+			throw new RuntimeException("You can't unfollow yourself");	
+		
 		if(userToUnfollow == null)
 			throw new RuntimeException("User doesn't exist");	
 		

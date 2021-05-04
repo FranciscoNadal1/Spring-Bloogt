@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.blog.project.app.entities.Post;
+import com.blog.project.app.entities.Post.showPosts;
 
 @Entity
 public class PostReaction extends Reaction {
@@ -18,7 +19,7 @@ public class PostReaction extends Reaction {
 //	@JoinColumn(name = "reaction_id", referencedColumnName = "id")
 	private Post post;
 
-	public Post getPost() {
+	public Post getPosts() {
 		return post;
 	}
 
@@ -39,6 +40,9 @@ public class PostReaction extends Reaction {
 
 		@Value("#{target.getPostId()}")
 		int getPostId();
+		
+		showPosts getPosts();
+		
 		Date getCreatedAt();
 		boolean getReaction();
 	}

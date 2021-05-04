@@ -30,6 +30,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.Comments.ShowComments;
 import com.blog.project.app.entities.Post.PostByUser;
+import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.chat.Chat;
 import com.sun.istack.Nullable;
 
@@ -269,7 +270,7 @@ public class User implements Serializable {
 	public interface UserPosts {
 		String getId();
 		String getUsername();
-		List<PostByUser> getPosts();
+		List<showPosts> getPosts();
 	}
 	
 	public interface OnlyUsername {
