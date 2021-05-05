@@ -14,7 +14,7 @@ import com.blog.project.app.entities.Comments.ShowComments;
 @Entity
 public class CommentReaction extends Reaction {
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 //	@JoinColumn(name = "reaction_id", referencedColumnName = "id")
 	private Comments comment;
 

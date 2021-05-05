@@ -36,6 +36,7 @@ public interface IPost extends BaseRepository<Post, Long> {
 	
 	
 
+	List<Post> findByCreatedBy(User user);
 	List<showPosts> findByCreatedByIn(List<User> listUser);
 	List<showPosts> findByCreatedByInAndCategoryOrderByCreatedAtDesc(List<User> listUser, Category category);
 	
