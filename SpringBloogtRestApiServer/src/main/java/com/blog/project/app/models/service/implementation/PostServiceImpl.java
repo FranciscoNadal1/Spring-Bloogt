@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Post;
-import com.blog.project.app.entities.User;
-import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
+import com.blog.project.app.entities.User;
 import com.blog.project.app.models.dao.IPost;
 import com.blog.project.app.models.service.IPostService;
 
@@ -30,8 +29,8 @@ public class PostServiceImpl implements IPostService {
 	}
 
 	@Override
-	public PostDetails findPostById(int id) {
-		return (PostDetails) postDao.findById(id);
+	public showPosts findPostById(int id) {
+		return (showPosts) postDao.findById(id);
 	}
 
 	@Override
@@ -43,13 +42,13 @@ public class PostServiceImpl implements IPostService {
 //////////////////////////////////////////////	
 
 	@Override
-	public PostDetails findPostByIdAndSortByCreatedDateAsc(int id) {
-		return (PostDetails) postDao.findByIdOrderByCreatedAtAsc(id);
+	public showPosts findPostByIdAndSortByCreatedDateAsc(int id) {
+		return (showPosts) postDao.findByIdOrderByCreatedAtAsc(id);
 	}
 
 	@Override
-	public PostDetails findPostByIdAndSortByCreatedDateDesc(int id) {
-		return (PostDetails) postDao.findByIdOrderByCreatedAtDesc(id);
+	public showPosts findPostByIdAndSortByCreatedDateDesc(int id) {
+		return (showPosts) postDao.findByIdOrderByCreatedAtDesc(id);
 	}
 
 // CUSTOM

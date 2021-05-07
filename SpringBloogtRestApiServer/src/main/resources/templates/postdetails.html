@@ -60,8 +60,8 @@
 								th:href="@{/profile/} + ${post.createdBy.username}"
 								th:text="${post.createdBy.username} " />
 							</span> <span><img height="20%"
-								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span><span
-								class="createdAtPost" th:text="${post.createdAt}" />
+								src="https://www.glyphicons.com/img/glyphicons/halflings/2x/glyphicons-halflings-21-calendar@2x.png" /></span>
+
 						</div>
 						<div class="viewCount">
 							<span th:text="'Viewed times : ' + ${post.timesViewed}"></span>

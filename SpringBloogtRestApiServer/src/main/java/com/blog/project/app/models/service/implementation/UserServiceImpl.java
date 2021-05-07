@@ -236,7 +236,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 					throw new RuntimeException("User already contains that role");
 				}
 		
-		System.out.println(basicRole.getAuthority());
 		
 		if(user.getRoles() == null)
 			user.setRoles(new LinkedList<Role>());

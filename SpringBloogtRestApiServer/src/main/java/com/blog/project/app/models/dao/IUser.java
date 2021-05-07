@@ -14,6 +14,14 @@ import com.blog.project.app.entities.User.UserPosts;
 
 public interface IUser extends BaseRepository <User, Long> {
 
+	@Query("select count(*) from User")
+	int countAll();
+
+	
+	
+	
+	@Query(value = "SELECT user.* 	FROM post, user	where post.user_id = user.id and user.username like 'BOT-%'	group by user.username", nativeQuery = true)	
+	List<User> getAllBotsThatHavePosts();
 	
 	User findUserForLoginByUsername(String username);
 	

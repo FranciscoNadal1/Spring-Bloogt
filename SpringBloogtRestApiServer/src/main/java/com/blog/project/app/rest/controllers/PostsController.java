@@ -1,6 +1,5 @@
 package com.blog.project.app.rest.controllers;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Post;
-import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.errors.NoPayloadDataException;
@@ -153,11 +151,11 @@ public class PostsController {
 	}	
 	
 	@GetMapping("/getById/{id}")
-	public PostDetails getPostById(HttpServletResponse response, HttpServletRequest request,
+	public showPosts getPostById(HttpServletResponse response, HttpServletRequest request,
 			@PathVariable(value = "id") int id) {
 		response.setContentType(contentType);
 
-		PostDetails returningJSON = postService.findPostById(id);
+		showPosts returningJSON = postService.findPostById(id);
 
 		if (returningJSON.equals(null))
 			LocalUtils.ThrowPayloadEmptyException(request);

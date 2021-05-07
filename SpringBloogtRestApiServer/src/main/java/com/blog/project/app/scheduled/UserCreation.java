@@ -15,6 +15,7 @@ import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.IPostService;
 import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.utils.LocalUtils;
+import com.github.javafaker.Faker;
 
 @Service
 public class UserCreation {
@@ -35,7 +36,7 @@ public class UserCreation {
 
 		String username =  "PosterBot";
 			newUser.setUsername(username);						
-		
+
 
 		newUser.setName("Hello");
 		newUser.setAvatar("https://pngimg.com/uploads/robot/robot_PNG92.png");

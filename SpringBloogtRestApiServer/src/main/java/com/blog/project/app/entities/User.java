@@ -85,11 +85,11 @@ public class User implements Serializable {
 
 
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private List<Comments> comments;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private List<Post> posts;
 

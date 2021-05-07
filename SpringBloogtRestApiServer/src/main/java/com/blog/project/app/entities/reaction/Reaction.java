@@ -30,7 +30,7 @@ public abstract class Reaction {
 	
 	private boolean reaction;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User reactedBy;
 

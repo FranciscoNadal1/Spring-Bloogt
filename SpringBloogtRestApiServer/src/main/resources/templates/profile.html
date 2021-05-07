@@ -18,7 +18,7 @@
 				<div class="card-body">
 
 					<img th:if="${user.avatar != null}"
-						th:src="@{'/uploads/' + ${user.avatar}}" th:alt="${user.avatar}"
+						th:src="@{${user.avatar}}" th:alt="${user.avatar}"
 						class="img-thumbnail rounded float-left" style="max-width: 25%;" />
 
 					<ul class="list-group">
@@ -92,8 +92,12 @@
 									th:text="'#' + ${hashtag.name}"></a>
 								</span>
 							</div>
+							<!-- 
 							<div class="card-footer text-muted"
 								th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy HH:mm')}" />
+								 -->
+							<div class="card-footer text-muted"
+								th:text="${post.createdAt}" />
 							</div>
 						</div>
 					</div>

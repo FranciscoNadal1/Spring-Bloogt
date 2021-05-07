@@ -255,23 +255,20 @@ public class Post implements Serializable, Comparable<Post> {
 
 	}
 
-	public interface PostDetails extends showPosts{
-
-	}
 
 	// It will load PostDetails and then add the sorted comments
-	public interface PostDetailsCommentsSortByDateAsc extends PostDetails {
+	public interface PostDetailsCommentsSortByDateAsc extends showPosts {
 		@Value("#{target.getCommentsSortDateAsc()}")
 		List<ShowComments> getComments();
 	}
 
 	// It will load PostDetails and then add the sorted comments
-	public interface PostDetailsCommentsSortByDateDesc extends PostDetails {
+	public interface PostDetailsCommentsSortByDateDesc extends showPosts {
 		@Value("#{target.getCommentsSortDateDesc()}")
 		List<ShowComments> getComments();
 	}
 
-	public interface PostDetailsCommentsSortByThumbsUp extends PostDetails {
+	public interface PostDetailsCommentsSortByThumbsUp extends showPosts {
 		// TODO Thumbs up are not implemented !
 	}
 	public interface PostBy{

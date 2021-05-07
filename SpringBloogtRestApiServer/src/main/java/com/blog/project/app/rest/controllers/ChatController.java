@@ -83,14 +83,32 @@ public class ChatController {
 		}
 		
 		ChatsAndMessageOfUser listChats = chatService.findChatOfUserProjection(chat, authenticatedUser);
+
+		chatService.allMessagesToReadExceptAuthored(chat, authenticatedUser);
 		
 		return listChats;
 	}		
 	
 	
-	
-	
-	
+
+	@GetMapping("/unreadMessages")
+	public JSONObject getUnreadMessages(@RequestHeader(value="Authorization", required=false) String authorization) {
+
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
+			throw new UnauthorizedArea();
+
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+		
+		JSONObject responseJson = new JSONObject();		
+
+		
+		int unreadMessages = chatService.getUnreadMessages(authenticatedUser);
+		responseJson.appendField("status", "OK");
+		responseJson.appendField("unreadMessages", unreadMessages);
+		
+		return responseJson;
+			
+}	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////POST
 

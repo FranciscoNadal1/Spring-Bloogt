@@ -19,7 +19,8 @@ public interface IChatMessageService {
 	public Chat findChatById(int chatId);
 	public void newMessageToChat(User fromUser, String message, int chatId);
 	
-	public int getUnreadMessages();
+	public int getUnreadMessagesLoggedSession();
+	public int getUnreadMessages(User user);
 	
 	public void allMessagesToRead(Chat chat);
 	public void changeMessageToRead(Message message);

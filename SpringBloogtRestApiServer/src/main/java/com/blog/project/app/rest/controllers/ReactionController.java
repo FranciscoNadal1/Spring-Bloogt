@@ -59,8 +59,7 @@ public class ReactionController {
 
 		User user = userService.getUserByUsername(username);
 		
-		List<ReactionPostByUser> reactionPostData = null;
-		
+		List<ReactionPostByUser> reactionPostData = null;		
 
 		if(reaction == true) {
 			reactionPostData = commentReactionService.getPostReactionUpOrDownOfUser(true,user);
@@ -68,8 +67,7 @@ public class ReactionController {
 		}
 		if(reaction == false) {
 			reactionPostData = commentReactionService.getPostReactionUpOrDownOfUser(false,user);
-			return reactionPostData;
-			
+			return reactionPostData;			
 		}
 		
 		reactionPostData = commentReactionService.getPostReactionsOfUser(user);
@@ -98,8 +96,7 @@ public class ReactionController {
 			if(reaction == false) {
 				reactionCommentData = commentReactionService.getCommentReactionUpOrDownOfUser(false,user);
 				return reactionCommentData;
-			}
-				
+			}			
 			
 
 			reactionCommentData = commentReactionService.getCommentReactionsOfUser(user);

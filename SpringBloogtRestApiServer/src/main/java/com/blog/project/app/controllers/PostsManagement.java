@@ -25,7 +25,6 @@ import com.blog.project.app.entities.Comments;
 import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Hashtag.PostsOfHashtag;
 import com.blog.project.app.entities.Post;
-import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateAsc;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateDesc;
 import com.blog.project.app.entities.Post.showPosts;
@@ -97,7 +96,7 @@ public class PostsManagement {
 		
 
 		
-		PostDetails returningJSON;
+		showPosts returningJSON;
 		switch (orderType) {
 		case "asc":
 			returningJSON = (PostDetailsCommentsSortByDateDesc) postService.findPostByIdAndSortByCreatedDateDesc(id);
@@ -167,7 +166,7 @@ public class PostsManagement {
 
 		PostsOfHashtag hash = hashtagService.findPostOfHashtagByName(hashtag);
 
-		List<PostDetails> returningPostJSON = hash.getPosts();
+		List<showPosts> returningPostJSON = hash.getPosts();
 
 		model.addAttribute("titulo", "#" + hashtag);
 

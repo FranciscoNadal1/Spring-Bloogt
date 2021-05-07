@@ -28,6 +28,7 @@ import com.blog.project.app.errors.UnauthorizedArea;
 import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.rest.auth.JWTHandler;
 import com.blog.project.app.utils.LocalUtils;
+import com.github.javafaker.Faker;
 
 import net.minidev.json.JSONObject;
 
@@ -48,6 +49,8 @@ public class FollowsController {
 	@GetMapping("/{username}/following")
 	public List<OnlyUsername> getFollows(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable(value = "username") String username) {
+
+		
 		
 		response.setContentType(contentType);
 

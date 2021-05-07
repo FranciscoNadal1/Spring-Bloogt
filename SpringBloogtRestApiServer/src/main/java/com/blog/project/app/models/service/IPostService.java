@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Post;
-import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.User;
 
@@ -16,7 +15,7 @@ public interface IPostService {
 
 /// Custom
 
-	public PostDetails findPostById(int id);
+	public showPosts findPostById(int id);
 	public List<showPosts> findAllPostsProjection();
 	public List<showPosts> findAllPostsProjectionByCategory(Category category);
 	public List<showPosts> findAllPostsProjectionByCategoryNot(Category category);
@@ -27,8 +26,8 @@ public interface IPostService {
 	public Post findReturnPostById(int id);
 	void deletePostById(int id);
 
-	PostDetails findPostByIdAndSortByCreatedDateDesc(int id);
-	PostDetails findPostByIdAndSortByCreatedDateAsc(int id);
+	showPosts findPostByIdAndSortByCreatedDateDesc(int id);
+	showPosts findPostByIdAndSortByCreatedDateAsc(int id);
 	
 	public void addVisit(int id);
 }

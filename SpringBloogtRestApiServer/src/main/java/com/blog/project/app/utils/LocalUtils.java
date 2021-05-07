@@ -89,7 +89,7 @@ public class LocalUtils {
 		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
 		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
 
-		model.addAttribute("unreadMessages", chatService.getUnreadMessages());
+		model.addAttribute("unreadMessages", chatService.getUnreadMessagesLoggedSession());
 		
 	}
 	
@@ -98,7 +98,7 @@ public class LocalUtils {
 		model.addAttribute("categoriesForMenu", categoryService.findAllProjectedBy());
 		model.addAttribute("hashtagsForMenu", hashtagService.findAllProjectedBy());
 		
-		model.addAttribute("unreadMessages", chatService.getUnreadMessages());
+		model.addAttribute("unreadMessages", chatService.getUnreadMessagesLoggedSession());
 		
 		
 	}

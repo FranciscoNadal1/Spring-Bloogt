@@ -173,7 +173,15 @@ public class Chat implements Serializable{
 		return dateMessages.get(0);
 	}
 	
-	
+
+	public Message getLastMessage() {
+		List<Message> messages = this.getMessages();
+		Collections.sort(messages);
+		if(messages == null)
+			return null;
+		
+		return messages.get(0);
+	}
 	public String toString() {
 		return "Id of chat : " + this.getId();
 	}
@@ -191,7 +199,9 @@ public class Chat implements Serializable{
 
 		@Value("#{target.getMessages().size()}")
 		int getMessageCount();
-		
+
+		@Value("#{target.getLastMessage()}")
+		MessageData getLastMessage();
 
 		int getUnreadMessages();
 		Map<String,Integer> getUnreadMessagesEachUser();
