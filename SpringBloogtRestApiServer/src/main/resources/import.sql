@@ -33,13 +33,7 @@ INSERT INTO post (`id`,`content`,`created_at`,`image_post`,`times_viewed`,`title
 INSERT INTO post (`id`,`content`,`created_at`,`image_post`,`times_viewed`,`title`,`category_id`,`user_id`) VALUES (8,'dargsdfgsdfg<p>iujn<span class="fr-emoticon fr-deletable fr-emoticon-img" style="background: url(https://cdnjs.cloudflare.com/ajax/libs/emojione/2.0.1/assets/svg/1f600.svg);">&nbsp;</span>&nbsp;</p>','2021-03-19 00:25:25.285000','',1,'Emoji TEST',2,1);
 
 
-INSERT INTO comments(id, message, removed_by_moderator, user_id, post_id, created_at) VALUES(1,"First Comment",0, 1,7,"2021-11-05 18:06:12");
-INSERT INTO comments(id, message, removed_by_moderator, user_id, post_id, created_at) VALUES(2,"Second comment",0, 2,9,"2016-11-05 18:06:12");
-INSERT INTO comments(id, message, removed_by_moderator, user_id, post_id, created_at) VALUES(3,"Third comment",0, 3,7,"2018-11-05 18:06:12");
-INSERT INTO comments(id, message, removed_by_moderator, user_id, post_id, created_at) VALUES(4,"Fourth comment",0, 4,8,"2019-11-05 18:06:12");
-INSERT INTO comments(id, message, removed_by_moderator, user_id, post_id, created_at) VALUES(5,"Sixth comment",0, 1,7,"2015-11-05 18:06:12");
-INSERT INTO comments(id, message, removed_by_moderator, user_id, post_id, created_at) VALUES(6,"Seventh comment",0, 3,8,"2014-12-13 11:32:45");
-INSERT INTO comments(id, message, removed_by_moderator, user_id, post_id, created_at) VALUES(7,"Eight comment",0, 2,7,"2023-06-09 17:12:00");
+
 
 INSERT INTO hashtag(id, name) VALUES(1, "Heart");
 INSERT INTO hashtag(id, name) VALUES(2, "Health");

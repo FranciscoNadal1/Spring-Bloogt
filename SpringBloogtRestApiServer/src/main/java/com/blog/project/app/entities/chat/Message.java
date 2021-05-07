@@ -13,11 +13,12 @@ import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.blog.project.app.entities.Comments;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.OnlyUsername;
 
 @Entity
-public class Message implements Serializable{
+public class Message implements Serializable, Comparable<Message>{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -87,6 +88,16 @@ public class Message implements Serializable{
 		this.isRead = isRead;
 	}
 
+
+	@Override
+	public int compareTo(Message m) {
+        if (this.getCreatedAt() == null || m.getCreatedAt() == null) { 
+            return 0; 
+          } 
+          return getCreatedAt().compareTo(m.getCreatedAt());
+        } 
+
+		
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////
@@ -95,9 +106,10 @@ public class Message implements Serializable{
 
 	public interface MessageData {
 		int getId();
-		String message();
+		String getMessage();
 		OnlyUsername getAuthor();
 		Date getCreatedAt();
 		boolean isRead();
-	}	
+	}
+
 }
