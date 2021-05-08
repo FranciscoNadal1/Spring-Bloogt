@@ -291,13 +291,30 @@ public class PostsController {
 		
 		String postTitle = (String) payload.get("title");
 		newPost.setTitle(postTitle);
-		newPost.setContent((String) payload.get("content"));
+		String content = (String) payload.get("content");
+		newPost.setContent(content);
 		newPost.setTimesViewed(0);
 		newPost.setCreatedAt((Date) LocalUtils.getActualDate());
-		newPost.setCreatedBy(authenticatedUser);
+		newPost.setCreatedBy(authenticatedUser); 
 		newPost.setImagePost((String) payload.get("imagePost"));
 
+	//	List<String> hashtagsToCreate = new LinkedList<>();		
+		List<String> payloadHashtags = new LinkedList<>();
+//payloadHashtags.add(hashtagsToCreate);
 
+
+String[] arr = content.split(" "); 
+for(String word : arr) {
+	if(word.startsWith("#") && word.length() >= 3) {
+		word = word.substring(1);
+		payloadHashtags.add(word);
+	}
+}
+
+if(payload.containsKey("hashtags"))
+	for (String hashtag : (List<String>) payload.get("hashtags")){
+		payloadHashtags.add(hashtag);
+	}
 
 		postService.savePost(newPost);
 
@@ -306,8 +323,10 @@ public class PostsController {
 		List<Hashtag> hashtagList = new LinkedList<Hashtag>();
 		int idPost = newPost.getId();
 		
-		if(payload.containsKey("hashtags"))
-			for (String hashtag : (List<String>) payload.get("hashtags")) {
+
+				
+		if(!payloadHashtags.isEmpty())
+			for (String hashtag : payloadHashtags) {
 				Hashtag hash = null;
 	
 				try {

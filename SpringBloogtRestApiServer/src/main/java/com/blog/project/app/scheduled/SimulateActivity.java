@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.blog.project.app.entities.Comments;
+import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.models.dao.IComments;
@@ -24,6 +25,7 @@ import com.blog.project.app.models.dao.IPost;
 import com.blog.project.app.models.dao.IUser;
 import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.ICommentsService;
+import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.models.service.IPostService;
 import com.blog.project.app.models.service.IReactionService;
 import com.blog.project.app.models.service.IUserService;
@@ -31,6 +33,7 @@ import com.blog.project.app.utils.LocalUtils;
 import com.blog.project.app.utils.RandomData;
 
 @Service
+@Transactional
 @EnableAsync
 @ConditionalOnProperty(value = "simulate.activity", havingValue = "true")
 public class SimulateActivity {
@@ -40,6 +43,9 @@ public class SimulateActivity {
 	
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private IHashtagService hashtagService;
 	
 	@Autowired
 	private IUser userDao;
@@ -275,8 +281,8 @@ public class SimulateActivity {
 		userService.saveUserAndAssignRole(newUser,"ROLE_USER");
 	}
 
-	@Async
-	@Transactional
+
+	@Transactional 
 	public void createRandomPostsForBot(int userId) {
 		User user = userService.findReturnUserById(userId);
 
@@ -286,11 +292,52 @@ public class SimulateActivity {
 				newPost.setCategory(categoryService.findCategoryByName("QuickPost"));
 				newPost.setTitle(postTitle);
 						
-				newPost.setContent(randomData.randomMessage());
+				String content = randomData.randomMessage();
+				newPost.setContent(content);
+				
+				String[] arr = content.split(" "); 
+				List<String> payloadHashtags = new LinkedList<>();
+				
+				
+
 				newPost.setTimesViewed(0);
 				newPost.setCreatedAt((Date) LocalUtils.getActualDate());
 				newPost.setCreatedBy(user);				
 		
 				postService.savePost(newPost);
+				
+				
+				
+				for(String word : arr) {
+					if(word.startsWith("#") && word.length() >= 3) {
+						word = word.substring(1);
+						payloadHashtags.add(word);
+					}
+				}
+				
+				if(!payloadHashtags.isEmpty())
+					for (String hashtag : payloadHashtags) {
+						Hashtag hash = null;
+			
+						try {
+							hash = hashtagService.findHashtagByName(hashtag);
+			
+							hash.getPosts().add(newPost);
+							hashtagService.save(hash);
+			
+						} catch (NullPointerException e) {
+			
+							hash = new Hashtag(hashtag, newPost);
+							hashtagService.save(hash);
+						}catch (Exception e) {
+							e.printStackTrace();
+							throw new RuntimeException("Error with the hashtag provided");
+						}
+					}
+				
+				
+				
+				
+				
 	}
 }

@@ -48,4 +48,9 @@ public class TrendingServiceImpl implements ITrendingService{
 		return listPosts;
 	}
 
+	@Override
+	public List<String> getTrendingLastHour(int start, int end) {
+		return trendingDao.getTrendingHashtagLastHour(start, end);
+	}
+
 }

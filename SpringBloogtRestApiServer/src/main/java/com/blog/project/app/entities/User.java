@@ -75,15 +75,12 @@ public class User implements Serializable {
 	@JoinColumn(name = "user_id")
 	private List<Role> roles;
 
-
 	@ManyToMany
 	@JoinTable(name = "user_following", joinColumns = @JoinColumn(name = "following_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<User> following;
 
 	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
 	private List<Chat> chats;
-
-
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
