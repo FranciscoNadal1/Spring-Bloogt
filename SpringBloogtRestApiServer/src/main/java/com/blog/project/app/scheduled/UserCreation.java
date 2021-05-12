@@ -30,7 +30,7 @@ public class UserCreation {
 	@Autowired
 	private ICategoryService categoryService;
 
-	
+	/*
 	public void createBot() {
 		User newUser = new User();
 
@@ -50,17 +50,13 @@ public class UserCreation {
 		newUser.setEmail("bot@posterbot.com");
 		
 		userService.saveUserAndAssignRole(newUser,"ROLE_USER");
-		
-	//	userService.followUser("PosterBot");
-		/*
-		User adminUser = userService.getUserByUsername("admin");
-		if(adminUser.getFollowing()==null)
-		adminUser.getFollowing().add(newUser);
-		userService.save(adminUser);
-		*/
+
+
 		
 	}
-
+	*/
+/*
+ * 
 	@Scheduled(fixedRate = 100000)
 	public void createRandomPostsForBot() {
 		String postTitle = "randomtitle";
@@ -82,4 +78,5 @@ public class UserCreation {
 
 		postService.savePost(newPost);
 	}
+	*/
 }

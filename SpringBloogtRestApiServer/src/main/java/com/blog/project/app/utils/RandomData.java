@@ -22,6 +22,13 @@ public class RandomData {
 		return randomName;
 	}	
 	
+	public String getRandomImage() {
+		Faker faker = new Faker();
+		
+		return faker.internet().avatar();
+
+	}
+	
 	public String randomUsername() {
 		Faker faker = new Faker();
 		Random rand = new Random();

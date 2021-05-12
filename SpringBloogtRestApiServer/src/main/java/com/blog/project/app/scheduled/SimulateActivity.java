@@ -265,6 +265,8 @@ public class SimulateActivity {
 					
 			String randomFirstName = randomData.randomFirstName();
 			String randomLastName = randomData.randomLastName();			
+			//String avatar = randomData.getRandomImage();		
+			//newUser.setAvatar(avatar);
 			
 
 		newUser.setName(randomFirstName);
