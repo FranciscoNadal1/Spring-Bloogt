@@ -1,5 +1,6 @@
 package com.blog.project.app.scheduled;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -286,6 +287,7 @@ public class SimulateActivity {
 
 	@Transactional 
 	public void createRandomPostsForBot(int userId) {
+		Random rand = new Random();
 		User user = userService.findReturnUserById(userId);
 
 				String postTitle = "randomtitle";
@@ -300,8 +302,19 @@ public class SimulateActivity {
 				String[] arr = content.split(" "); 
 				List<String> payloadHashtags = new LinkedList<>();
 				
+				List<String> arrayImages = new ArrayList<>();
 				
 
+				int int_random = rand.nextInt(3); 
+				
+				if(int_random == 1)
+					for(int i=0;i!=rand.nextInt(4);i++) {
+						arrayImages.add(randomData.getRandomImage());
+					}
+				
+				newPost.setImagePost(arrayImages);
+				
+				
 				newPost.setTimesViewed(0);
 				newPost.setCreatedAt((Date) LocalUtils.getActualDate());
 				newPost.setCreatedBy(user);				

@@ -24,8 +24,11 @@ public class RandomData {
 	
 	public String getRandomImage() {
 		Faker faker = new Faker();
+		Random rand = new Random();
+		int int_random = rand.nextInt(100000); 
 		
-		return faker.internet().avatar();
+		String loremImages = "https://picsum.photos/seed/"+ int_random +"/500/300";
+		return loremImages;
 
 	}
 	

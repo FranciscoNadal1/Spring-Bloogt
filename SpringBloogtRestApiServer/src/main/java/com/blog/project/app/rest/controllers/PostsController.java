@@ -1,5 +1,6 @@
 package com.blog.project.app.rest.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -296,11 +297,13 @@ public class PostsController {
 		newPost.setTimesViewed(0);
 		newPost.setCreatedAt((Date) LocalUtils.getActualDate());
 		newPost.setCreatedBy(authenticatedUser); 
-		newPost.setImagePost((String) payload.get("imagePost"));
+		
+		ArrayList<String> imagePostList = new ArrayList<>();
+		imagePostList = (ArrayList<String>)payload.get("imagePost");
+		newPost.setImagePost(imagePostList);
+		
 
-	//	List<String> hashtagsToCreate = new LinkedList<>();		
 		List<String> payloadHashtags = new LinkedList<>();
-//payloadHashtags.add(hashtagsToCreate);
 
 
 String[] arr = content.split(" "); 
