@@ -107,15 +107,22 @@ public class ChatMessageServiceImpl implements IChatMessageService {
 	}
 
 	@Override
-	public int getUnreadMessages() {
+	public int getUnreadMessagesLoggedSession() {
 		try {
 			User fromUser = userService.getLoggedUser();
-			return chatDao.getUnreadMessages(fromUser.getId());
+			return this.getUnreadMessages(fromUser);
 		} catch (Exception e) {
 			return 0;
 		}
 	}
-
+	@Override
+	public int getUnreadMessages(User user) {
+		try {
+			return chatDao.getUnreadMessages(user.getId());
+		} catch (Exception e) {
+			return 0;
+		}
+	}
 	@Override
 	public void changeMessageToRead(Message message) {
 		message.setRead(true);

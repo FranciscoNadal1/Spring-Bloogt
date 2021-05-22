@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +28,6 @@ import com.blog.project.app.entities.Category.CategoryName;
 import com.blog.project.app.entities.Comments.ShowComments;
 import com.blog.project.app.entities.Hashtag.HashtagShow;
 import com.blog.project.app.entities.User.OnlyUsername;
-import com.blog.project.app.entities.reaction.CommentReaction;
 import com.blog.project.app.entities.reaction.PostReaction;
 import com.blog.project.app.entities.reaction.Reaction;
 
@@ -44,7 +43,8 @@ public class Post implements Serializable, Comparable<Post> {
 	@NotEmpty
 	private String title;
 
-	private String imagePost;
+	@ElementCollection
+	private List<String> imagePost;
 
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -116,12 +116,12 @@ public class Post implements Serializable, Comparable<Post> {
 		this.content = content;
 	}
 
-	public String getImagePost() {
+	public List<String> getImagePost() {
 		return imagePost;
 	}
 
-	public void setImagePost(String imagePost) {
-		this.imagePost = imagePost;
+	public void setImagePost(List<String> imagePostList) {
+		this.imagePost = imagePostList;
 	}
 
 	public List<Hashtag> getHashtags() {
@@ -236,7 +236,7 @@ public class Post implements Serializable, Comparable<Post> {
 		String getCreatedAt();
 		List<HashtagShow> getHashtags();
 		OnlyUsername getCreatedBy();
-		String getImagePost();
+		List<String> getImagePost();
 
 		@Value("#{target.getComments().size()}")
 		int getCommentaryCount();
@@ -255,23 +255,20 @@ public class Post implements Serializable, Comparable<Post> {
 
 	}
 
-	public interface PostDetails extends showPosts{
-
-	}
 
 	// It will load PostDetails and then add the sorted comments
-	public interface PostDetailsCommentsSortByDateAsc extends PostDetails {
+	public interface PostDetailsCommentsSortByDateAsc extends showPosts {
 		@Value("#{target.getCommentsSortDateAsc()}")
 		List<ShowComments> getComments();
 	}
 
 	// It will load PostDetails and then add the sorted comments
-	public interface PostDetailsCommentsSortByDateDesc extends PostDetails {
+	public interface PostDetailsCommentsSortByDateDesc extends showPosts {
 		@Value("#{target.getCommentsSortDateDesc()}")
 		List<ShowComments> getComments();
 	}
 
-	public interface PostDetailsCommentsSortByThumbsUp extends PostDetails {
+	public interface PostDetailsCommentsSortByThumbsUp extends showPosts {
 		// TODO Thumbs up are not implemented !
 	}
 	public interface PostBy{
@@ -283,7 +280,7 @@ public class Post implements Serializable, Comparable<Post> {
 		@Value("#{target.getComments().size()}")
 		int getCommentaryCount();
 		CategoryName getCategory();
-		String getImagePost();
+		List<String> getImagePost();
 		int getTimesViewed();
 		
 

@@ -192,6 +192,11 @@ public class UserController {
 
 		JSONObject responseJson = new JSONObject();
 		responseJson.appendField("status", "OK");
+		/*
+		for() {
+			
+		}
+		*/
 		responseJson.appendField("message", "user "+ newUser.getUsername() +" created");
 		return responseJson;
 	}

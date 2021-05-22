@@ -28,8 +28,8 @@ public class BlogRestApiServerApplication  implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		userCreation.createBot();
-		userCreation.createRandomPostsForBot();		
+
+		
 		
 	}	
 }

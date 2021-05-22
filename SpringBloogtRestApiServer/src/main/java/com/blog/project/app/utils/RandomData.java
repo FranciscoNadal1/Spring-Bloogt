@@ -22,29 +22,63 @@ public class RandomData {
 		return randomName;
 	}	
 	
+	public String getRandomImage() {
+		Faker faker = new Faker();
+		Random rand = new Random();
+		int int_random = rand.nextInt(100000); 
+		
+		String loremImages = "https://picsum.photos/seed/"+ int_random +"/500/300";
+		return loremImages;
+
+	}
+	
 	public String randomUsername() {
 		Faker faker = new Faker();
 		Random rand = new Random();
-		int int_random = rand.nextInt(9); 
+		int int_random = rand.nextInt(14); 
 
 		if(int_random == 1)
 			return faker.ancient().god();
+		
 		else if(int_random == 2)
 			return faker.ancient().primordial();
+		
 		else if(int_random == 3)
 			return faker.ancient().titan();
+		
 		else if(int_random == 4)
 			return faker.rickAndMorty().character();
+		
 		else if(int_random == 5)
 			return faker.pokemon().name();
+		
 		else if(int_random == 6)
 			return faker.lordOfTheRings().character();
+		
 		else if(int_random == 7)
 			return faker.harryPotter().character();
+		
 		else if(int_random == 8)
 			return faker.cat().name();
+		
 		else if(int_random == 9)
 			return faker.witcher().character();
+		
+		else if(int_random == 10)
+			return faker.book().author();
+		
+		else if(int_random == 11)
+			return faker.beer().name();
+		
+		else if(int_random == 12)
+			return faker.artist().name();
+		
+		else if(int_random == 13)
+			return faker.gameOfThrones().character();
+		
+		else if(int_random == 14)
+			return faker.gameOfThrones().city();
+		
 		else
 			return faker.ancient().hero();
 	}	
@@ -62,35 +96,47 @@ public class RandomData {
 	public String randomMessage() {
 		Faker faker = new Faker();
 		Random rand = new Random();
-		int int_random = rand.nextInt(8); 
+		int int_random = rand.nextInt(9); 
+		String message = "";
 		
 		if(int_random == 1)
-			return faker.rickAndMorty().quote();
+			message = faker.rickAndMorty().quote();
 
 		else if(int_random == 2)
-			return faker.yoda().quote();
+			message =  faker.yoda().quote();
 		
 		else if(int_random == 3)
-			return faker.chuckNorris().fact();	
+			message =  faker.chuckNorris().fact();	
 		
 		else if(int_random == 4)
-			return faker.shakespeare().romeoAndJulietQuote();
+			message =  faker.shakespeare().romeoAndJulietQuote();
 
 		else if(int_random == 5)
-			return faker.shakespeare().asYouLikeItQuote();
+			message =  faker.shakespeare().asYouLikeItQuote();
 
 		else if(int_random == 6)
-			return faker.shakespeare().kingRichardIIIQuote();
+			message =  faker.shakespeare().kingRichardIIIQuote();
 
 		else if(int_random == 7)
-			return faker.harryPotter().quote();		
+			message =  faker.harryPotter().quote();		
 
 		else if(int_random == 8)
-			return faker.witcher().quote();		
-
+			message =  faker.witcher().quote();		
+		
+		else if(int_random == 9)
+			message =  faker.lorem().paragraph();
 		else
-			return faker.gameOfThrones().quote();
+			message =  faker.gameOfThrones().quote();
+		
+		
+		return message + " " + this.getRandomHashtag();
 		
 	}	
+	
+
+	public String getRandomHashtag() {
+		Faker faker = new Faker();
 		
+		return "#" + faker.ancient().god();
+	}
 }

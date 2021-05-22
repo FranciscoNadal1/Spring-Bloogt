@@ -1,6 +1,6 @@
 package com.blog.project.app.rest.controllers;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Post;
-import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.errors.NoPayloadDataException;
@@ -153,11 +152,11 @@ public class PostsController {
 	}	
 	
 	@GetMapping("/getById/{id}")
-	public PostDetails getPostById(HttpServletResponse response, HttpServletRequest request,
+	public showPosts getPostById(HttpServletResponse response, HttpServletRequest request,
 			@PathVariable(value = "id") int id) {
 		response.setContentType(contentType);
 
-		PostDetails returningJSON = postService.findPostById(id);
+		showPosts returningJSON = postService.findPostById(id);
 
 		if (returningJSON.equals(null))
 			LocalUtils.ThrowPayloadEmptyException(request);
@@ -293,13 +292,32 @@ public class PostsController {
 		
 		String postTitle = (String) payload.get("title");
 		newPost.setTitle(postTitle);
-		newPost.setContent((String) payload.get("content"));
+		String content = (String) payload.get("content");
+		newPost.setContent(content);
 		newPost.setTimesViewed(0);
 		newPost.setCreatedAt((Date) LocalUtils.getActualDate());
-		newPost.setCreatedBy(authenticatedUser);
-		newPost.setImagePost((String) payload.get("imagePost"));
+		newPost.setCreatedBy(authenticatedUser); 
+		
+		ArrayList<String> imagePostList = new ArrayList<>();
+		imagePostList = (ArrayList<String>)payload.get("imagePost");
+		newPost.setImagePost(imagePostList);
+		
+
+		List<String> payloadHashtags = new LinkedList<>();
 
 
+String[] arr = content.split(" "); 
+for(String word : arr) {
+	if(word.startsWith("#") && word.length() >= 3) {
+		word = word.substring(1);
+		payloadHashtags.add(word);
+	}
+}
+
+if(payload.containsKey("hashtags"))
+	for (String hashtag : (List<String>) payload.get("hashtags")){
+		payloadHashtags.add(hashtag);
+	}
 
 		postService.savePost(newPost);
 
@@ -308,8 +326,10 @@ public class PostsController {
 		List<Hashtag> hashtagList = new LinkedList<Hashtag>();
 		int idPost = newPost.getId();
 		
-		if(payload.containsKey("hashtags"))
-			for (String hashtag : (List<String>) payload.get("hashtags")) {
+
+				
+		if(!payloadHashtags.isEmpty())
+			for (String hashtag : payloadHashtags) {
 				Hashtag hash = null;
 	
 				try {

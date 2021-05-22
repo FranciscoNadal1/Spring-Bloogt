@@ -2,11 +2,8 @@ package com.blog.project.app.models.dao;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
-
 import com.blog.project.app.entities.Category;
 import com.blog.project.app.entities.Post;
-import com.blog.project.app.entities.Post.PostDetails;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateAsc;
 import com.blog.project.app.entities.Post.PostDetailsCommentsSortByDateDesc;
 import com.blog.project.app.entities.Post.showPosts;
@@ -14,7 +11,7 @@ import com.blog.project.app.entities.User;
 
 public interface IPost extends BaseRepository<Post, Long> {
 
-	PostDetails findById(int id);
+	showPosts findById(int id);
 	Post findPostById(int id);
 	
 	PostDetailsCommentsSortByDateAsc findByIdOrderByCreatedAtAsc(int id);

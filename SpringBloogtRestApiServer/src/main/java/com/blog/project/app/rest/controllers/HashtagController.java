@@ -18,23 +18,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.project.app.entities.Category;
-import com.blog.project.app.entities.Category.CategoryDetails;
-import com.blog.project.app.entities.Category.CategoryList;
 import com.blog.project.app.entities.Hashtag;
 import com.blog.project.app.entities.Hashtag.HashtagShow;
 import com.blog.project.app.entities.Hashtag.PostsOfHashtag;
-import com.blog.project.app.entities.Post;
-import com.blog.project.app.entities.User;
-import com.blog.project.app.entities.Post.PostDetails;
-import com.blog.project.app.entities.Post.showPosts;
-import com.blog.project.app.entities.User.UserData;
 import com.blog.project.app.errors.NoPayloadDataException;
 import com.blog.project.app.errors.UnauthorizedArea;
-import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.IHashtagService;
-import com.blog.project.app.models.service.IPostService;
-import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.rest.auth.JWTHandler;
 import com.blog.project.app.utils.LocalUtils;
 
