@@ -305,7 +305,7 @@ public class SimulateActivity {
 				List<String> arrayImages = new ArrayList<>();
 				
 
-				int int_random = rand.nextInt(3); 
+				int int_random = rand.nextInt(2); 
 				
 				if(int_random == 1)
 					for(int i=0;i!=rand.nextInt(4);i++) {

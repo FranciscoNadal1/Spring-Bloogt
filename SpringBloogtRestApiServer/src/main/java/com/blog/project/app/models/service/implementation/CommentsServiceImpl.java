@@ -2,6 +2,8 @@ package com.blog.project.app.models.service.implementation;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import com.blog.project.app.entities.Comments.ShowComments;
 import com.blog.project.app.entities.Post;
 import com.blog.project.app.models.dao.IComments;
 import com.blog.project.app.models.service.ICommentsService;
+import com.blog.project.app.models.service.INotificationService;
 
 @Service
 public class CommentsServiceImpl implements ICommentsService {
@@ -18,14 +21,20 @@ public class CommentsServiceImpl implements ICommentsService {
 	@Autowired
 	private IComments commentsDao;
 
+	@Autowired
+	private INotificationService notificationService;
+	
 	@Override
 	public List<Comments> findAll() {
 		return (List<Comments>) commentsDao.findAll();
 	}
 
 	@Override
-	public void save(Comments Comments) {
-		commentsDao.save(Comments);
+	@Transactional
+	public void save(Comments comments) {		
+
+		notificationService.newNotificationUserObject("newComment", comments.getPost().getCreatedBy(), comments.getCreatedBy(), comments);
+		commentsDao.save(comments);
 	}
 
 	@Override

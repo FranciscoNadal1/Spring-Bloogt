@@ -21,6 +21,7 @@ import com.blog.project.app.models.dao.ICommentReaction;
 import com.blog.project.app.models.dao.IComments;
 import com.blog.project.app.models.dao.IPost;
 import com.blog.project.app.models.dao.IPostReaction;
+import com.blog.project.app.models.service.INotificationService;
 import com.blog.project.app.models.service.IReactionService;
 import com.blog.project.app.models.service.IUserService;
 
@@ -43,6 +44,8 @@ public class ReactionServiceImpl implements IReactionService {
 	IComments commentsDao;
 
 
+	@Autowired
+	private INotificationService notificationService;
 
 	@Transactional
 	@Override
@@ -91,12 +94,28 @@ public class ReactionServiceImpl implements IReactionService {
 				castedPostReaction.setPost(post);
 
 				postReactionDao.save(castedPostReaction);
+				
+				String likedOrDisliked = null;
+				if(castedPostReaction.getReaction() == true)
+					likedOrDisliked = "like";
+				if(castedPostReaction.getReaction() == false)
+					likedOrDisliked = "dislike";
+				
+				notificationService.newNotificationUserObject(likedOrDisliked, post.getCreatedBy(), loggedUser, post);
 			}
 			if(postOrComment.equals("Comment")) {
 				CommentReaction castedCommentReaction = (CommentReaction) reaction;
 				castedCommentReaction.setComment(comment);
 				
-				commentReactionDao.save(castedCommentReaction);				
+				commentReactionDao.save(castedCommentReaction);		
+				
+				String likedOrDisliked = null;
+				if(castedCommentReaction.getReaction() == true)
+					likedOrDisliked = "like";
+				if(castedCommentReaction.getReaction() == false)
+					likedOrDisliked = "dislike";
+
+				notificationService.newNotificationUserObject(likedOrDisliked, comment.getCreatedBy(), loggedUser, comment);
 			}
 				
 			userService.save(loggedUser);		
@@ -116,7 +135,8 @@ public class ReactionServiceImpl implements IReactionService {
 	@Override
 	public void likeOrDislikeComment(int commentId, boolean likeOrDislike) {
 		User loggedUser = userService.getLoggedUser();
-		this.likeOrDislikePostOrComment(loggedUser, commentId, likeOrDislike, "Comment");		
+		this.likeOrDislikePostOrComment(loggedUser, commentId, likeOrDislike, "Comment");	
+		
 	}	
 	
 	/*

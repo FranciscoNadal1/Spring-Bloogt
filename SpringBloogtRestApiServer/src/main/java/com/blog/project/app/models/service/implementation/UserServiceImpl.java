@@ -26,6 +26,7 @@ import com.blog.project.app.entities.User.UserFollowData;
 import com.blog.project.app.entities.User.UserPosts;
 import com.blog.project.app.models.dao.IRoles;
 import com.blog.project.app.models.dao.IUser;
+import com.blog.project.app.models.service.INotificationService;
 import com.blog.project.app.models.service.IUserService;
 
 @Service
@@ -37,7 +38,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	private IUser userDao;
 	
 	@Autowired
-	private IRoles rolesDao;
+	private IRoles rolesDao;	
+
+	@Autowired
+	private INotificationService notificationService;
+
+	
 	
 	@Override
 	public User getUserByUsername(String username) {
@@ -196,7 +202,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 //	@Transactional
 	public void followUserCommon(User userThatFollows, String username) {
 		
+		
 		User userThatIsFollowed = this.getUserByUsername(username);
+		
+		
 
 		List<User> followedBy = this.getUsersThatFollowUser(username);
 		
@@ -206,6 +215,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 				
 		userThatFollows.getFollowing().add(userThatIsFollowed);
 		userDao.save(userThatFollows);
+		
+
+		notificationService.newNotificationUserObject("follow", userThatIsFollowed, userThatFollows);
 		
 	}
 	
