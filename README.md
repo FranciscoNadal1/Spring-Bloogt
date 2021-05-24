@@ -25,25 +25,8 @@ mvn spring-boot:run
 ```
 
 ## Properties file: /src/main/resources/application.properties
-You can adjust the server.port and the database configuration. 
-If you don't have a database installed, uncomment this : 
-```
-  spring.h2.console.enabled=true
-  spring.datasource.url=jdbc:h2:mem:clientesdb
-  spring.datasource.username=admin
-  spring.datasource.password=sa
-  spring.dataSource.driver-class-name=org.h2.Driver
-  spring.jpa.hibernate.ddl-auto=create-drop
-```
-and remove this : 
+You can adjust the server.port and the database configuration. This app was developed on mysql
 
-```
-spring.datasource.url=jdbc:mysql://localhost/db_blogTest
-spring.datasource.username=root
-spring.datasource.password=root
-spring.dataSource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
-```
 # Database schema :
 ![alt text](https://github.com/FranciscoNadal1/Spring-Bloogt/blob/master/documentation/Database%20Diagram.png)
 
