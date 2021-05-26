@@ -24,4 +24,6 @@ public interface IComments extends BaseRepository <Comments, Long> {
 	List<Comments> findByCreatedBy(User user);
 	public Comments findCommentById(int id);
 
+
+	int countAllByCreatedBy(User user);
 }

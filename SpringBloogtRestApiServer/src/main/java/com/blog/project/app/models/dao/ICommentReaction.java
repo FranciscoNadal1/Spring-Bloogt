@@ -25,5 +25,7 @@ public interface ICommentReaction  extends BaseRepository<CommentReaction, Long>
 	List<ReactionCommentByUser> findCommentByReactedBy(User user);
 
 	List<ReactionCommentByUser> findByReactionAndReactedBy(boolean reaction, User user);
-	
+
+	int countByReactionTrueAndReactedBy(User user);
+	int countByReactionFalseAndReactedBy(User user);
 }

@@ -48,8 +48,20 @@ public interface IUser extends BaseRepository <User, Long> {
 	
 	@Query(value = "SELECT user.* FROM user_following, user where user_following.following_id = user.id and user_following.user_id = ?1", nativeQuery = true)					
 	List<OnlyUsername> findFollowerDataById(int userid);
+
 	
 //	select * from user	where user.id in(	SELECT user_following.user_id	FROM user_following, user 	where 	user_following.following_id = user.id 	and user.id = ?1)
 	@Query(value = "select * from user	where user.id in(	SELECT user_following.user_id	FROM user_following, user 	where 	user_following.following_id = user.id 	and user.id = ?1)", nativeQuery = true)					
 	List<OnlyUsername> findFollowedDataById(int userid);
+	
+	
+	@Query(value = "SELECT count(*) FROM user_following, user where user_following.following_id = user.id and user_following.user_id = ?1", nativeQuery = true)					
+	int countFollowersById(int userid);
+	
+	@Query(value = "select count(*) from user	where user.id in(	SELECT user_following.user_id	FROM user_following, user 	where 	user_following.following_id = user.id 	and user.id = ?1)", nativeQuery = true)					
+	int countFollowedById(int userid);
+	
+	
+	@Query(value = "select * from user where user.username like  %?1% or user.name like  %?1% or user.surname like  %?1% limit 0, ?2", nativeQuery = true)					
+	List<OnlyUsername> searchUsersByUsername(String userid, int results);
 }

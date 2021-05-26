@@ -28,5 +28,8 @@ public interface IPostReaction  extends BaseRepository<PostReaction, Long> {
 	List<ReactionPostByUser> findByReactionTrue();
 	List<ReactionPostByUser> findByReactionFalse();
 	
+	int countByReactionTrueAndReactedBy(User user);
+	int countByReactionFalseAndReactedBy(User user);
+	
 	
 }
