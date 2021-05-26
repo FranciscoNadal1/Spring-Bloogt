@@ -85,6 +85,12 @@ public class Hashtag implements Serializable {
 ///////////
 ///////////		Used to avoid showing all fields
 
+	public interface HashtagNoDetails {
+
+		String getId();
+		String getName();
+	}
+	
 	public interface HashtagShow {
 
 		String getId();
