@@ -70,11 +70,13 @@ public class ReactionController {
 			return reactionPostData;			
 		}
 		
+		
+		
 		reactionPostData = commentReactionService.getPostReactionsOfUser(user);
 		
 		if(reactionPostData == null) 
 			throw new RuntimeException("This user has no reactions");
-		
+		JSONObject responseJson = new JSONObject();
 		return reactionPostData;
 	}
 	@GetMapping("/comments/user/{username}")

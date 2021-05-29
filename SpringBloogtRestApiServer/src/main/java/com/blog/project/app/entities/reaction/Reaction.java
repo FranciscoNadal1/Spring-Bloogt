@@ -19,7 +19,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.User.OnlyUsername;
 
+import lombok.Data;
+
 @Entity
+@Data
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class Reaction {
 
@@ -43,42 +46,28 @@ public abstract class Reaction {
 	////////////////////////////////
 
 
-	
+	/*
 	public Reaction() {
 		super();
 	}
-
-
-
 
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-
-
-
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-
-
-
 
 	public boolean isReaction() {
 		return reaction;
 	}
 
-
-
-
 	public void setReaction(boolean reaction) {
 		this.reaction = reaction;
 	}
 
-	public boolean getReaction() {
-		return this.reaction;
-	}
+
 
 
 	public User getReactedBy() {
@@ -92,7 +81,10 @@ public abstract class Reaction {
 	public int getId() {
 		return id;
 	}
-
+*/	
+public boolean getReaction() {
+	return this.reaction;
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
 ///////////

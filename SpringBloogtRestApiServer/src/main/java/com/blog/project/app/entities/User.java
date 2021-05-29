@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,23 +17,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blog.project.app.entities.Comments.ShowComments;
-import com.blog.project.app.entities.Post.PostByUser;
 import com.blog.project.app.entities.Post.showPosts;
 import com.blog.project.app.entities.chat.Chat;
-import com.sun.istack.Nullable;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Setter @Getter
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -62,9 +62,15 @@ public class User implements Serializable {
 	private String avatar;
 
 	@NotEmpty
+	private String background;
+
+	@NotEmpty
 	@NotNull
 	private String password;
 
+	@Size(min = 0, max = 500)
+	@Basic(optional=true)
+	private String bio;
 
 	@Basic(optional=true)
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -91,15 +97,16 @@ public class User implements Serializable {
 	private List<Post> posts;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public int getId() {
-		return id;
-	}
-
 	public List<Post> getPosts() {
 		Collections.sort(posts);
 		return posts;
 	}
+	/*
+	public int getId() {
+		return id;
+	}
+
+
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
@@ -153,6 +160,13 @@ public class User implements Serializable {
 		return roles;
 	}
 
+
+	
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+*/
 	public List<String> getUserRoles() {
 		List<String> listString = new LinkedList<>();
 		
@@ -163,16 +177,11 @@ public class User implements Serializable {
 		return listString;
 	}
 	
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
 	public List<Comments> getComments() {
 		Collections.sort(comments);
 		return this.comments;
 	}
-
+/*
 	public void setComments(List<Comments> comments) {
 		this.comments = comments;
 	}
@@ -210,7 +219,7 @@ public class User implements Serializable {
 	public void setChats(List<Chat> chats) {
 		this.chats = chats;
 	}
-	
+	*/
 	public int writtenPosts() {
 		return this.getPosts().size();
 		
@@ -239,8 +248,10 @@ public class User implements Serializable {
 		String getUsername();
 	    String getName();
 		String getAvatar();
+		String getBackground();
 		String getSurname();
 		String getEmail();
+		String getBio();
 		
 		List<String> getUserRoles();
 		Date getCreatedAt();
@@ -273,6 +284,7 @@ public class User implements Serializable {
 	public interface OnlyUsername {
 		String getId();
 		String getAvatar();
+		String getBackground();
 		String getUsername();
 		String getName();
 		String getSurname();

@@ -171,7 +171,9 @@ public class UserController {
 		
 
 		newUser.setName((String) payload.get("name"));
+		newUser.setBio((String) payload.get("bio"));
 		newUser.setAvatar((String) payload.get("avatar"));
+		newUser.setBackground((String) payload.get("background"));
 		newUser.setSurname((String) payload.get("surname"));
 		
 		

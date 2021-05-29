@@ -82,7 +82,6 @@ public class JsonWebTokenHandler implements JWTHandler {
 
 			JSONObject responseJson = getJsonOfToken(jwt);
 
-			System.out.println(responseJson.get("authorities"));
 			String authorities = responseJson.get("authorities").toString();
 
 			for (String rol : role) {
@@ -97,7 +96,7 @@ public class JsonWebTokenHandler implements JWTHandler {
 
 	public JSONObject getJsonOfToken(String jwt) {
 		jwt = jwt.replace("Bearer ", "");
-		logger.info(jwt);
+		//logger.info(jwt);
 		String[] token = jwt.split("\\.");
 		String tokenPart2 = token[1];
 
@@ -109,7 +108,7 @@ public class JsonWebTokenHandler implements JWTHandler {
 		JSONObject responseJson = null;
 		try {
 			map = mapper.readValue(decodedToken, Map.class);
-			System.out.println(map);
+		//	System.out.println(map);
 			responseJson = new JSONObject(map);
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block

@@ -1,7 +1,6 @@
 package com.blog.project.app.entities.reaction;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,6 +26,7 @@ public class PostReaction extends Reaction {
 		return post.getId();
 	}
 
+
 	public void setPost(Post post2) {
 		this.post = post2;
 	}
@@ -41,7 +41,10 @@ public class PostReaction extends Reaction {
 		@Value("#{target.getPostId()}")
 		int getPostId();
 		
+		// TODO The post shouldn't be a child
 		showPosts getPosts();
+
+		//int this.getPosts().getId();
 		
 		Date getCreatedAt();
 		boolean getReaction();

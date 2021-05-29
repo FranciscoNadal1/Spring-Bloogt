@@ -38,49 +38,49 @@ public class RandomData {
 		int int_random = rand.nextInt(14); 
 
 		if(int_random == 1)
-			return faker.ancient().god();
+			return faker.ancient().god().replace(" ", "_");
 		
 		else if(int_random == 2)
-			return faker.ancient().primordial();
+			return faker.ancient().primordial().replace(" ", "_");
 		
 		else if(int_random == 3)
-			return faker.ancient().titan();
+			return faker.ancient().titan().replace(" ", "_");
 		
 		else if(int_random == 4)
-			return faker.rickAndMorty().character();
+			return faker.rickAndMorty().character().replace(" ", "_");
 		
 		else if(int_random == 5)
-			return faker.pokemon().name();
+			return faker.pokemon().name().replace(" ", "_");
 		
 		else if(int_random == 6)
-			return faker.lordOfTheRings().character();
+			return faker.lordOfTheRings().character().replace(" ", "_");
 		
 		else if(int_random == 7)
-			return faker.harryPotter().character();
+			return faker.harryPotter().character().replace(" ", "_");
 		
 		else if(int_random == 8)
-			return faker.cat().name();
+			return faker.cat().name().replace(" ", "_");
 		
 		else if(int_random == 9)
-			return faker.witcher().character();
+			return faker.witcher().character().replace(" ", "_");
 		
 		else if(int_random == 10)
-			return faker.book().author();
+			return faker.book().author().replace(" ", "_");
 		
 		else if(int_random == 11)
-			return faker.beer().name();
+			return faker.beer().name().replace(" ", "_");
 		
 		else if(int_random == 12)
-			return faker.artist().name();
+			return faker.artist().name().replace(" ", "_");
 		
 		else if(int_random == 13)
-			return faker.gameOfThrones().character();
+			return faker.gameOfThrones().character().replace(" ", "_");
 		
 		else if(int_random == 14)
-			return faker.gameOfThrones().city();
+			return faker.gameOfThrones().city().replace(" ", "_");
 		
 		else
-			return faker.ancient().hero();
+			return faker.ancient().hero().replace(" ", "_");
 	}	
 	
 	public String randomFirstName() {
@@ -93,7 +93,7 @@ public class RandomData {
 		return faker.name().lastName();
 	}	
 	
-	public String randomMessage() {
+	public String randomMessage(boolean includeHashtag) {
 		Faker faker = new Faker();
 		Random rand = new Random();
 		int int_random = rand.nextInt(9); 
@@ -127,9 +127,11 @@ public class RandomData {
 			message =  faker.lorem().paragraph();
 		else
 			message =  faker.gameOfThrones().quote();
-		
-		
-		return message + " " + this.getRandomHashtag();
+			
+			if(includeHashtag)
+				return message + " " + this.getRandomHashtag();
+			
+		return message;
 		
 	}	
 	

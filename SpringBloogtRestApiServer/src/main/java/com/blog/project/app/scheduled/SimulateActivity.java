@@ -34,7 +34,6 @@ import com.blog.project.app.utils.LocalUtils;
 import com.blog.project.app.utils.RandomData;
 
 @Service
-@Transactional
 @EnableAsync
 @ConditionalOnProperty(value = "simulate.activity", havingValue = "true")
 public class SimulateActivity {
@@ -53,13 +52,6 @@ public class SimulateActivity {
 
 	@Autowired
 	private IPostService postService;
-	@Autowired
-	private ICommentsService commentService;
-
-	@Autowired
-	private IPost postDao;
-	@Autowired
-	private IComments commentsDao;
 
 	@Autowired
 	private ICategoryService categoryService;
@@ -69,7 +61,9 @@ public class SimulateActivity {
 	
 	@Autowired
 	RandomData randomData;
-	
+
+	@Autowired
+	CreateRandomData randomDataCreation;
 
 	@Scheduled(fixedRate = 1000)
 	@Async
@@ -78,27 +72,27 @@ public class SimulateActivity {
 		int int_random = rand.nextInt(10); 
 
 		if((int_random >= 0 && (int_random <= 1)) ) {
-			logger.info("Randomly creating Bot");
-			this.createBot();
+			logger.info("Randomly creating Bot " + randomDataCreation.createBot());
+			
 		}
 		else if(int_random >= 2 && (int_random <= 3)) {
 			logger.info("Randomly creating post of Bot");
-			int randomUserId = getRandomUserIdOfBot();
-			
+			//int randomUserId = randomDataCreation.getRandomUserIdOfBot();
+			/*
 			if(randomUserId == -1)
 				return;
-			
-			this.createRandomPostsForBot(getRandomUserIdOfBot());
+			*/
+			randomDataCreation.createRandomPostsForBot();
 		}
 		else if(int_random >= 4 && (int_random <= 7)) {
 			logger.info("Randomly creating comment");			
-			this.randomCreateComment();
+			randomDataCreation.randomCreateComment();
 		}
 		else if(int_random >= 8 && (int_random <= 10)) {
 			int times = 5;
 			for(int i=0;i!=times;i++) {
 				try {
-					randomReactToPostOfBot();
+					randomDataCreation.randomReactToPostOfBot();
 					logger.info("Randomly liking post");
 				} catch (Exception e) {
 
@@ -106,7 +100,7 @@ public class SimulateActivity {
 			}
 			for(int i=0;i!=times;i++) {
 				try {
-					this.randomReactToCommentOfBot();
+					randomDataCreation.randomReactToCommentOfBot();
 					logger.info("Randomly liking comment");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -118,12 +112,14 @@ public class SimulateActivity {
 			return;
 		}
 	}
+
+/*	
 	@Async
 	@Transactional
 	public void randomCreateComment() {
-		int randomUserId = getRandomUserIdOfBot();
-		int randomUserIdHasPost = getRandomUserIdOfBotThasHasPosted();
-		int randomPost = getRandomPostIdOfBot(randomUserIdHasPost);
+		int randomUserId = randomDataCreation.getRandomUserIdOfBot();
+		int randomUserIdHasPost = randomDataCreation.getRandomUserIdOfBotThasHasPosted();
+		int randomPost = randomDataCreation.getRandomPostIdOfBot(randomUserIdHasPost);
 		
 		if(randomUserIdHasPost == -1 || !(randomPost > 0))
 			return;
@@ -132,7 +128,7 @@ public class SimulateActivity {
 		Comments newComment = new Comments();
 
 		newComment.setCreatedAt( LocalUtils.getActualDate());		
-		newComment.setMessage(randomData.randomMessage());
+		newComment.setMessage(randomData.randomMessage(false));
 		//////////////////////////////////////////////
 		
 		newComment.setCreatedBy(userService.findReturnUserById(randomUserId));		
@@ -141,16 +137,18 @@ public class SimulateActivity {
 		commentService.save(newComment);
 		
 	}
+*/	
+	/*
 	@Async
 	@Transactional
 	public void randomReactToPostOfBot() {
-		int randomUserId = getRandomUserIdOfBot();
-		int randomUserIdHasPost = getRandomUserIdOfBotThasHasPosted();
+		int randomUserId = randomDataCreation.getRandomUserIdOfBot();
+		int randomUserIdHasPost = randomDataCreation.getRandomUserIdOfBotThasHasPosted();
 		if(randomUserId == -1)
 			return;
 		
 		User user = userService.findReturnUserById(randomUserId);
-		int randomPostId = getRandomPostIdOfBot(randomUserIdHasPost);
+		int randomPostId = randomDataCreation.getRandomPostIdOfBot(randomUserIdHasPost);
 		
 		if(randomUserId == -1 || randomPostId == -1)
 			return;
@@ -162,17 +160,18 @@ public class SimulateActivity {
 			reactionService.likeOrDislikePostOrComment(user, randomPostId, false, "Post");
 		
 	}
-	
+	*/
+	/*
 	@Async
 	@Transactional
 	public void randomReactToCommentOfBot() {
-		int randomUserId = getRandomUserIdOfBot();
-		int randomUserIdHasPost = getRandomUserIdOfBotThasHasPosted();
+		int randomUserId = randomDataCreation.getRandomUserIdOfBot();
+		int randomUserIdHasPost = randomDataCreation.getRandomUserIdOfBotThasHasPosted();
 		if(randomUserId == -1)
 			return;
 		
 		User user = userService.findReturnUserById(randomUserId);
-		int randomCommentId = getRandomCommentIdOfBot(randomUserIdHasPost);
+		int randomCommentId = randomDataCreation.getRandomCommentIdOfBot(randomUserIdHasPost);
 		
 		if(randomUserId == -1 || randomCommentId == -1)
 			return;
@@ -184,22 +183,9 @@ public class SimulateActivity {
 			reactionService.likeOrDislikePostOrComment(user, randomCommentId, false, "Comment");
 		
 	}	
+	*/
 	
-	@Async
-	public int getRandomCommentIdOfBot(int userId) {
-		User user = userService.findReturnUserById(userId);
-
-		Random rand = new Random();
-		int upperLimit = 0;
-
-		upperLimit = commentsDao.findByCreatedBy(user).size()-1;	
-		
-		if(upperLimit <=0)
-			return -1;
-
-		return commentsDao.findByCreatedBy(user).get(rand.nextInt(upperLimit)).getId();
-	}		
-	
+	/*
 	@Async
 	public int getRandomPostIdOfBot(int userId) {
 		User user = userService.findReturnUserById(userId);
@@ -213,7 +199,8 @@ public class SimulateActivity {
 
 		return postDao.findByCreatedBy(user).get(rand.nextInt(upperLimit)).getId();
 	}	
-	
+	*/
+	/*
 	@Async	
 	public int getRandomUserIdOfBotThasHasPosted() {
 		List<User> bots = userDao.getAllBotsThatHavePosts();
@@ -229,6 +216,8 @@ public class SimulateActivity {
 		int userID = bots.get(int_random).getId();
 		return userID;
 	}
+	*/
+	/*
 	@Async
 	public int getRandomUserIdOfBot() {
 		List<User> listUsers= userService.findAll();
@@ -251,10 +240,14 @@ public class SimulateActivity {
 		
 		return bots.get(int_random).getId();
 	}
+	*/
 	
+/*
 	@Async
 	@Transactional
-	public void createBot() {
+	public String createBot() {
+		
+		
 		User newUser = new User();
 		Random rand = new Random();
 		int int_random = rand.nextInt(5000); 
@@ -282,11 +275,17 @@ public class SimulateActivity {
 		newUser.setEmail(randomFirstName + "-" + randomLastName + "@posterbot.com");
 		
 		userService.saveUserAndAssignRole(newUser,"ROLE_USER");
+		
+		
+		return randomUsername;
+		
 	}
-
+*/
 
 	@Transactional 
 	public void createRandomPostsForBot(int userId) {
+		randomDataCreation.createRandomPostsForBot();
+		/*
 		Random rand = new Random();
 		User user = userService.findReturnUserById(userId);
 
@@ -296,7 +295,7 @@ public class SimulateActivity {
 				newPost.setCategory(categoryService.findCategoryByName("QuickPost"));
 				newPost.setTitle(postTitle);
 						
-				String content = randomData.randomMessage();
+				String content = randomData.randomMessage(true);
 				newPost.setContent(content);
 				
 				String[] arr = content.split(" "); 
@@ -349,7 +348,7 @@ public class SimulateActivity {
 							throw new RuntimeException("Error with the hashtag provided");
 						}
 					}
-				
+				*/
 				
 				
 				

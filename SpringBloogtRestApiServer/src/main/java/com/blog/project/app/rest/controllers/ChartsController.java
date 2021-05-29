@@ -68,6 +68,7 @@ public class ChartsController {
 
 		responseJson.appendField("username", user.getUsername());
 		responseJson.appendField("avatar", user.getAvatar());
+		responseJson.appendField("background", user.getBackground());
 		responseJson.appendField("name", user.getName());
 		responseJson.appendField("surname", user.getSurname());		
 		responseJson.appendField("totalPosts", postDao.countAllByCreatedBy(user));

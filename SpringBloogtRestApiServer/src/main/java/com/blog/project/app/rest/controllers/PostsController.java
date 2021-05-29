@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import com.blog.project.app.errors.UnauthorizedArea;
 import com.blog.project.app.models.service.ICategoryService;
 import com.blog.project.app.models.service.IHashtagService;
 import com.blog.project.app.models.service.IPostService;
+import com.blog.project.app.models.service.ISharedPostService;
 import com.blog.project.app.models.service.IUserService;
 import com.blog.project.app.rest.auth.JWTHandler;
 import com.blog.project.app.utils.LocalUtils;
@@ -53,6 +55,9 @@ public class PostsController {
 	@Autowired
 	private IPostService postService;
 
+	@Autowired
+	private ISharedPostService sharedPostService;
+	
 	@Autowired
 	private IUserService userService;
 
@@ -360,7 +365,37 @@ if(payload.containsKey("hashtags"))
 
 		return responseJson;
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////		PUT Methods
+///////////
+///////////		
+	@PutMapping("/sharePost/{id}")
+	@Transactional
+	public JSONObject sharePost(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "id") int id, @RequestHeader(value="Authorization", required=false) String authorization) {
 
+
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
+			throw new UnauthorizedArea();
+
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+
+		response.setContentType(contentType);
+		Post postToShare = postService.findReturnPostById(id);
+		JSONObject responseJson = new JSONObject();
+		sharedPostService.sharePost(authenticatedUser, postToShare);
+		try {
+			responseJson.appendField("status", "OK");
+			responseJson.appendField("message", "shared post"); 
+			responseJson.appendField("content", postToShare.getContent()); 
+
+			return responseJson;
+		} catch (NullPointerException e) {
+			throw new RuntimeException("There is no post with that Id");
+		}
+	}
+	
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		DELETE Methods
 ///////////

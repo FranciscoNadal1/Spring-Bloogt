@@ -2,6 +2,7 @@ package com.blog.project.app.entities;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -31,7 +33,10 @@ import com.blog.project.app.entities.User.OnlyUsername;
 import com.blog.project.app.entities.reaction.PostReaction;
 import com.blog.project.app.entities.reaction.Reaction;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Post implements Serializable, Comparable<Post> {
 
 	private static final long serialVersionUID = 1L;
@@ -81,9 +86,20 @@ public class Post implements Serializable, Comparable<Post> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
 	private List<PostReaction> reaction;
 	
+	
+	////////////////	Only for shared Posts
+	@Transient
+	public boolean isShared;
+
+	@Transient
+	public OnlyUsername sharedBy;
+
+	@Transient
+	public Date sharedAt;
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	
+	/*
 	public int getId() {
 		return id;
 	}
@@ -131,11 +147,11 @@ public class Post implements Serializable, Comparable<Post> {
 	public void setHashtags(List<Hashtag> hashtags) {
 		this.hashtags = hashtags;
 	}
-
+*/
 	public void sortCommentsByDate() {
 		Collections.sort(comments);
 	}
-
+/*
 	public List<Comments> getComments() {
 		Collections.sort(comments);
 		return comments;
@@ -168,7 +184,7 @@ public class Post implements Serializable, Comparable<Post> {
 	public void setTimesViewed(int timesViewed) {
 		this.timesViewed = timesViewed;
 	}
-	
+	*/
 	public List<PostReaction> getReaction() {
 		return reaction;
 	}
@@ -176,6 +192,9 @@ public class Post implements Serializable, Comparable<Post> {
 	public void setReaction(List<PostReaction> reaction) {
 		this.reaction = reaction;
 	}
+	
+	
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Custom methods
 ///////////
@@ -228,12 +247,14 @@ public class Post implements Serializable, Comparable<Post> {
 ///////////
 ///////////		Used to avoid showing all fields
 
-	public interface showPosts {
+	public interface showPosts  extends Comparable<showPosts> {
 
 		String getId();
 		String getTitle();
 		String getContent();
-		String getCreatedAt();
+		Date getCreatedAt();
+		void setCreatedAt(Date date);
+		
 		List<HashtagShow> getHashtags();
 		OnlyUsername getCreatedBy();
 		List<String> getImagePost();
@@ -252,9 +273,24 @@ public class Post implements Serializable, Comparable<Post> {
 		@Value("#{target.getTotalReactions()}")
 		int getTotalReactions();
 
+/////////////////////// Only for shared Posts
+		
+		boolean getIsShared();
+		void setIsShared(boolean bool);
 
+		OnlyUsername getSharedBy();
+		void setSharedBy(OnlyUsername user);		
+
+		Date getSharedAt();
+		void setSharedAt(Date date);
+		
 	}
 
+	
+	
+	
+	
+	
 
 	// It will load PostDetails and then add the sorted comments
 	public interface PostDetailsCommentsSortByDateAsc extends showPosts {
@@ -319,13 +355,77 @@ public class Post implements Serializable, Comparable<Post> {
 ///////////////
 ///////////////		Compare objects
 
+	public static class PostSortingComparator implements Comparator<showPosts> {
+
+	    @Override
+		public int compare(showPosts a, showPosts u) {
+
+			if(a.getSharedAt() != null && u.getSharedAt() != null) {
+				System.out.println("getsharedat not null both");
+				return a.getSharedAt().compareTo(u.getSharedAt());
+			}	
+			
+			if(a.getSharedAt() != null && u.getSharedAt() == null) {
+				System.out.println("getsharedat not null first");
+				return a.getSharedAt().compareTo(u.getCreatedAt());
+			}	
+			if(a.getSharedAt() == null && u.getSharedAt() != null) {
+				System.out.println("getsharedat  null first not second");
+				return a.getCreatedAt().compareTo(u.getSharedAt());
+			}			
+			
+			if (a.getCreatedAt() == null || u.getCreatedAt() == null) {
+				return 0;
+			}
+			return a.getCreatedAt().compareTo(u.getCreatedAt());
+		}
+/*
+		@Override
+		public int compare(showPosts o1, showPosts o2) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		*/
+
+
+	}
+
+	
+	
 	@Override
 	public int compareTo(Post u) {
 
+		if(getSharedAt() != null && u.getSharedAt() != null) {
+			System.out.println("getsharedat not null both");
+			return getSharedAt().compareTo(u.getSharedAt());
+		}	
+		
+		if(getSharedAt() != null && u.getSharedAt() == null) {
+			System.out.println("getsharedat not null first");
+			return getSharedAt().compareTo(u.getCreatedAt());
+		}	
+		if(getSharedAt() == null && u.getSharedAt() != null) {
+			System.out.println("getsharedat  null first not second");
+			return getCreatedAt().compareTo(u.getSharedAt());
+		}			
+		
+		
+		
+		
+		
+		
 		if (getCreatedAt() == null || u.getCreatedAt() == null) {
 			return 0;
 		}
 		return getCreatedAt().compareTo(u.getCreatedAt());
+	}
+	
+	public boolean equals(Post post) {
+
+		if(post.id == id && post.content == content)
+			return true;
+		else
+			return false;
 	}
 
 }
