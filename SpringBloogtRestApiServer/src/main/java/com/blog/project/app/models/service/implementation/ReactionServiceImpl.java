@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blog.project.app.entities.Comments;
+import com.blog.project.app.entities.Notifications;
 import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.User;
 import com.blog.project.app.entities.reaction.CommentReaction;
@@ -19,6 +20,7 @@ import com.blog.project.app.entities.reaction.Reaction;
 import com.blog.project.app.entities.reaction.Reaction.ReactionData;
 import com.blog.project.app.models.dao.ICommentReaction;
 import com.blog.project.app.models.dao.IComments;
+import com.blog.project.app.models.dao.INotifications;
 import com.blog.project.app.models.dao.IPost;
 import com.blog.project.app.models.dao.IPostReaction;
 import com.blog.project.app.models.service.INotificationService;
@@ -43,6 +45,8 @@ public class ReactionServiceImpl implements IReactionService {
 	@Autowired
 	IComments commentsDao;
 
+	@Autowired
+	private INotifications notificationDao;
 
 	@Autowired
 	private INotificationService notificationService;
@@ -96,12 +100,25 @@ public class ReactionServiceImpl implements IReactionService {
 				postReactionDao.save(castedPostReaction);
 				
 				String likedOrDisliked = null;
-				if(castedPostReaction.getReaction() == true)
+				if(castedPostReaction.getReaction() == true) {
 					likedOrDisliked = "like";
-				if(castedPostReaction.getReaction() == false)
-					likedOrDisliked = "dislike";
+					notificationService.newNotificationUserObject(likedOrDisliked, post.getCreatedBy(), loggedUser, post);
+					
+					Notifications notification = notificationDao.findByRelatedWithAndRelatedPostAndNotificationType(user, post, "dislike");
+					if(notification != null)
+						notificationService.deleteNotification(post.getCreatedBy(), post, "dislike");
+				}
 				
-				notificationService.newNotificationUserObject(likedOrDisliked, post.getCreatedBy(), loggedUser, post);
+				if(castedPostReaction.getReaction() == false) {
+					likedOrDisliked = "dislike";
+					notificationService.newNotificationUserObject(likedOrDisliked, post.getCreatedBy(), loggedUser, post);
+					
+					Notifications notification = notificationDao.findByRelatedWithAndRelatedPostAndNotificationType(user, post, "like");
+					if(notification != null)
+						notificationService.deleteNotification(post.getCreatedBy(), post, "like");
+					
+				}
+				
 			}
 			if(postOrComment.equals("Comment")) {
 				CommentReaction castedCommentReaction = (CommentReaction) reaction;
@@ -116,6 +133,7 @@ public class ReactionServiceImpl implements IReactionService {
 					likedOrDisliked = "dislike";
 
 				notificationService.newNotificationUserObject(likedOrDisliked, comment.getCreatedBy(), loggedUser, comment);
+				
 			}
 				
 			userService.save(loggedUser);		
@@ -204,6 +222,24 @@ public class ReactionServiceImpl implements IReactionService {
 		return postReactionDao.findByReactionAndReactedBy(reaction, user); 
 		
 	}	
+
+	@Transactional
+	@Override
+	public void deleteReaction(Post post, User user) {
+		
+		 PostReaction postReaction = postReactionDao.findByPostAndReactedBy(post, user); 
+		 postReactionDao.delete(postReaction);
+
+
+		Notifications notification = notificationDao.findByRelatedWithAndRelatedPostAndNotificationType(user, post, "like");
+		if(notification != null)
+			notificationService.deleteNotification(user, post, "like");
+
+
+		 notification = notificationDao.findByRelatedWithAndRelatedPostAndNotificationType(user, post, "dislike");
+		if(notification != null)
+			notificationService.deleteNotification(user, post, "dislike");
 	
+	}	
 
 }

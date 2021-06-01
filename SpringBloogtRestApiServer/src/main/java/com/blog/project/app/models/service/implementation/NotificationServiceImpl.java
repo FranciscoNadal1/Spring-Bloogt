@@ -91,4 +91,12 @@ public class NotificationServiceImpl implements INotificationService {
 		notificationDao.save(notification);
 	}
 
+	@Override
+	public void deleteNotification(User user, Post post, String notificationType) {
+		
+		Notifications notification = notificationDao.findByRelatedWithAndRelatedPostAndNotificationType(user, post, notificationType);
+		notificationDao.delete(notification);
+		
+	}
+
 }

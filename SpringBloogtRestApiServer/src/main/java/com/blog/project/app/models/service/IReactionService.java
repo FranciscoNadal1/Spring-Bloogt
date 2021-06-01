@@ -34,4 +34,5 @@ public interface IReactionService {
 	public void likeOrDislikePost(int postId, boolean likeOrDislike);
 	public void likeOrDislikeComment(int commentId, boolean likeOrDislike);
 	///////////////////////////////	
+	void deleteReaction(Post post, User user);
 }

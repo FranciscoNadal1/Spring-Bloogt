@@ -14,7 +14,7 @@ import com.blog.project.app.entities.Post.showPosts;
 @Entity
 public class PostReaction extends Reaction {
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 //	@JoinColumn(name = "reaction_id", referencedColumnName = "id")
 	private Post post;
 

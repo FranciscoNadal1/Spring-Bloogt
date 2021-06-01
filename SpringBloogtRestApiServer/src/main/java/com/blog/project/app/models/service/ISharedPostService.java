@@ -5,4 +5,5 @@ import com.blog.project.app.entities.User;
 
 public interface ISharedPostService {
 	public void sharePost(User user, Post post) ;
+	public void unSharePost(User user, Post post) ;
 }

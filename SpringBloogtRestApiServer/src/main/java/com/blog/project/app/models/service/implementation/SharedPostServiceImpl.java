@@ -35,4 +35,15 @@ public class SharedPostServiceImpl implements ISharedPostService{
 		sharedPostDao.save(sharedPost);
 		notificationService.newNotificationUserObject("share", post.getCreatedBy(), user, post);
 	}
+	
+	
+	@Transactional
+	@Override
+	public void unSharePost(User user, Post post) {
+		SharedPost sharedPost = sharedPostDao.findBySharedByAndPost(user, post);
+		
+		
+		sharedPostDao.delete(sharedPost);
+		notificationService.deleteNotification(user, post, "share");
+	}
 }

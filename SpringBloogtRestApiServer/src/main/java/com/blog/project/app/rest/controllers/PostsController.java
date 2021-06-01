@@ -246,10 +246,10 @@ public class PostsController {
 		
 		List<showPosts> returningJSON = postService.findAllPostsOfFollowingUserAndCategory(followingUsers, cat);
 		
-		
+/*
 		if (returningJSON.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);
-
+*/
 		return returningJSON;
 	}	
 	
@@ -400,7 +400,34 @@ if(payload.containsKey("hashtags"))
 ///////////		DELETE Methods
 ///////////
 ///////////		Methods to update information
+	
+	@DeleteMapping("/unsharePost/{id}")
+	@Transactional
+	public JSONObject unsharePost(HttpServletResponse response, HttpServletRequest request,
+			@PathVariable(value = "id") int id, @RequestHeader(value="Authorization", required=false) String authorization) {
 
+
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
+			throw new UnauthorizedArea();
+
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+
+		response.setContentType(contentType);
+		Post postToShare = postService.findReturnPostById(id);
+		JSONObject responseJson = new JSONObject();
+		sharedPostService.unSharePost(authenticatedUser, postToShare);
+		try {
+			responseJson.appendField("status", "OK");
+			responseJson.appendField("message", "unshared post"); 
+			responseJson.appendField("content", postToShare.getContent()); 
+
+			return responseJson;
+		} catch (NullPointerException e) {
+			throw new RuntimeException("There is no post with that Id");
+		}
+	}
+	
+	
 	@DeleteMapping("/deletePost/{id}")
 	@Transactional
 	public JSONObject deletePostById(HttpServletResponse response, HttpServletRequest request,

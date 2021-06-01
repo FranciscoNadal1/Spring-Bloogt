@@ -361,16 +361,13 @@ public class Post implements Serializable, Comparable<Post> {
 		public int compare(showPosts a, showPosts u) {
 
 			if(a.getSharedAt() != null && u.getSharedAt() != null) {
-				System.out.println("getsharedat not null both");
 				return a.getSharedAt().compareTo(u.getSharedAt());
 			}	
 			
 			if(a.getSharedAt() != null && u.getSharedAt() == null) {
-				System.out.println("getsharedat not null first");
 				return a.getSharedAt().compareTo(u.getCreatedAt());
 			}	
 			if(a.getSharedAt() == null && u.getSharedAt() != null) {
-				System.out.println("getsharedat  null first not second");
 				return a.getCreatedAt().compareTo(u.getSharedAt());
 			}			
 			
@@ -427,5 +424,7 @@ public class Post implements Serializable, Comparable<Post> {
 		else
 			return false;
 	}
+	
+
 
 }

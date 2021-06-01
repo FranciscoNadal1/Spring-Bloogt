@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -139,7 +140,8 @@ public class ReactionController {
 		
 		List<ReactionPostByUser> reactionData = commentReactionService.getPostReactionsOfUser(authenticatedUser);
 		if(reactionData.isEmpty()) 
-			throw new RuntimeException("This user has no reactions");
+			return reactionData;
+		//	throw new RuntimeException("This user has no reactions");
 		
 		return reactionData;
 	}
@@ -235,5 +237,31 @@ public class ReactionController {
 			throw new RuntimeException("There is no post with that Id");
 		}
 	}	
-	
+	@DeleteMapping("/post/{idPost}")
+	public JSONObject deleteReactionToPost(
+			HttpServletResponse response, 
+			HttpServletRequest request,
+			@PathVariable(value = "idPost") int idPost, 
+			@RequestHeader(value="Authorization", required=false) String authorization) {
+		
+		if(authorization == null || !jwtHandler.containsRole(authorization, "ROLE_USER"))
+			throw new UnauthorizedArea();
+
+		User authenticatedUser = userService.getUserByUsername(jwtHandler.getUsernameFromJWT(authorization));
+		JSONObject responseJson = new JSONObject();
+		
+		try {	
+
+			Post post = postService.findReturnPostById(idPost);
+			commentReactionService.deleteReaction(post, authenticatedUser);
+			
+			
+			responseJson.appendField("status", "OK");
+			responseJson.appendField("message", "You deleted the reaction to this post"); 
+
+			return responseJson;
+		} catch (NullPointerException e) {
+			throw new RuntimeException("There is no post with that Id");
+		}
+	}	
 }

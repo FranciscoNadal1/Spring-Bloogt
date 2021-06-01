@@ -19,7 +19,8 @@ public interface ISharedPost   extends BaseRepository<SharedPost, Long> {
 	List<Post> getRetweets();
  */
 	List<SharedPostProjection> findPostOfSharedPostBySharedByIn(List<User> users);
-	
+
+	SharedPost findBySharedByAndPost(User users, Post post);
 	
 }
 

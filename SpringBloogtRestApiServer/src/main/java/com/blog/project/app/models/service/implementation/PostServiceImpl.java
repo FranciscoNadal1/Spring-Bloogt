@@ -1,10 +1,9 @@
 package com.blog.project.app.models.service.implementation;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,6 +106,9 @@ public class PostServiceImpl implements IPostService {
 		List<showPosts> listOfShowPosts = postDao.findByCreatedByInAndCategoryOrderByCreatedAtDesc(users, category);
 
 		List<SharedPostProjection> sharedPosts = sharedPostDao.findPostOfSharedPostBySharedByIn(users);
+
+		List<showPosts> objectsToRemove = new LinkedList<>();
+//		Integer i = 0;
 		for (SharedPostProjection sharedPost : sharedPosts) {
 			showPosts sharedProjectionPost = sharedPost.getPost();
 			sharedProjectionPost.setIsShared(true);
@@ -114,22 +116,47 @@ public class PostServiceImpl implements IPostService {
 			//sharedProjectionPost.se(sharedPost.getCreatedAt());			
 			sharedProjectionPost.setSharedBy(sharedPost.getSharedBy());
 
-			listOfShowPosts.add(sharedProjectionPost);
+			//sharedPosts.remove(sharedPost);
+			listOfShowPosts.add(sharedProjectionPost);		
 			
-
+			//listOfShowPosts.remove(sharedPost.getPost());
+		//	objectsToRemove.add(sharedPost.getPost());
+	//		i = i+1;
 		}
-	//	listOfShowPosts.sort(c);
+	//	sharedPosts.removeAll(objectsToRemove);
 		
 		
-		List<showPosts> listWithoutDuplicates = new ArrayList<>(
-			      new HashSet<>(listOfShowPosts));
+		/*
+		for(int a=0;a!=list.size();a++) {
+			System.out.println("Post repetido:" + listOfShowPosts.get(a).getId());
+			listOfShowPosts.remove(list.get(a));
+		}*/
+		/*
+		for(Integer integer : list) {
+			listOfShowPosts.rem
+			listOfShowPosts.remove(integer);
+		}
+		*/
+/*
+ 		for (SharedPostProjection sharedPost : sharedPosts) {
+			showPosts sharedProjectionPost = sharedPost.getPost();
+			sharedProjectionPost.setIsShared(true);
+			sharedProjectionPost.setSharedAt(sharedPost.getCreatedAt());
+			//sharedProjectionPost.se(sharedPost.getCreatedAt());			
+			sharedProjectionPost.setSharedBy(sharedPost.getSharedBy());
+
+			//sharedPosts.remove(sharedPost);
+			listOfShowPosts.add(sharedProjectionPost);		
+
+		}		
+ */
 		
-//		listWithoutDuplicates.sort(Comparator.comparing(showPosts::getCreatedAt).reversed());
-//		Collections.reverse(listWithoutDuplicates);
+	
+		List<showPosts> listWithoutDuplicates = listOfShowPosts.stream().distinct().collect(Collectors.toList());
+	
 
 	    Collections.sort(listWithoutDuplicates, new Post.PostSortingComparator().reversed());
-		//listWithoutDuplicates.sor
-//		Collections.sort(listWithoutDuplicates, new showPosts);
+	
 		return listWithoutDuplicates;
 	}
 

@@ -41,10 +41,10 @@ public class TrendingController {
 
 		//List<Integer> listPosts = trendingDao.getMoreLikedPostsLastHourOfCategory(category, start, end);
 		List<showPosts> listPosts = trendingService.getMoreVotedPostsLastHour(category, start, end);
-		
+/*
 		if (listPosts.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);
-
+*/
 		return listPosts;
 		
 	}
@@ -70,10 +70,10 @@ public class TrendingController {
 			@PathVariable(value = "end") int end) {
 
 		List<String> listTrendings = trendingService.getTrendingLastHour(start, end);
-		
+		/*
 		if (listTrendings.isEmpty())
 			LocalUtils.ThrowPayloadEmptyException(request);
-
+*/
 		JSONObject responseJson = new JSONObject();
 		
 		List<JSONObject> listJSONObjects = new LinkedList<>();
