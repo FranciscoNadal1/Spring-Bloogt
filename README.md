@@ -32,38 +32,10 @@ You can adjust the server.port and the database configuration. This app was deve
 
 # Api paths (in progress):
 
-## GET:
-```
-/api/user/getAllUsers
-/api/user/getUserByMail/{mail}
-/api/user/getUserById/{id}
-/api/user/getUserByUsername/{username}
-/api/user/getCommentsByUserId/{id}
-/api/user/getPostsByUserId/{id}
-/api/posts/getAllPosts
-/api/posts/getPostById/{id}
-/api/category/getAllCategories
-/api/category/getCategoryById/{id}
-/api/category/getAllPostsByCategoryId
-/api/comments/getAllComments
-/api/comments/getCommentById/{id}
-/api/hashtags/getAllHashtags
-/api/hashtags/getHashtagById/{id}
-/api/hashtags/getPostsOfHashtagById/{id}
-/api/hashtags/getPostsOfHashtagByName/{hashtagName}
-```
-## POST:
-```
-/api/user/newUser
-/api/category/newCategory
-/api/comments/newComment
-/api/hashtags/newHashtag
-```
-## PUT:
-```
-/api/category/updateCategory/{id}
-```
-## DELETE:
-```
-/api/category/deleteCategory/{id}
-```
+A postman collection is included on the repository:
+
+![alt text](https://github.com/FranciscoNadal1/Spring-Bloogt/blob/master/documentation/Postman%20Folders.png)
+
+[Postman collection](https://github.com/FranciscoNadal1/Spring-Bloogt/blob/master/documentation/Blog%20Rest%20Api.postman_collection.json)
+
+
