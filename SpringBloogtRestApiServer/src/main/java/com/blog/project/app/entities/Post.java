@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,9 +47,17 @@ public class Post implements Serializable, Comparable<Post> {
 
 	@NotEmpty
 	private String title;
-
+/*
 	@ElementCollection
 	private List<String> imagePost;
+*/
+	
+//	Element collection had to be removed and placed on a dedicated entity, for compatiblity reasons with symfony
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
+	@JoinColumn(name = "post_id", referencedColumnName = "id")	
+	@Column(name = "post_image_post")
+	private List<PostImage> imagePost;
 
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -195,6 +203,29 @@ public class Post implements Serializable, Comparable<Post> {
 	
 	
 	
+	public List<String> getImagePost() {
+		List<String> listString = new LinkedList<>();
+		for (PostImage postImage: this.imagePost) {
+			listString.add(postImage.getImagePost());
+		}
+		
+		return listString;
+	}
+	public void setImagePost(List<String> listString) {
+
+		//this.imagePost.clear();
+		
+		this.imagePost = new LinkedList<PostImage>();
+
+		for (String string: listString) {
+			this.imagePost.add(new PostImage(string,this));
+			
+		}
+		
+		
+		
+	}
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Custom methods
 ///////////
@@ -257,6 +288,7 @@ public class Post implements Serializable, Comparable<Post> {
 		
 		List<HashtagShow> getHashtags();
 		OnlyUsername getCreatedBy();
+		@Value("#{target.getImagePost()}")
 		List<String> getImagePost();
 
 		@Value("#{target.getComments().size()}")
@@ -316,6 +348,7 @@ public class Post implements Serializable, Comparable<Post> {
 		@Value("#{target.getComments().size()}")
 		int getCommentaryCount();
 		CategoryName getCategory();
+		@Value("#{target.getImagePost()}")
 		List<String> getImagePost();
 		int getTimesViewed();
 		
