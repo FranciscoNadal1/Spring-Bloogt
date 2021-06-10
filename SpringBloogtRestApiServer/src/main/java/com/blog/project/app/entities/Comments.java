@@ -19,6 +19,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -60,6 +62,9 @@ public class Comments  implements Comparable<Comments> {
 	
 	private boolean removedByModerator;
 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "relatedComment")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Notifications> notifications;
 
 
 	

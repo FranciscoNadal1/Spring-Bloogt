@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +15,8 @@ import com.blog.project.app.entities.Comments.ShowComments;
 @Entity
 public class CommentReaction extends Reaction {
 
-	@ManyToOne()
-//	@JoinColumn(name = "reaction_id", referencedColumnName = "id")
+	@ManyToOne()	
+	@JoinColumn(name = "comment_id", referencedColumnName = "id")
 	private Comments comment;
 
 	public Comments getComments() {

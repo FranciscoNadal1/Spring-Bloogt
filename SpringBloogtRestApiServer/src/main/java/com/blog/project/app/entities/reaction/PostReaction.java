@@ -2,9 +2,9 @@ package com.blog.project.app.entities.reaction;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -14,8 +14,8 @@ import com.blog.project.app.entities.Post.showPosts;
 @Entity
 public class PostReaction extends Reaction {
 
-	@OneToOne()
-//	@JoinColumn(name = "reaction_id", referencedColumnName = "id")
+	@ManyToOne()	
+	@JoinColumn(name = "post_id", referencedColumnName = "id")
 	private Post post;
 
 	public Post getPosts() {

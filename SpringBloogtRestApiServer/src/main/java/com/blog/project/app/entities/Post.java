@@ -23,6 +23,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -91,9 +93,13 @@ public class Post implements Serializable, Comparable<Post> {
 	
 	
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
 	private List<PostReaction> reaction;
-	
+
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "relatedPost")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Notifications> notifications;
 	
 	////////////////	Only for shared Posts
 	@Transient
@@ -266,12 +272,17 @@ public class Post implements Serializable, Comparable<Post> {
 	}	
 	
 	public int getTotalReactions() {
+		//return this.getReaction().size();
+		
 		int reactions = 0;
 		List<PostReaction> listReaction = this.getReaction();
+
+
 		for(Reaction reaction : listReaction) 
 				reactions++;
 		
 		return reactions;
+		
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////		Projections
