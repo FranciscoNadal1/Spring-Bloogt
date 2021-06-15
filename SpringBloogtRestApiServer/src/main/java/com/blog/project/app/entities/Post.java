@@ -77,6 +77,7 @@ public class Post implements Serializable, Comparable<Post> {
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "post_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Comments> comments;
 
 	@ManyToOne
@@ -190,15 +191,16 @@ public class Post implements Serializable, Comparable<Post> {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+	*/
 	public int getTimesViewed() {
+
 		return timesViewed;
 	}
 
 	public void setTimesViewed(int timesViewed) {
 		this.timesViewed = timesViewed;
 	}
-	*/
+	
 	public List<PostReaction> getReaction() {
 		return reaction;
 	}

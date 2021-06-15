@@ -2,6 +2,7 @@ package com.blog.project.app.entities.reaction;
 
 import java.util.Date;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,6 +13,7 @@ import com.blog.project.app.entities.Post;
 import com.blog.project.app.entities.Post.showPosts;
 
 @Entity
+@DiscriminatorValue("postreaction")// Symfony doctrine compatibility
 public class PostReaction extends Reaction {
 
 	@ManyToOne()	

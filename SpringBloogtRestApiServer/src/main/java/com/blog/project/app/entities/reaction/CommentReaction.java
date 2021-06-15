@@ -2,7 +2,7 @@ package com.blog.project.app.entities.reaction;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,6 +13,7 @@ import com.blog.project.app.entities.Comments;
 import com.blog.project.app.entities.Comments.ShowComments;
 
 @Entity
+@DiscriminatorValue("commentreaction")//Symfony doctrine compatibility
 public class CommentReaction extends Reaction {
 
 	@ManyToOne()	
