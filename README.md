@@ -14,12 +14,18 @@ It's Spring Boot, so you don't even need to install a server like Tomcat or Apac
 This can be very useful for building a portfolio, for prototyping or just for learning, since the database and the rest calls are already made, you can focus on the design, the frontend, the middleware...
 This is NOT intended to be used in a production environtment as it is, at least not for now. It's on a very early stage, it doesn't support login(yet) and it doesn't have security.
 
-# How to run :
+# How to run on a docker:
+With docker installed, just type:
+```
+docker-compose up
+```
+This docker includes a mysql server and the deployable app.
 
-You need JDK and maven / mysql is optional:
+# How to run without docker:
+You need JDK, maven and mysql:
 
 - Git clone the project
-- run the command: 
+- On the folder of the app, run the command: 
 ```
 mvn spring-boot:run
 ```
